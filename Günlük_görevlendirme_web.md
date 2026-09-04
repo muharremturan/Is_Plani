@@ -376,6 +376,35 @@ open Anasayfa.html
 - `find-skills` (vercel-labs) skill kuruldu
 - `.clinerules` verimlilik kurallarıyla güncellendi
 
+### v3.0 - 2026-09-04
+- **ADIM 1:** Tarih bazlı veri mimarisi (localStorage obje yapısı)
+- Migration sistemi (eski veriler otomatik taşındı)
+- Tarih değişimi ile dinamik tablo güncelleme
+- İzinli personel silme fonksiyonu UI'a bağlandı
+- **ADIM 2:** Modern CSS Grid tasarımı
+- Soft renk paleti (Shadcn UI stili)
+- Esnek sütun genişlikleri (1fr, sabit)
+- Modern border-radius, box-shadow, spacing
+- **ADIM 3:** Testler modülü
+- Ayarlar'a "Testler" sekmesi eklendi (eka_testler)
+- RT/UT/MT/PT checkbox'ları yerine multi-select dropdown
+- Arama yapılabilen çoklu seçim
+- **ADIM 4:** Dinamik ComboBox ve görev kopyalama
+- Firmalar, adresler, yetkili, cihazlar için datalist desteği
+- Hem seçilebilir hem yazılabilir form alanları
+- "Kopyala" butonu (tarih seçimi ile)
+- Başarı modalı ile geri bildirim
+- Dosya boyutu: 1228 satır
+
+### v2.0 - 2026-09-04
+- UI/UX modernizasyonu (14 adım)
+- 27 CSS değişkeni
+- 20 SVG ikon (emoji kaldırıldı)
+- Responsive tasarım (768px + 480px)
+- Erişilebilirlik (aria-label, focus-visible, reduced-motion)
+- `.print-only` sınıfı
+- CİHAZLAR sütunu
+
 ### v1.0 - 2026-09-03
 - İlk sürüm
 - Temel CRUD işlemleri
@@ -395,5 +424,5 @@ open Anasayfa.html
 ---
 
 **Dokümantasyon Son Güncelleme:** 2026-09-04
-**Uygulama Versiyon:** 2.0
-**Toplam Kod:** ~800 satır (HTML + CSS + JS)
+**Uygulama Versiyon:** 3.0
+**Toplam Kod:** ~1228 satır (HTML + CSS + JS)
