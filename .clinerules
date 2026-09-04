@@ -44,3 +44,6 @@ VERİMLİLİK KURALLARI (Maksimum Efor, Minimum Token):
 - Tüm değişiklikleri tek bir yanıtın içinde toplu doğrula
 - Gereksiz açıklamalardan kaçın, kodu kendisi açıklayıcı olsun
 - Test adımlarını otomatikleştir (bash komutları ile doğrulama)
+DOKÜMANTASYON KURALI:
+- Her değişiklik sonrası Günlük_görevlendirme_web.md dokümantasyonunu güncelle (CHANGELOG bölümüne ekle)
+- Dokümantasyon: veri yapıları, fonksiyonlar, UI değişiklikleri, yeni özellikler için gerekli
