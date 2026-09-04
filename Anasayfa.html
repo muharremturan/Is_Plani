@@ -1,0 +1,885 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>EKA NDT - Günlük Görevlendirme Planı</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --primary: #2563eb;
+    --primary-light: #e0e7ff;
+    --danger: #dc2626;
+    --danger-light: #fee2e2;
+    --danger-border: #fecaca;
+    --success: #10b981;
+    --warning: #f59e0b;
+    --bg: #f8fafc;
+    --surface: #ffffff;
+    --text: #0f172a;
+    --text-light: #1e293b;
+    --text-muted: #64748b;
+    --border: #e2e8f0;
+    --nav-link: #cbd5e1;
+    --row-green: #dcfce7;
+    --row-blue: #dbeafe;
+    --row-gray: #f8fafc;
+    --row-yellow: #fef3c7;
+    --row-hover: #f1f5f9;
+    --izinli-bg: #fef3c7;
+    --izinli-border: #fde68a;
+    --izinli-title: #92400e;
+    --izinli-tag-bg: #fbbf24;
+    --izinli-tag-text: #78350f;
+    --date-bg-start: #eff6ff;
+    --date-bg-end: #dbeafe;
+    --success-hover: #059669;
+  }
+  *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+  html { font-size: 14px; -webkit-text-size-adjust: 100%; }
+  body { font-family: 'Inter', system-ui, -apple-system, sans-serif; background: var(--bg); font-size: 1rem; line-height: 1.5; color: var(--text); -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; }
+  button, input, select, textarea { transition: background-color 0.2s ease, color 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease, transform 0.15s ease; }
+  button:focus-visible, input:focus-visible, select:focus-visible, textarea:focus-visible { outline: 2px solid var(--primary); outline-offset: 2px; }
+  .top-nav { background: var(--text); color: var(--surface); display: flex; align-items: center; padding: 0 1.5rem; gap: 0.5rem; height: 64px; box-shadow: 0 1px 3px rgba(0,0,0,0.1); position: sticky; top: 0; z-index: 50; }
+  .top-nav .logo { font-size: 1.5rem; font-weight: 800; color: var(--danger); letter-spacing: 0.1em; display: flex; flex-direction: column; }
+  .top-nav .logo span { color: var(--surface); font-size: 0.6875rem; font-weight: 400; display: block; letter-spacing: 0; }
+  .top-nav .nav-links { display: flex; gap: 0.25rem; margin-left: 1rem; }
+  .top-nav .nav-links button { background: transparent; color: var(--nav-link, #cbd5e1); border: 1px solid transparent; padding: 0.625rem 1rem; cursor: pointer; border-radius: 8px; font-size: 0.875rem; font-weight: 500; }
+  .top-nav .nav-links button:hover { background: rgba(255,255,255,0.1); color: var(--surface); }
+  .top-nav .nav-links button:focus-visible { outline: 2px solid var(--surface); outline-offset: 2px; }
+  .top-nav .nav-links button.active { background: var(--primary); color: var(--surface); border-color: var(--primary); }
+  .top-nav .right-actions { margin-left: auto; display: flex; gap: 0.5rem; align-items: center; }
+  .top-nav .right-actions button { background: var(--primary); color: var(--surface); border: none; padding: 0.625rem 1rem; cursor: pointer; border-radius: 8px; font-size: 0.875rem; font-weight: 500; }
+  .top-nav .right-actions button.pdf-btn { background: var(--warning); }
+  .top-nav .right-actions button.login-btn { background: var(--primary); }
+  .top-nav .right-actions button.logout-btn { background: var(--danger); }
+  .top-nav .right-actions button:hover { transform: translateY(-1px); box-shadow: 0 4px 12px rgba(0,0,0,0.15); }
+  .top-nav .right-actions button:focus-visible { outline: 2px solid var(--surface); outline-offset: 2px; }
+  .top-nav .user-badge { color: var(--success); font-size: 0.75rem; font-weight: 500; }
+
+  .page { display: none; padding: 15px; }
+  .page.active { display: block; }
+
+  .main-container { background: var(--surface); border-radius: 12px; box-shadow: 0 1px 3px rgba(0,0,0,0.1), 0 1px 2px rgba(0,0,0,0.06); overflow: hidden; margin: 1rem; }
+
+  .header-info { display: grid; grid-template-columns: 1fr auto; gap: 24px; align-items: center; padding: 15px 20px; }
+  .header-info .company h1 { color: var(--danger); font-size: 32px; font-weight: 800; letter-spacing: 3px; }
+  .header-info .company h1 span { color: var(--text-muted); font-size: 11px; font-weight: 400; display: block; letter-spacing: 0; }
+  .header-info .company h2 { color: var(--text-muted); font-size: 14px; margin-top: 5px; font-weight: 500; }
+  .header-info .company h3 { color: var(--text-muted); font-size: 14px; margin-top: 3px; font-weight: 600; }
+  .header-info .doc-info { font-size: 11px; }
+  .header-info .doc-card { background: var(--surface); border-radius: 8px; padding: 12px 16px; box-shadow: 0 1px 2px rgba(0,0,0,0.05); }
+  .header-info .doc-row { display: flex; justify-content: space-between; gap: 16px; padding: 2px 0; }
+  .header-info .doc-label { color: var(--text-muted); font-weight: 500; font-size: 11px; }
+  .header-info .doc-value { color: var(--text); font-weight: 600; font-size: 12px; }
+
+  .date-bar { background: linear-gradient(135deg, var(--date-bg-start, #eff6ff), var(--date-bg-end, #dbeafe)); padding: 1rem 1.5rem; margin: 1rem 1.5rem; text-align: center; font-size: 0.9375rem; font-weight: 700; color: var(--text); border: none; border-radius: 12px; box-shadow: 0 1px 2px rgba(0,0,0,0.05); display: flex; align-items: center; justify-content: center; gap: 0.75rem; }
+  .date-bar input[type="date"] { padding: 6px 12px; border: 1px solid var(--border); border-radius: 6px; font-size: 14px; }
+  .date-bar input[type="date"]:focus { outline: none; border-color: var(--primary); box-shadow: 0 0 0 2px rgba(37,99,235,0.15); }
+  .date-bar #dayName { background: var(--primary); color: white; padding: 4px 12px; border-radius: 999px; font-size: 12px; font-weight: 600; }
+
+  .task-table { width: 100%; border-collapse: separate; border-spacing: 0; }
+  .task-table th { background: var(--text); color: var(--surface); padding: 0.75rem 1rem; font-size: 0.6875rem; font-weight: 600; text-align: center; text-transform: uppercase; letter-spacing: 0.03em; position: sticky; top: 0; z-index: 10; }
+  .task-table th:first-child { border-radius: 8px 0 0 0; }
+  .task-table th:last-child { border-radius: 0 8px 0 0; }
+  .task-table th.sub-header { background: var(--text-light, #1e293b); font-size: 0.6875rem; }
+  .task-table td { border-bottom: 1px solid var(--border); border-top: none; padding: 0.625rem 0.75rem; text-align: center; vertical-align: middle; }
+  .task-table td input, .task-table td select { width: 100%; border: 1px solid transparent; background: transparent; padding: 0.375rem 0.625rem; font-size: 0.75rem; font-family: inherit; border-radius: 6px; }
+  .task-table td input:focus, .task-table td select:focus { border-color: var(--primary); background: var(--surface); outline: none; box-shadow: 0 0 0 3px rgba(37,99,235,0.1); }
+  .task-table td .row-num { font-weight: 700; color: var(--text); }
+
+  .task-table tr.row-green td { background: var(--row-green, #dcfce7); }
+  .task-table tr.row-blue td { background: var(--row-blue, #dbeafe); }
+  .task-table tr.row-gray td { background: var(--row-gray, #f8fafc); }
+  .task-table tr.row-yellow td { background: var(--row-yellow, #fef3c7); }
+  .task-table tr:hover td { background: var(--row-hover, #f1f5f9) !important; }
+
+  .row-actions { display: flex; gap: 4px; justify-content: center; }
+  .row-actions button { width: 32px; height: 32px; border: none; cursor: pointer; font-size: 16px; border-radius: 6px; background: transparent; display: inline-flex; align-items: center; justify-content: center; transition: all 0.2s ease; }
+  .row-actions button:hover { background: var(--row-hover, #f1f5f9); }
+  .row-actions button.delete-btn:hover { background: var(--danger-light, #fee2e2); color: var(--danger); }
+  .row-actions button.color-btn:hover { background: var(--primary-light, #e0e7ff); }
+  .task-table td .row-num { background: var(--border); color: var(--text); width: 1.75rem; height: 1.75rem; border-radius: 50%; display: inline-flex; align-items: center; justify-content: center; font-size: 0.75rem; font-weight: 600; }
+  .btn-add-row { background: var(--surface); color: var(--text-muted); border: 2px dashed var(--border); padding: 0.75rem 1.5rem; cursor: pointer; border-radius: 8px; font-size: 0.875rem; font-weight: 500; margin: 1rem 1.5rem; display: inline-flex; align-items: center; gap: 0.5rem; transition: all 0.2s ease; }
+  .btn-add-row:hover { border-color: var(--primary); color: var(--primary); background: var(--primary-light); }
+
+  .settings-container { max-width: 900px; margin: 0 auto; }
+  .settings-tabs { display: flex; gap: 4px; border-bottom: 2px solid var(--border); padding-bottom: 0; margin-bottom: 24px; flex-wrap: wrap; }
+  .settings-tabs button { background: transparent; border: none; border-bottom: 2px solid transparent; color: var(--text-muted); padding: 12px 16px; font-weight: 500; font-size: 14px; cursor: pointer; margin-bottom: -2px; transition: all 0.2s ease; }
+  .settings-tabs button.active { color: var(--primary); border-bottom-color: var(--primary); font-weight: 600; }
+  .settings-tabs button:hover:not(.active) { color: var(--text); background: var(--bg); }
+  .settings-panel { display: none; background: var(--surface); border-radius: 12px; padding: 24px; box-shadow: 0 1px 3px rgba(0,0,0,0.1); }
+  .settings-panel.active { display: block; }
+  .settings-panel h3 { font-size: 18px; font-weight: 700; color: var(--text); border-bottom: none; margin-bottom: 20px; padding-bottom: 0; }
+  .settings-panel .add-form { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 12px; align-items: end; margin-bottom: 20px; }
+  .settings-panel .add-form input, .settings-panel .add-form select { padding: 10px 12px; border: 1px solid var(--border); border-radius: 6px; font-size: 14px; }
+  .settings-panel .add-form input:focus, .settings-panel .add-form select:focus { border-color: var(--primary); box-shadow: 0 0 0 3px rgba(37,99,235,0.1); outline: none; }
+  .settings-panel .add-form button { background: var(--success); color: white; border: none; padding: 10px 20px; cursor: pointer; border-radius: 6px; font-weight: 500; font-size: 14px; transition: background 0.2s ease; }
+  .settings-panel .add-form button:hover { background: var(--success-hover, #059669); }
+  .settings-panel .list-table { width: 100%; border-collapse: separate; border-spacing: 0; }
+  .settings-panel .list-table th { background: var(--bg); color: var(--text-muted); font-size: 0.6875rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.03em; padding: 0.625rem 0.75rem; text-align: left; border-bottom: 2px solid var(--border); }
+  .settings-panel .list-table td { padding: 12px; border-bottom: 1px solid var(--border); font-size: 14px; }
+  .settings-panel .list-table tr:hover td { background: var(--bg); }
+  .settings-panel .list-table tr:nth-child(even) td { background: var(--row-gray, #fafafa); }
+  .settings-panel .list-table .del-btn { background: transparent; color: var(--danger); border: 1px solid var(--danger-border, #fecaca); border-radius: 6px; padding: 0.25rem 0.625rem; cursor: pointer; font-size: 0.75rem; transition: all 0.2s ease; }
+  .settings-panel .list-table .del-btn:hover { background: var(--danger); color: var(--surface); }
+
+  .modal-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(15, 23, 42, 0.6); backdrop-filter: blur(4px); z-index: 1000; justify-content: center; align-items: center; }
+  .modal-overlay.show { display: flex; }
+  .modal { background: white; border-radius: 16px; padding: 32px; width: 400px; max-width: 90vw; box-shadow: 0 20px 25px -5px rgba(0,0,0,0.1), 0 10px 10px -5px rgba(0,0,0,0.04); }
+  .modal h3 { font-size: 20px; font-weight: 700; text-align: center; margin-bottom: 24px; color: var(--text); }
+  .modal input { width: 100%; padding: 12px 16px; border: 1px solid var(--border); border-radius: 8px; margin-bottom: 12px; font-size: 14px; }
+  .modal input:focus { border-color: var(--primary); box-shadow: 0 0 0 3px rgba(37,99,235,0.1); outline: none; }
+  .modal .modal-btns { display: flex; gap: 10px; }
+  .modal .modal-btns button { flex: 1; padding: 12px; border: none; border-radius: 8px; cursor: pointer; font-weight: 500; font-size: 14px; transition: all 0.2s ease; }
+  .modal .modal-btns .btn-login { background: var(--primary); color: var(--surface); }
+  .modal .modal-btns .btn-login:hover { transform: translateY(-1px); }
+  .modal .modal-btns .btn-cancel { background: var(--row-hover, #f1f5f9); color: var(--text-muted); }
+  .modal .modal-btns .btn-cancel:hover { transform: translateY(-1px); }
+  .modal .error-msg { background: var(--danger-light, #fef2f2); border: 1px solid var(--danger-border, #fecaca); color: var(--danger); border-radius: 6px; padding: 0.625rem 0.75rem; font-size: 0.8125rem; text-align: center; margin-bottom: 0.625rem; display: none; }
+
+  .izinli-box { background: var(--izinli-bg, #fef3c7); border: 1px solid var(--izinli-border, #fde68a); border-radius: 12px; padding: 1.25rem; margin: 1rem 1.5rem; }
+  .izinli-box h4 { color: var(--izinli-title, #92400e); font-size: 0.875rem; font-weight: 600; margin-bottom: 0.75rem; }
+  .izinli-box .izinli-list { display: flex; flex-wrap: wrap; gap: 0.5rem; }
+  .izinli-box .izinli-tag { background: var(--izinli-tag-bg, #fbbf24); color: var(--izinli-tag-text, #78350f); padding: 0.25rem 0.75rem; border-radius: 999px; font-size: 0.75rem; font-weight: 500; display: inline-flex; align-items: center; gap: 0.375rem; }
+  .izinli-box .izinli-tag .remove-izin { cursor: pointer; color: var(--izinli-tag-text, #78350f); font-weight: 700; transition: color 0.2s ease; }
+  .izinli-box .izinli-tag .remove-izin:hover { color: var(--danger); }
+
+  .test-checks { display: flex; gap: 4px; flex-wrap: wrap; justify-content: center; }
+  .test-checks label { font-size: 11px; cursor: pointer; display: flex; align-items: center; gap: 2px; }
+
+  .notes-area { width: 100%; border: 1px solid transparent; background: transparent; padding: 0.375rem 0.625rem; font-size: 0.8125rem; font-family: inherit; resize: vertical; min-height: 2.25rem; border-radius: 6px; }
+  .notes-area:focus { border-color: var(--primary); background: var(--surface); outline: none; box-shadow: 0 0 0 3px rgba(37,99,235,0.1); }
+
+  .footer-info { text-align: center; padding: 0.75rem; color: var(--text-muted); font-size: 0.75rem; }
+
+  .autocomplete-list { position: absolute; background: var(--surface); border: 1px solid var(--border); border-radius: 8px; max-height: 150px; overflow-y: auto; z-index: 100; box-shadow: 0 4px 12px rgba(0,0,0,0.15); }
+  .autocomplete-list div { padding: 0.375rem 0.75rem; cursor: pointer; font-size: 0.8125rem; }
+  .autocomplete-list div:hover { background: var(--primary); color: var(--surface); }
+
+    .td-relative { position: relative; }
+
+  .print-only { display: none; }
+
+  @media print {
+    .top-nav, .btn-add-row, .row-actions, .no-print { display: none !important; }
+    .print-only { display: flex !important; }
+    .page { display: block !important; padding: 0; }
+    body { background: var(--surface); }
+    .main-container { box-shadow: none; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after { transition: none !important; animation: none !important; }
+  }
+
+  @media (max-width: 768px) {
+    .top-nav { padding: 0 1rem; height: 56px; }
+    .top-nav .nav-links { display: none; }
+    .top-nav .logo { font-size: 1.25rem; }
+    .top-nav .right-actions button { padding: 0.5rem 0.75rem; font-size: 0.8125rem; }
+    .page { padding: 0.75rem; }
+    .main-container { margin: 0.5rem; border-radius: 8px; }
+    .header-info { grid-template-columns: 1fr; gap: 1rem; }
+    .date-bar { margin: 0.75rem 1rem; padding: 0.75rem 1rem; flex-wrap: wrap; }
+    .izinli-box { margin: 0.75rem 1rem; padding: 1rem; }
+    .task-table th, .task-table td { padding: 0.5rem 0.375rem; }
+    .btn-add-row { margin: 0.75rem 1rem; width: calc(100% - 2rem); }
+    .settings-tabs { flex-wrap: wrap; }
+    .settings-tabs button { padding: 0.625rem 0.875rem; font-size: 0.8125rem; }
+    .add-form { grid-template-columns: 1fr; }
+    .modal { width: 90vw; max-width: 20rem; padding: 1.5rem; }
+  }
+
+  @media (max-width: 480px) {
+    .top-nav .right-actions button { padding: 0.375rem 0.625rem; font-size: 0.75rem; }
+    .top-nav .user-badge { display: none; }
+    .header-info .company h1 { font-size: 1.5rem; }
+    .header-info .doc-card { padding: 0.75rem 1rem; }
+    .task-table th { font-size: 0.625rem; }
+    .task-table td { padding: 0.375rem 0.25rem; }
+    .row-actions button { width: 1.75rem; height: 1.75rem; font-size: 0.875rem; }
+  }
+</style>
+</head>
+<body>
+
+<nav class="top-nav no-print">
+  <div class="logo">EKA<span>NDT INSPECTION QUALITY</span></div>
+  <div class="nav-links">
+    <button class="active" onclick="showPage('main', this)"> Ana Sayfa</button>
+    <button onclick="showPage('settings', this)" aria-label="Ayarlar"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 1 1.72v.51a2 2 0 0 1-1 1.74l-.15.09a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.39a2 2 0 0 0-.73-2.73l-.15-.08a2 2 0 0 1-1-1.74v-.5a2 2 0 0 1 1-1.74l.15-.09a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z"></path><circle cx="12" cy="12" r="3"></circle></svg> Ayarlar</button>
+  </div>
+  <div class="right-actions">
+    <span class="user-badge" id="userBadge"></span>
+    <button class="login-btn" id="loginBtn" onclick="showLogin()" aria-label="Giriş"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="18" height="11" x="3" y="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg> Giriş</button>
+    <button class="logout-btn" id="logoutBtn" onclick="doLogout()" style="display:none">Çıkış</button>
+    <button class="pdf-btn" onclick="exportPDF()" aria-label="PDF İndir"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg> PDF</button>
+  </div>
+</nav>
+
+<!-- ANA SAYFA -->
+<div class="page active" id="page-main">
+  <div class="main-container" id="printableArea">
+    <div class="header-info print-only">
+      <div class="company">
+        <h1>EKA <span>NDT INSPECTION QUALITY</span></h1>
+        <h2>EKA NDT GÖZETİM MÜM. SAN. TİC. LTD. ŞTİ.</h2>
+        <h3>GÜNLÜK GÖREVLENDİRME PLANI</h3>
+      </div>
+      <div class="doc-info">
+        <div class="doc-card">
+          <div class="doc-row"><span class="doc-label">Doküman No</span><span class="doc-value">F.74</span></div>
+          <div class="doc-row"><span class="doc-label">Sayfa</span><span class="doc-value">1/1</span></div>
+          <div class="doc-row"><span class="doc-label">Yayın Tarihi</span><span class="doc-value">04.01.2016</span></div>
+          <div class="doc-row"><span class="doc-label">Revizyon No</span><span class="doc-value">02</span></div>
+          <div class="doc-row"><span class="doc-label">Revizyon Tarihi</span><span class="doc-value">23.03.2020</span></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="date-bar">
+      GÖREVLENDİRME TARİHİ :
+      <input type="date" id="taskDate" onchange="saveMainData()">
+      <span id="dayName"></span>
+    </div>
+
+    <div class="izinli-box" id="izinliBox" style="display:none">
+      <h4><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><line x1="19" y1="8" x2="19" y2="14"></line><line x1="22" y1="11" x2="16" y2="11"></line></svg> İZİNLİ PERSONEL</h4>
+      <div class="izinli-list" id="izinliList"></div>
+      <div class="no-print" style="margin-top:10px; display:flex; gap:5px;">
+        <select id="izinliSelect" style="padding:0.375rem 0.625rem; border:1px solid var(--border); border-radius:6px; font-size:0.8125rem; flex:1;"></select>
+        <button onclick="addIzinli()" style="background:var(--warning); color:var(--surface); border:none; padding:0.375rem 0.75rem; border-radius:6px; cursor:pointer; font-size:0.8125rem; font-weight:500;">Ekle</button>
+      </div>
+    </div>
+
+    <table class="task-table" id="taskTable">
+      <thead>
+        <tr>
+          <th rowspan="2" style="width:30px;">İŞ NO</th>
+          <th rowspan="2" style="width:120px;">FİRMA ADI</th>
+          <th colspan="2">Yapılacak İşin;</th>
+          <th colspan="2">Müşteri Görevlisi</th>
+          <th rowspan="2" style="width:180px;">AÇIKLAMA</th>
+          <th rowspan="2" style="width:120px;">CİHAZLAR</th>
+          <th colspan="4">UYGULANACAK TEST</th>
+          <th rowspan="2" style="width:150px;">NOTLAR</th>
+          <th rowspan="2" class="no-print" style="width:60px;">İŞLEM</th>
+        </tr>
+        <tr>
+          <th class="sub-header">Saati</th>
+          <th class="sub-header">Yeri</th>
+          <th class="sub-header">Adı Soyadı</th>
+          <th class="sub-header">Telefon</th>
+          <th class="sub-header" style="width:50px;">RT</th>
+          <th class="sub-header" style="width:50px;">UT</th>
+          <th class="sub-header" style="width:50px;">MT</th>
+          <th class="sub-header" style="width:50px;">PT</th>
+        </tr>
+      </thead>
+      <tbody id="taskBody"></tbody>
+    </table>
+
+    <button class="btn-add-row no-print" onclick="addRow()"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg> Yeni Satır Ekle</button>
+  </div>
+  <div class="footer-info no-print">EKA NDT - Günlük Görevlendirme Planı | Veriler otomatik kaydedilir</div>
+</div>
+
+<!-- AYARLAR SAYFASI -->
+<div class="page" id="page-settings">
+  <div class="settings-container">
+    <h2 style="margin-bottom:15px; color:var(--text); display:flex; align-items:center; gap:8px;"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 1 1.72v.51a2 2 0 0 1-1 1.74l-.15.09a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.39a2 2 0 0 0-.73-2.73l-.15-.08a2 2 0 0 1-1-1.74v-.5a2 2 0 0 1 1-1.74l.15-.09a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z"></path><circle cx="12" cy="12" r="3"></circle></svg> Ayarlar</h2>
+    <div class="settings-tabs no-print">
+      <button class="active" onclick="showSettingsTab('musteri', this)" aria-label="Müşteri Listesi"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4" y="2" width="16" height="20" rx="2" ry="2"></rect><line x1="9" y1="22" x2="9" y2="22.01"></line><line x1="15" y1="22" x2="15" y2="22.01"></line><line x1="9" y1="18" x2="9" y2="18.01"></line><line x1="15" y1="18" x2="15" y2="18.01"></line><line x1="9" y1="14" x2="9" y2="14.01"></line><line x1="15" y1="14" x2="15" y2="14.01"></line><line x1="9" y1="10" x2="9" y2="10.01"></line><line x1="15" y1="10" x2="15" y2="10.01"></line><line x1="9" y1="6" x2="9" y2="6.01"></line><line x1="15" y1="6" x2="15" y2="6.01"></line></svg> Müşteri Listesi</button>
+      <button onclick="showSettingsTab('personel', this)" aria-label="Personel Listesi"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M22 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg> Personel Listesi</button>
+      <button onclick="showSettingsTab('cihaz', this)" aria-label="Cihaz Listesi"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"></path></svg> Cihaz Listesi</button>
+      <button onclick="showSettingsTab('arac', this)" aria-label="Araç Listesi"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M19 17h2c.6 0 1-.4 1-1v-3c0-.9-.7-1.7-1.5-1.9C18.7 10.6 16 10 16 10s-1.3-1.4-2.2-2.3c-.5-.4-1.1-.7-1.8-.7H5c-.6 0-1.1.4-1.4.9l-1.4 2.9A3.7 3.7 0 0 0 2 12v4c0 .6.4 1 1 1h2"></path><circle cx="7" cy="17" r="2"></circle><circle cx="17" cy="17" r="2"></circle></svg> Araç Listesi</button>
+      <button onclick="showSettingsTab('izinli', this)" aria-label="İzinli Personel"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><line x1="19" y1="8" x2="19" y2="14"></line><line x1="22" y1="11" x2="16" y2="11"></line></svg> İzinli Personel</button>
+      <button onclick="showSettingsTab('kullanici', this)" aria-label="Kullanıcı Yönetimi"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect width="18" height="11" x="3" y="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg> Kullanıcı Yönetimi</button>
+    </div>
+
+    <div class="settings-panel active" id="panel-musteri">
+      <h3> Müşteri / Firma Listesi</h3>
+      <div class="add-form">
+        <input type="text" id="musteriAd" placeholder="Firma Adı">
+        <input type="text" id="musteriYetkili" placeholder="Yetkili Kişi">
+        <input type="text" id="musteriTelefon" placeholder="Telefon">
+        <input type="text" id="musteriAdres" placeholder="Adres / Bölge">
+        <button onclick="addMusteri()">Ekle</button>
+      </div>
+      <table class="list-table"><thead><tr><th>#</th><th>Firma Adı</th><th>Yetkili</th><th>Telefon</th><th>Adres/Bölge</th><th class="no-print">İşlem</th></tr></thead><tbody id="musteriBody"></tbody></table>
+    </div>
+
+    <div class="settings-panel" id="panel-personel">
+      <h3><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M22 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg> Personel Listesi</h3>
+      <div class="add-form">
+        <input type="text" id="personelAd" placeholder="Ad Soyad">
+        <input type="text" id="personelGorev" placeholder="Görev / Sertifika">
+        <input type="text" id="personelTelefon" placeholder="Telefon">
+        <button onclick="addPersonel()">Ekle</button>
+      </div>
+      <table class="list-table"><thead><tr><th>#</th><th>Ad Soyad</th><th>Görev/Sertifika</th><th>Telefon</th><th class="no-print">İşlem</th></tr></thead><tbody id="personelBody"></tbody></table>
+    </div>
+
+    <div class="settings-panel" id="panel-cihaz">
+      <h3><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"></path></svg> Cihaz Listesi</h3>
+      <div class="add-form">
+        <input type="text" id="cihazAd" placeholder="Cihaz Adı">
+        <input type="text" id="cihazKod" placeholder="Kod / Seri No">
+        <input type="text" id="cihazDurum" placeholder="Durum">
+        <button onclick="addCihaz()">Ekle</button>
+      </div>
+      <table class="list-table"><thead><tr><th>#</th><th>Cihaz Adı</th><th>Kod/Seri No</th><th>Durum</th><th class="no-print">İşlem</th></tr></thead><tbody id="cihazBody"></tbody></table>
+    </div>
+
+    <div class="settings-panel" id="panel-arac">
+      <h3><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M19 17h2c.6 0 1-.4 1-1v-3c0-.9-.7-1.7-1.5-1.9C18.7 10.6 16 10 16 10s-1.3-1.4-2.2-2.3c-.5-.4-1.1-.7-1.8-.7H5c-.6 0-1.1.4-1.4.9l-1.4 2.9A3.7 3.7 0 0 0 2 12v4c0 .6.4 1 1 1h2"></path><circle cx="7" cy="17" r="2"></circle><circle cx="17" cy="17" r="2"></circle></svg> Araç Listesi</h3>
+      <div class="add-form">
+        <input type="text" id="aracPlaka" placeholder="Plaka">
+        <input type="text" id="aracModel" placeholder="Marka/Model">
+        <input type="text" id="aracSurucu" placeholder="Sürücü">
+        <button onclick="addArac()">Ekle</button>
+      </div>
+      <table class="list-table"><thead><tr><th>#</th><th>Plaka</th><th>Marka/Model</th><th>Sürücü</th><th class="no-print">İşlem</th></tr></thead><tbody id="aracBody"></tbody></table>
+    </div>
+
+    <div class="settings-panel" id="panel-izinli">
+      <h3><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><line x1="19" y1="8" x2="19" y2="14"></line><line x1="22" y1="11" x2="16" y2="11"></line></svg> İzinli Personel Yönetimi</h3>
+      <p style="color:var(--text-muted); margin-bottom:1rem; font-size:0.8125rem;">Ana sayfada "İzinli Personel" bölümünde görünecek personelleri buradan yönetebilirsiniz.</p>
+      <div class="add-form">
+        <select id="izinliPersonelSelect" style="padding:0.5rem 0.75rem; border:1px solid var(--border); border-radius:6px; font-size:0.875rem; flex:1;"></select>
+        <button onclick="addIzinliFromSettings()">İzinli Ekle</button>
+      </div>
+      <table class="list-table"><thead><tr><th>#</th><th>Personel</th><th class="no-print">İşlem</th></tr></thead><tbody id="izinliSettingsBody"></tbody></table>
+    </div>
+
+    <div class="settings-panel" id="panel-kullanici">
+      <h3><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect width="18" height="11" x="3" y="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg> Kullanıcı Yönetimi</h3>
+      <p style="color:var(--text-muted); margin-bottom:1rem; font-size:0.8125rem;">Veri girişi yapabilecek kullanıcıları buradan yönetin. Varsayılan: <b>admin / admin123</b></p>
+      <div class="add-form">
+        <input type="text" id="kullaniciAd" placeholder="Kullanıcı Adı">
+        <input type="password" id="kullaniciSifre" placeholder="Şifre">
+        <button onclick="addKullanici()">Ekle</button>
+      </div>
+      <table class="list-table"><thead><tr><th>#</th><th>Kullanıcı Adı</th><th class="no-print">İşlem</th></tr></thead><tbody id="kullaniciBody"></tbody></table>
+    </div>
+  </div>
+</div>
+
+<!-- LOGIN MODAL -->
+<div class="modal-overlay" id="loginModal">
+  <div class="modal">
+    <h3><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect width="18" height="11" x="3" y="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg> Kullanıcı Girişi</h3>
+    <div class="error-msg" id="loginError">Kullanıcı adı veya şifre hatalı!</div>
+    <input type="text" id="loginUser" placeholder="Kullanıcı Adı" onkeypress="if(event.key==='Enter')doLogin()">
+    <input type="password" id="loginPass" placeholder="Şifre" onkeypress="if(event.key==='Enter')doLogin()">
+    <div class="modal-btns">
+      <button class="btn-cancel" onclick="hideLogin()">İptal</button>
+      <button class="btn-login" onclick="doLogin()">Giriş Yap</button>
+    </div>
+  </div>
+</div>
+
+<script>
+// ==================== VERİ KATMANI ====================
+const DB = {
+  get(key, def) { try { return JSON.parse(localStorage.getItem('eka_'+key)) || def; } catch(e) { return def; } },
+  set(key, val) { localStorage.setItem('eka_'+key, JSON.stringify(val)); }
+};
+
+// Varsayılan veriler
+if (!DB.get('users')) DB.set('users', [{ user: 'admin', pass: 'admin123' }]);
+if (!DB.get('musteriler')) DB.set('musteriler', [
+  { ad: 'YASMAK', yetkili: 'Muhammet Bey', telefon: '0 536 410 36 26', adres: 'Hadımköy' },
+  { ad: 'SADANA', yetkili: 'Aydın Karabulut', telefon: '', adres: 'Hadımköy' },
+  { ad: 'ORBA', yetkili: 'Orhan Barış', telefon: '', adres: 'Silivri' },
+  { ad: 'ASLI BERK', yetkili: 'Mesut Erkan', telefon: '', adres: 'Bahçeşehir' },
+  { ad: 'AS-AZEM', yetkili: 'Hamza Alp', telefon: '', adres: 'Arnavutköy' },
+  { ad: 'ŞILAN', yetkili: 'Sinan Ateş', telefon: '', adres: 'Harmandere' },
+  { ad: 'ÖZGÜN İNŞAAT', yetkili: 'Metin Yapa', telefon: '', adres: 'Kaynarca' },
+  { ad: 'SEDEF TERSANESİ', yetkili: 'Mustafa Kolo', telefon: '', adres: 'Tuzla' },
+  { ad: 'ZESOB', yetkili: 'Soner Aksakal', telefon: '', adres: 'EKA' },
+  { ad: 'GÜNERİ MAKİNA', yetkili: 'ASA H.İrkil', telefon: '', adres: 'ASA İnş.' },
+  { ad: 'ADA', yetkili: 'Cemal Bey', telefon: '', adres: 'Tuzla' },
+  { ad: 'SAĞLAM', yetkili: 'Engin Kale', telefon: '', adres: 'EKA' }
+]);
+if (!DB.get('personel')) DB.set('personel', [
+  { ad: 'V.SEKMAN', gorev: 'RT', telefon: '' },
+  { ad: 'R.YAMANCI', gorev: 'RT', telefon: '' },
+  { ad: 'O.ALTUN', gorev: 'RT', telefon: '' },
+  { ad: 'T.VEZİR', gorev: 'RT', telefon: '' },
+  { ad: 'A.ŞENAL', gorev: 'UT/PT', telefon: '' },
+  { ad: 'Ç.AYDÖNER', gorev: 'UT', telefon: '' },
+  { ad: 'E.DADAY', gorev: 'UT/MT/PT', telefon: '' },
+  { ad: 'S.AYDOĞUŞ', gorev: 'RT', telefon: '' },
+  { ad: 'R.AKTİN', gorev: 'RT', telefon: '' },
+  { ad: 'B.İÇLEK', gorev: 'RT', telefon: '' },
+  { ad: 'H.ALTUN', gorev: 'RT', telefon: '' }
+]);
+if (!DB.get('cihazlar')) DB.set('cihazlar', []);
+if (!DB.get('araclar')) DB.set('araclar', []);
+if (!DB.get('izinli')) DB.set('izinli', []);
+if (!DB.get('tasks')) DB.set('tasks', []);
+if (!DB.get('taskDate')) DB.set('taskDate', new Date().toISOString().split('T')[0]);
+
+let currentUser = DB.get('currentUser', null);
+
+// ==================== YARDIMCI FONKSİYONLAR ====================
+function esc(s) { return (s||'').replace(/"/g, '&quot;').replace(/</g, '&lt;').replace(/>/g, '&gt;'); }
+function val(id) { return document.getElementById(id).value.trim(); }
+
+function getDayName(dateStr) {
+  const days = ['Pazar','Pazartesi','Salı','Çarşamba','Perşembe','Cuma','Cumartesi'];
+  const d = new Date(dateStr + 'T12:00:00');
+  return days[d.getDay()];
+}
+
+// ==================== NAVİGASYON ====================
+function showPage(page, btn) {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.getElementById('page-' + page).classList.add('active');
+  document.querySelectorAll('.nav-links button').forEach(b => b.classList.remove('active'));
+  if (btn) btn.classList.add('active');
+  if (page === 'settings') renderAllSettings();
+}
+
+function showSettingsTab(tab, btn) {
+  document.querySelectorAll('.settings-panel').forEach(p => p.classList.remove('active'));
+  document.getElementById('panel-' + tab).classList.add('active');
+  document.querySelectorAll('.settings-tabs button').forEach(b => b.classList.remove('active'));
+  if (btn) btn.classList.add('active');
+}
+
+// ==================== AUTH ====================
+function updateAuthUI() {
+  const loginBtn = document.getElementById('loginBtn');
+  const logoutBtn = document.getElementById('logoutBtn');
+  const badge = document.getElementById('userBadge');
+  if (currentUser) {
+    loginBtn.style.display = 'none';
+    logoutBtn.style.display = 'inline-block';
+    badge.textContent = ' ' + currentUser;
+  } else {
+    loginBtn.style.display = 'inline-block';
+    logoutBtn.style.display = 'none';
+    badge.textContent = '';
+  }
+}
+
+function showLogin() {
+  document.getElementById('loginModal').classList.add('show');
+  document.getElementById('loginError').style.display = 'none';
+  document.getElementById('loginUser').value = '';
+  document.getElementById('loginPass').value = '';
+  setTimeout(() => document.getElementById('loginUser').focus(), 100);
+}
+function hideLogin() { document.getElementById('loginModal').classList.remove('show'); }
+
+function doLogin() {
+  const u = document.getElementById('loginUser').value.trim();
+  const p = document.getElementById('loginPass').value.trim();
+  const users = DB.get('users', []);
+  const found = users.find(x => x.user === u && x.pass === p);
+  if (found) {
+    currentUser = u;
+    DB.set('currentUser', u);
+    hideLogin();
+    updateAuthUI();
+    renderIzinliMain();
+  } else {
+    document.getElementById('loginError').style.display = 'block';
+  }
+}
+
+function doLogout() {
+  currentUser = null;
+  DB.set('currentUser', null);
+  updateAuthUI();
+  renderIzinliMain();
+}
+
+// ==================== ANA TABLO ====================
+function initDate() {
+  const d = DB.get('taskDate', new Date().toISOString().split('T')[0]);
+  document.getElementById('taskDate').value = d;
+  document.getElementById('dayName').textContent = getDayName(d);
+}
+
+function saveMainData() {
+  const date = document.getElementById('taskDate').value;
+  DB.set('taskDate', date);
+  document.getElementById('dayName').textContent = getDayName(date);
+  saveTasksFromTable();
+}
+
+function saveTasksFromTable() {
+  const rows = document.querySelectorAll('#taskBody tr');
+  const tasks = [];
+  rows.forEach((row) => {
+    const inputs = row.querySelectorAll('input[type="text"], input[type="time"], textarea');
+    const checks = row.querySelectorAll('input[type="checkbox"]');
+    tasks.push({
+      color: row.dataset.color || 'gray',
+      firma: inputs[0] ? inputs[0].value : '',
+      saat: inputs[1] ? inputs[1].value : '',
+      yer: inputs[2] ? inputs[2].value : '',
+      musteriAd: inputs[3] ? inputs[3].value : '',
+      musteriTel: inputs[4] ? inputs[4].value : '',
+      aciklama: inputs[5] ? inputs[5].value : '',
+      cihazlar: inputs[6] ? inputs[6].value : '',
+      rt: checks[0] ? checks[0].checked : false,
+      ut: checks[1] ? checks[1].checked : false,
+      mt: checks[2] ? checks[2].checked : false,
+      pt: checks[3] ? checks[3].checked : false,
+      notlar: inputs[7] ? inputs[7].value : ''
+    });
+  });
+  DB.set('tasks', tasks);
+}
+
+function renderTasks() {
+  const tasks = DB.get('tasks', []);
+  const tbody = document.getElementById('taskBody');
+  tbody.innerHTML = '';
+
+  if (tasks.length === 0) {
+    // Varsayılan örnek satırlar ekle
+    const defaults = [
+      { color:'green', firma:'YASMAK', saat:'17:00', yer:'HADIMKÖY', musteriAd:'MUHAMMET BEY', musteriTel:'0 536 410 36 26', aciklama:'30 "', cihazlar: '', rt:true, ut:false, mt:false, pt:false, notlar:'D2510 - 34 GCB 589' },
+      { color:'green', firma:'SADANA', saat:'19:00', yer:'HADIMKÖY', musteriAd:'AYDIN KARABULUT', musteriTel:'', aciklama:'6 "', cihazlar: '', rt:true, ut:false, mt:false, pt:false, notlar:'D2510 - 34 GCB 589' },
+      { color:'green', firma:'ORBA', saat:'21:00', yer:'SİLİVRİ', musteriAd:'ORHAN BARIŞ', musteriTel:'', aciklama:'12 "', cihazlar: '', rt:true, ut:false, mt:false, pt:false, notlar:'D2510 - 34 GCB 589' },
+      { color:'green', firma:'ORBA', saat:'22:00', yer:'SİLİVRİ', musteriAd:'ORHAN BARIŞ', musteriTel:'', aciklama:'12 " - 2.bölge', cihazlar: '', rt:true, ut:false, mt:false, pt:false, notlar:'D2510 - 34 GCB 589' },
+      { color:'green', firma:'ASLI BERK', saat:'17:00', yer:'BAHÇEŞEHİR', musteriAd:'MESUT ERKAN', musteriTel:'', aciklama:'4"', cihazlar: '', rt:true, ut:false, mt:false, pt:false, notlar:'D2202 - 34 GJF 508' },
+      { color:'green', firma:'AS-AZEM', saat:'19:00', yer:'ARNAVUTKÖY', musteriAd:'HAMZA ALP', musteriTel:'', aciklama:'6 "', cihazlar: '', rt:true, ut:false, mt:false, pt:false, notlar:'D2202 - 34 GJF 508' },
+      { color:'green', firma:'ŞILAN', saat:'21:00', yer:'HARMANDERE', musteriAd:'SİNAN ATEŞ', musteriTel:'', aciklama:'6"', cihazlar: '', rt:true, ut:false, mt:false, pt:false, notlar:'D2202 - 34 GJF 508' },
+      { color:'green', firma:'ŞILAN', saat:'22:00', yer:'SULTANBEYLİ', musteriAd:'ENSARİ ATEŞ', musteriTel:'', aciklama:'6" - en son yapılacak', cihazlar: '', rt:true, ut:false, mt:false, pt:false, notlar:'D2202 - 34 GJF 508' },
+      { color:'gray', firma:'ÖZGÜN İNŞAAT', saat:'10:00', yer:'KAYNARCA', musteriAd:'Metin YAPA', musteriTel:'', aciklama:'', cihazlar: '', rt:false, ut:true, mt:false, pt:false, notlar:'' },
+      { color:'blue', firma:'SEDEF TERSANESİ', saat:'10:00', yer:'TUZLA', musteriAd:'MUSTAFA KOLO', musteriTel:'', aciklama:'', cihazlar: '', rt:false, ut:true, mt:true, pt:false, notlar:'' },
+      { color:'gray', firma:'ZESOB', saat:'16:00', yer:'EKA', musteriAd:'SONER AKSAKAL', musteriTel:'', aciklama:'5 TAKIM HALAT BAĞLAMA PARÇASI', cihazlar: '', rt:false, ut:false, mt:false, pt:true, notlar:'İGDAŞ FİLMLER' },
+      { color:'gray', firma:'GÜNERİ MAKİNA', saat:'17:00', yer:'ASA İNŞ.', musteriAd:'ASA H.İRKİL', musteriTel:'', aciklama:'1 ADET 10*48', cihazlar: '', rt:true, ut:false, mt:false, pt:false, notlar:'B.İÇLEK' },
+      { color:'blue', firma:'ADA', saat:'20:00', yer:'TUZLA', musteriAd:'CEMAL Bey', musteriTel:'', aciklama:'1 ekip', cihazlar: '', rt:true, ut:false, mt:false, pt:false, notlar:'' },
+      { color:'gray', firma:'SAĞLAM', saat:'20:00', yer:'EKA', musteriAd:'ENGİN KALE', musteriTel:'', aciklama:'Ø63.5mm*Ø46mm*230mm (32 ADET)', cihazlar: '', rt:true, ut:false, mt:false, pt:false, notlar:'4 ADET 10*24 (1A-1B-1C-1D) ...' },
+      { color:'gray', firma:'SAĞLAM', saat:'23:00', yer:'EKA', musteriAd:'ENGİN KALE', musteriTel:'', aciklama:'Ø63.5mm*Ø46mm*230mm (23 ADET)', cihazlar: '', rt:true, ut:false, mt:false, pt:false, notlar:'4 ADET 10*24 (33A-33B-C-33D) ...' }
+    ];
+    DB.set('tasks', defaults);
+    renderTasks();
+    return;
+  }
+
+  tasks.forEach((t, i) => {
+    const tr = document.createElement('tr');
+    tr.className = 'row-' + (t.color || 'gray');
+    tr.dataset.color = t.color || 'gray';
+    tr.innerHTML = `
+      <td><span class="row-num">${i+1}</span></td>
+      <td class="td-relative"><input type="text" value="${esc(t.firma)}" oninput="saveMainData()" onfocus="showAutocomplete(this,'musteri','ad')" placeholder="Firma..."></td>
+      <td><input type="time" value="${esc(t.saat)}" oninput="saveMainData()"></td>
+      <td class="td-relative"><input type="text" value="${esc(t.yer)}" oninput="saveMainData()" onfocus="showAutocomplete(this,'musteri','adres')" placeholder="Yer..."></td>
+      <td class="td-relative"><input type="text" value="${esc(t.musteriAd)}" oninput="saveMainData()" onfocus="showAutocomplete(this,'musteri','yetkili')" placeholder="Ad Soyad..."></td>
+      <td><input type="text" value="${esc(t.musteriTel)}" oninput="saveMainData()" placeholder="Telefon..."></td>
+      <td><input type="text" value="${esc(t.aciklama)}" oninput="saveMainData()" placeholder="Açıklama..."></td>
+      <td><input type="text" value="${esc(t.cihazlar)}" oninput="saveMainData()" placeholder="Cihaz..."></td>
+      <td><div class="test-checks"><label><input type="checkbox" ${t.rt?'checked':''} onchange="saveMainData()"> RT</label></div></td>
+      <td><div class="test-checks"><label><input type="checkbox" ${t.ut?'checked':''} onchange="saveMainData()"> UT</label></div></td>
+      <td><div class="test-checks"><label><input type="checkbox" ${t.mt?'checked':''} onchange="saveMainData()"> MT</label></div></td>
+      <td><div class="test-checks"><label><input type="checkbox" ${t.pt?'checked':''} onchange="saveMainData()"> PT</label></div></td>
+      <td><textarea class="notes-area" oninput="saveMainData()" placeholder="Notlar...">${esc(t.notlar)}</textarea></td>
+      <td class="no-print">
+        <div class="row-actions">
+          <button class="color-btn" onclick="changeRowColor(this)" title="Renk değiştir" aria-label="Renk değiştir"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="13.5" cy="6.5" r=".5"></circle><circle cx="17.5" cy="10.5" r=".5"></circle><circle cx="8.5" cy="7.5" r=".5"></circle><circle cx="6.5" cy="12.5" r=".5"></circle><path d="M12 2C6.5 2 2 6.5 2 12s4.5 10 10 10c.926 0 1.648-.746 1.648-1.688 0-.437-.18-.835-.437-1.125-.29-.289-.438-.652-.438-1.125a1.64 1.64 0 0 1 1.668-1.668h1.996c3.051 0 5.555-2.503 5.555-5.554C21.965 6.012 17.461 2 12 2z"></path></svg></button>
+          <button class="delete-btn" onclick="deleteRow(this)" title="Sil" aria-label="Sil"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path><line x1="10" y1="11" x2="10" y2="17"></line><line x1="14" y1="11" x2="14" y2="17"></line></svg></button>
+        </div>
+      </td>
+    `;
+    tbody.appendChild(tr);
+  });
+}
+
+function addRow() {
+  const tasks = DB.get('tasks', []);
+    tasks.push({ color: 'gray', firma: '', saat: '', yer: '', musteriAd: '', musteriTel: '', aciklama: '', cihazlar: '', rt: false, ut: false, mt: false, pt: false, notlar: '' });
+  DB.set('tasks', tasks);
+  renderTasks();
+}
+
+function deleteRow(btn) {
+  const tr = btn.closest('tr');
+  const idx = Array.from(tr.parentNode.children).indexOf(tr);
+  const tasks = DB.get('tasks', []);
+  tasks.splice(idx, 1);
+  DB.set('tasks', tasks);
+  renderTasks();
+}
+
+function changeRowColor(btn) {
+  const tr = btn.closest('tr');
+  const colors = ['gray', 'green', 'blue', 'yellow'];
+  const current = tr.dataset.color || 'gray';
+  const nextIdx = (colors.indexOf(current) + 1) % colors.length;
+  tr.dataset.color = colors[nextIdx];
+  tr.className = 'row-' + colors[nextIdx];
+  saveMainData();
+}
+
+// ==================== OTOMATİK TAMAMLAMA ====================
+function showAutocomplete(input, listType, field) {
+  removeAutocomplete();
+  const data = DB.get(listType === 'musteri' ? 'musteriler' : 'personel', []);
+  const val2 = input.value.toLowerCase();
+  const matches = data.filter(x => (x[field]||'').toLowerCase().includes(val2));
+  if (matches.length === 0) return;
+
+  const div = document.createElement('div');
+  div.className = 'autocomplete-list';
+  div.style.position = 'absolute';
+  div.style.left = '0';
+  div.style.top = '100%';
+  div.style.minWidth = '100%';
+
+  matches.forEach(m => {
+    const item = document.createElement('div');
+    let label = m[field] || '';
+    if (m.ad && field !== 'ad') label += ' (' + m.ad + ')';
+    item.textContent = label;
+    item.onclick = () => {
+      input.value = m[field] || '';
+      if (listType === 'musteri' && field === 'ad') {
+        const row = input.closest('tr');
+        const inputs = row.querySelectorAll('input[type="text"]');
+        if (m.yetkili && inputs[3]) inputs[3].value = m.yetkili;
+        if (m.adres && inputs[2]) inputs[2].value = m.adres;
+        if (m.telefon && inputs[4]) inputs[4].value = m.telefon;
+      }
+      removeAutocomplete();
+      saveMainData();
+    };
+    div.appendChild(item);
+  });
+
+  input.parentElement.style.position = 'relative';
+  input.parentElement.appendChild(div);
+}
+
+function removeAutocomplete() {
+  document.querySelectorAll('.autocomplete-list').forEach(el => el.remove());
+}
+
+document.addEventListener('click', (e) => {
+  if (!e.target.closest('.td-relative')) removeAutocomplete();
+});
+
+// ==================== İZİNLİ PERSONEL ====================
+function renderIzinliMain() {
+  const izinli = DB.get('izinli', []);
+  const box = document.getElementById('izinliBox');
+  const list = document.getElementById('izinliList');
+
+  if (currentUser) {
+    box.style.display = 'block';
+    list.innerHTML = izinli.length > 0
+      ? izinli.map((p, i) => `<span class="izinli-tag">${esc(p)} <span class="remove-izin" onclick="removeIzinli(${i})">✕</span></span>`).join('')
+      : '<span style="color:var(--text-muted); font-size:0.75rem;">İzinli personel yok</span>';
+  } else {
+    box.style.display = izinli.length > 0 ? 'block' : 'none';
+    list.innerHTML = izinli.map(p => `<span class="izinli-tag">${esc(p)}</span>`).join('');
+  }
+}
+
+function addIzinli() {
+  const sel = document.getElementById('izinliSelect');
+  if (!sel.value) return;
+  const izinli = DB.get('izinli', []);
+  if (!izinli.includes(sel.value)) {
+    izinli.push(sel.value);
+    DB.set('izinli', izinli);
+  }
+  renderIzinliMain();
+  renderIzinliSettings();
+}
+
+function removeIzinli(i) {
+  const izinli = DB.get('izinli', []);
+  izinli.splice(i, 1);
+  DB.set('izinli', izinli);
+  renderIzinliMain();
+  renderIzinliSettings();
+}
+
+// ==================== AYARLAR CRUD ====================
+function renderAllSettings() {
+  renderMusteri();
+  renderPersonel();
+  renderCihaz();
+  renderArac();
+  renderIzinliSettings();
+  renderKullanici();
+  populateIzinliSelects();
+}
+
+function renderMusteri() {
+  const list = DB.get('musteriler', []);
+  document.getElementById('musteriBody').innerHTML = list.map((m, i) =>
+    `<tr><td>${i+1}</td><td>${esc(m.ad)}</td><td>${esc(m.yetkili)}</td><td>${esc(m.telefon)}</td><td>${esc(m.adres)}</td><td class="no-print"><button class="del-btn" onclick="delMusteri(${i})">Sil</button></td></tr>`
+  ).join('');
+}
+function addMusteri() {
+  const list = DB.get('musteriler', []);
+  list.push({ ad: val('musteriAd'), yetkili: val('musteriYetkili'), telefon: val('musteriTelefon'), adres: val('musteriAdres') });
+  DB.set('musteriler', list);
+  ['musteriAd','musteriYetkili','musteriTelefon','musteriAdres'].forEach(id => document.getElementById(id).value = '');
+  renderMusteri();
+}
+function delMusteri(i) { const l = DB.get('musteriler',[]); l.splice(i,1); DB.set('musteriler',l); renderMusteri(); }
+
+function renderPersonel() {
+  const list = DB.get('personel', []);
+  document.getElementById('personelBody').innerHTML = list.map((p, i) =>
+    `<tr><td>${i+1}</td><td>${esc(p.ad)}</td><td>${esc(p.gorev)}</td><td>${esc(p.telefon)}</td><td class="no-print"><button class="del-btn" onclick="delPersonel(${i})">Sil</button></td></tr>`
+  ).join('');
+}
+function addPersonel() {
+  const list = DB.get('personel', []);
+  list.push({ ad: val('personelAd'), gorev: val('personelGorev'), telefon: val('personelTelefon') });
+  DB.set('personel', list);
+  ['personelAd','personelGorev','personelTelefon'].forEach(id => document.getElementById(id).value = '');
+  renderPersonel();
+  populateIzinliSelects();
+}
+function delPersonel(i) { const l = DB.get('personel',[]); l.splice(i,1); DB.set('personel',l); renderPersonel(); populateIzinliSelects(); }
+
+function renderCihaz() {
+  const list = DB.get('cihazlar', []);
+  document.getElementById('cihazBody').innerHTML = list.map((c, i) =>
+    `<tr><td>${i+1}</td><td>${esc(c.ad)}</td><td>${esc(c.kod)}</td><td>${esc(c.durum)}</td><td class="no-print"><button class="del-btn" onclick="delCihaz(${i})">Sil</button></td></tr>`
+  ).join('');
+}
+function addCihaz() {
+  const list = DB.get('cihazlar', []);
+  list.push({ ad: val('cihazAd'), kod: val('cihazKod'), durum: val('cihazDurum') });
+  DB.set('cihazlar', list);
+  ['cihazAd','cihazKod','cihazDurum'].forEach(id => document.getElementById(id).value = '');
+  renderCihaz();
+}
+function delCihaz(i) { const l = DB.get('cihazlar',[]); l.splice(i,1); DB.set('cihazlar',l); renderCihaz(); }
+
+function renderArac() {
+  const list = DB.get('araclar', []);
+  document.getElementById('aracBody').innerHTML = list.map((a, i) =>
+    `<tr><td>${i+1}</td><td>${esc(a.plaka)}</td><td>${esc(a.model)}</td><td>${esc(a.surucu)}</td><td class="no-print"><button class="del-btn" onclick="delArac(${i})">Sil</button></td></tr>`
+  ).join('');
+}
+function addArac() {
+  const list = DB.get('araclar', []);
+  list.push({ plaka: val('aracPlaka'), model: val('aracModel'), surucu: val('aracSurucu') });
+  DB.set('araclar', list);
+  ['aracPlaka','aracModel','aracSurucu'].forEach(id => document.getElementById(id).value = '');
+  renderArac();
+}
+function delArac(i) { const l = DB.get('araclar',[]); l.splice(i,1); DB.set('araclar',l); renderArac(); }
+
+function populateIzinliSelects() {
+  const personel = DB.get('personel', []);
+  const opts = '<option value="">-- Personel Seç --</option>' + personel.map(p => `<option value="${esc(p.ad)}">${esc(p.ad)}</option>`).join('');
+  const s1 = document.getElementById('izinliSelect');
+  const s2 = document.getElementById('izinliPersonelSelect');
+  if (s1) s1.innerHTML = opts;
+  if (s2) s2.innerHTML = opts;
+}
+
+function renderIzinliSettings() {
+  const izinli = DB.get('izinli', []);
+  document.getElementById('izinliSettingsBody').innerHTML = izinli.map((p, i) =>
+    `<tr><td>${i+1}</td><td>${esc(p)}</td><td class="no-print"><button class="del-btn" onclick="removeIzinli(${i}); renderIzinliSettings();">Kaldır</button></td></tr>`
+  ).join('');
+}
+
+function addIzinliFromSettings() {
+  const sel = document.getElementById('izinliPersonelSelect');
+  if (!sel.value) return;
+  const izinli = DB.get('izinli', []);
+  if (!izinli.includes(sel.value)) { izinli.push(sel.value); DB.set('izinli', izinli); }
+  renderIzinliSettings();
+  renderIzinliMain();
+}
+
+function renderKullanici() {
+  const list = DB.get('users', []);
+  document.getElementById('kullaniciBody').innerHTML = list.map((u, i) =>
+    `<tr><td>${i+1}</td><td>${esc(u.user)}</td><td class="no-print"><button class="del-btn" onclick="delKullanici(${i})">Sil</button></td></tr>`
+  ).join('');
+}
+function addKullanici() {
+  const list = DB.get('users', []);
+  const user = val('kullaniciAd');
+  const pass = val('kullaniciSifre');
+  if (!user || !pass) { alert('Kullanıcı adı ve şifre gerekli!'); return; }
+  if (list.find(x => x.user === user)) { alert('Bu kullanıcı zaten var!'); return; }
+  list.push({ user, pass });
+  DB.set('users', list);
+  document.getElementById('kullaniciAd').value = '';
+  document.getElementById('kullaniciSifre').value = '';
+  renderKullanici();
+}
+function delKullanici(i) {
+  const list = DB.get('users', []);
+  if (list[i].user === currentUser) { alert('Aktif kullanıcıyı silemezsiniz!'); return; }
+  list.splice(i, 1);
+  DB.set('users', list);
+  renderKullanici();
+}
+
+// ==================== PDF EXPORT ====================
+function exportPDF() {
+  // Önce html2pdf kütüphanesini dinamik yükle
+  if (typeof html2pdf === 'undefined') {
+    const script = document.createElement('script');
+    script.src = 'https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js';
+    script.onload = () => doExportPDF();
+    script.onerror = () => {
+      alert('PDF kütüphanesi yüklenemedi. İnternet bağlantınızı kontrol edin.\nAlternatif: Ctrl+P ile yazdırabilirsiniz.');
+    };
+    document.head.appendChild(script);
+  } else {
+    doExportPDF();
+  }
+}
+
+function doExportPDF() {
+  const element = document.getElementById('printableArea');
+  const date = document.getElementById('taskDate').value;
+
+  // no-print elemanlarını gizle
+  const noPrintEls = document.querySelectorAll('.no-print');
+  noPrintEls.forEach(el => el.style.display = 'none');
+
+  // print-only elemanlarını göster
+  const printOnlyEls = document.querySelectorAll('.print-only');
+  printOnlyEls.forEach(el => el.style.display = 'flex');
+
+  const opt = {
+    margin: [5, 5, 5, 5],
+    filename: 'EKA_Gorevlendirme_' + date + '.pdf',
+    image: { type: 'jpeg', quality: 0.98 },
+    html2canvas: { scale: 2, useCORS: true, logging: false },
+    jsPDF: { unit: 'mm', format: 'a4', orientation: 'landscape' }
+  };
+
+  html2pdf().set(opt).from(element).save().then(() => {
+    noPrintEls.forEach(el => el.style.display = '');
+    printOnlyEls.forEach(el => el.style.display = '');
+  }).catch(() => {
+    noPrintEls.forEach(el => el.style.display = '');
+    printOnlyEls.forEach(el => el.style.display = '');
+    alert('PDF oluşturulamadı. Ctrl+P ile yazdırmayı deneyin.');
+  });
+}
+
+// ==================== BAŞLAT ====================
+initDate();
+updateAuthUI();
+renderTasks();
+renderIzinliMain();
+populateIzinliSelects();
+</script>
+</body>
+</html>

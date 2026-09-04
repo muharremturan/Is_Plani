@@ -1,0 +1,46 @@
+# EKA NDT - Günlük Görevlendirme Planı
+## Cline AI Geliştirme Kuralları
+
+PROJE TANIMI:
+- Tek sayfalık web uygulaması (index.html)
+- Günlük iş programı yönetimi
+- localStorage ile veri saklama (şimdilik)
+- Türkçe arayüz
+
+KODLAMA STANDARTLARI:
+- Tek dosya: index.html (CSS ve JS inline)
+- DB.get/set fonksiyonları ile localStorage yönetimi
+- esc() fonksiyonu ile XSS koruması
+- Her değişiklikte otomatik kayıt
+- .no-print class'ı PDF'te gizlenecek elemanlar için; .print-only class'ı PDF'de görünen ancak ekranda gizli elemanlar için
+- Türkçe değişken/fonksiyon isimleri KULLANMA (İngilizce kullan)
+
+VERİ YAPILARI:
+- eka_users: [{user, pass}]
+- eka_currentUser: string | null
+- eka_musteriler: [{ad, yetkili, telefon, adres}]
+- eka_personel: [{ad, gorev, telefon}]
+- eka_cihazlar: [{ad, kod, durum}]
+- eka_araclar: [{plaka, model, surucu}]
+- eka_izinli: [string]
+- eka_tasks: [{color, firma, saat, yer, musteriAd, musteriTel, aciklama, cihazlar, rt, ut, mt, pt, notlar}]
+- eka_taskDate: string (YYYY-MM-DD)
+
+CLINE KURALLARI:
+1. index.html dışına çıkma, yeni dosya oluşturma
+2. Mevcut pattern'i koru
+3. Geriye uyumluluğu bozma
+4. Türkçe hata mesajları kullan
+5. Her değişiklik sonrası test edilebilir olduğundan emin ol
+
+VERİMLİLİK KURALLARI (Maksimum Efor, Minimum Token):
+- Bağımsız işlemleri tek yanıtta toplu yap (paralel tool çağrıları kullan)
+- Dosyayı düzenlemeden önce mutlaka oku (durumu kontrol et)
+- Dar ve hassas düzenlemeler yap (eski metni minimum hataya eşleştir)
+- Tekrarlayan okumalardan kaçın (bir okuma yeterli, sonuçları sakla)
+- Değişiklik yapmadan önce planı netleştir, ardından uygula
+- Yüksek etkiye sahip değişikliklere öncelik ver (küçük ama kritik düzeltmeler)
+- Mevcut patternleri ve fonksiyonları yeniden kullan (DRY prensibi)
+- Tüm değişiklikleri tek bir yanıtın içinde toplu doğrula
+- Gereksiz açıklamalardan kaçın, kodu kendisi açıklayıcı olsun
+- Test adımlarını otomatikleştir (bash komutları ile doğrulama)
