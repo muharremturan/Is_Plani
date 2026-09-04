@@ -387,6 +387,21 @@ const DB = {
   set(key, val) { localStorage.setItem('eka_'+key, JSON.stringify(val)); }
 };
 
+// Tarih bazlı görev yapısına migration eski veriler için
+function migrateTasksToDated() {
+  const tasks = DB.get('tasks', []);
+  if (Array.isArray(tasks) && tasks.length > 0) {
+    const dateKey = DB.get('taskDate', new Date().toISOString().split('T')[0]);
+    const datedTasks = {};
+    datedTasks[dateKey] = tasks;
+    DB.set('tasks', datedTasks);
+    return datedTasks;
+  }
+  const existing = DB.get('tasks', {});
+  if (!Array.isArray(existing)) return existing;
+  return {};
+}
+
 // Varsayılan veriler
 if (!DB.get('users')) DB.set('users', [{ user: 'admin', pass: 'admin123' }]);
 if (!DB.get('musteriler')) DB.set('musteriler', [
@@ -419,7 +434,18 @@ if (!DB.get('personel')) DB.set('personel', [
 if (!DB.get('cihazlar')) DB.set('cihazlar', []);
 if (!DB.get('araclar')) DB.set('araclar', []);
 if (!DB.get('izinli')) DB.set('izinli', []);
-if (!DB.get('tasks')) DB.set('tasks', []);
+
+// Görevleri tarih bazlı yapıya migrate et
+const taskData = DB.get('tasks', null);
+if (taskData === null) {
+  // İlk kez açılıyor - boş tarihli yapı oluştur
+  const today = new Date().toISOString().split('T')[0];
+  DB.set('tasks', { [today]: [] });
+} else if (Array.isArray(taskData)) {
+  // Eski format - migrate et
+  migrateTasksToDated();
+}
+
 if (!DB.get('taskDate')) DB.set('taskDate', new Date().toISOString().split('T')[0]);
 
 let currentUser = DB.get('currentUser', null);
@@ -507,6 +533,17 @@ function initDate() {
 
 function saveMainData() {
   const date = document.getElementById('taskDate').value;
+  const prevDate = DB.get('taskDate', date);
+  
+  // Tarih değiştiyse, önceki tarihin verilerini kaydet
+  if (prevDate !== date) {
+    saveTasksFromTable(); // Mevcut tabloyu önceki tarihe kaydet
+    DB.set('taskDate', date);
+    document.getElementById('dayName').textContent = getDayName(date);
+    renderTasks(); // Yeni tarihin verilerini yükle
+    return;
+  }
+  
   DB.set('taskDate', date);
   document.getElementById('dayName').textContent = getDayName(date);
   saveTasksFromTable();
@@ -534,39 +571,58 @@ function saveTasksFromTable() {
       notlar: inputs[7] ? inputs[7].value : ''
     });
   });
-  DB.set('tasks', tasks);
+  
+  // Tarih bazlı kaydet
+  const allTasks = DB.get('tasks', {});
+  if (Array.isArray(allTasks)) {
+    // Eski format - migrate et
+    const migrated = migrateTasksToDated();
+    const date = document.getElementById('taskDate').value;
+    migrated[date] = tasks;
+    DB.set('tasks', migrated);
+  } else {
+    const date = document.getElementById('taskDate').value;
+    allTasks[date] = tasks;
+    DB.set('tasks', allTasks);
+  }
 }
 
 function renderTasks() {
-  const tasks = DB.get('tasks', []);
+  const allTasks = DB.get('tasks', {});
   const tbody = document.getElementById('taskBody');
   tbody.innerHTML = '';
 
-  if (tasks.length === 0) {
-    // Varsayılan örnek satırlar ekle
-    const defaults = [
-      { color:'green', firma:'YASMAK', saat:'17:00', yer:'HADIMKÖY', musteriAd:'MUHAMMET BEY', musteriTel:'0 536 410 36 26', aciklama:'30 "', cihazlar: '', rt:true, ut:false, mt:false, pt:false, notlar:'D2510 - 34 GCB 589' },
-      { color:'green', firma:'SADANA', saat:'19:00', yer:'HADIMKÖY', musteriAd:'AYDIN KARABULUT', musteriTel:'', aciklama:'6 "', cihazlar: '', rt:true, ut:false, mt:false, pt:false, notlar:'D2510 - 34 GCB 589' },
-      { color:'green', firma:'ORBA', saat:'21:00', yer:'SİLİVRİ', musteriAd:'ORHAN BARIŞ', musteriTel:'', aciklama:'12 "', cihazlar: '', rt:true, ut:false, mt:false, pt:false, notlar:'D2510 - 34 GCB 589' },
-      { color:'green', firma:'ORBA', saat:'22:00', yer:'SİLİVRİ', musteriAd:'ORHAN BARIŞ', musteriTel:'', aciklama:'12 " - 2.bölge', cihazlar: '', rt:true, ut:false, mt:false, pt:false, notlar:'D2510 - 34 GCB 589' },
-      { color:'green', firma:'ASLI BERK', saat:'17:00', yer:'BAHÇEŞEHİR', musteriAd:'MESUT ERKAN', musteriTel:'', aciklama:'4"', cihazlar: '', rt:true, ut:false, mt:false, pt:false, notlar:'D2202 - 34 GJF 508' },
-      { color:'green', firma:'AS-AZEM', saat:'19:00', yer:'ARNAVUTKÖY', musteriAd:'HAMZA ALP', musteriTel:'', aciklama:'6 "', cihazlar: '', rt:true, ut:false, mt:false, pt:false, notlar:'D2202 - 34 GJF 508' },
-      { color:'green', firma:'ŞILAN', saat:'21:00', yer:'HARMANDERE', musteriAd:'SİNAN ATEŞ', musteriTel:'', aciklama:'6"', cihazlar: '', rt:true, ut:false, mt:false, pt:false, notlar:'D2202 - 34 GJF 508' },
-      { color:'green', firma:'ŞILAN', saat:'22:00', yer:'SULTANBEYLİ', musteriAd:'ENSARİ ATEŞ', musteriTel:'', aciklama:'6" - en son yapılacak', cihazlar: '', rt:true, ut:false, mt:false, pt:false, notlar:'D2202 - 34 GJF 508' },
-      { color:'gray', firma:'ÖZGÜN İNŞAAT', saat:'10:00', yer:'KAYNARCA', musteriAd:'Metin YAPA', musteriTel:'', aciklama:'', cihazlar: '', rt:false, ut:true, mt:false, pt:false, notlar:'' },
-      { color:'blue', firma:'SEDEF TERSANESİ', saat:'10:00', yer:'TUZLA', musteriAd:'MUSTAFA KOLO', musteriTel:'', aciklama:'', cihazlar: '', rt:false, ut:true, mt:true, pt:false, notlar:'' },
-      { color:'gray', firma:'ZESOB', saat:'16:00', yer:'EKA', musteriAd:'SONER AKSAKAL', musteriTel:'', aciklama:'5 TAKIM HALAT BAĞLAMA PARÇASI', cihazlar: '', rt:false, ut:false, mt:false, pt:true, notlar:'İGDAŞ FİLMLER' },
-      { color:'gray', firma:'GÜNERİ MAKİNA', saat:'17:00', yer:'ASA İNŞ.', musteriAd:'ASA H.İRKİL', musteriTel:'', aciklama:'1 ADET 10*48', cihazlar: '', rt:true, ut:false, mt:false, pt:false, notlar:'B.İÇLEK' },
-      { color:'blue', firma:'ADA', saat:'20:00', yer:'TUZLA', musteriAd:'CEMAL Bey', musteriTel:'', aciklama:'1 ekip', cihazlar: '', rt:true, ut:false, mt:false, pt:false, notlar:'' },
-      { color:'gray', firma:'SAĞLAM', saat:'20:00', yer:'EKA', musteriAd:'ENGİN KALE', musteriTel:'', aciklama:'Ø63.5mm*Ø46mm*230mm (32 ADET)', cihazlar: '', rt:true, ut:false, mt:false, pt:false, notlar:'4 ADET 10*24 (1A-1B-1C-1D) ...' },
-      { color:'gray', firma:'SAĞLAM', saat:'23:00', yer:'EKA', musteriAd:'ENGİN KALE', musteriTel:'', aciklama:'Ø63.5mm*Ø46mm*230mm (23 ADET)', cihazlar: '', rt:true, ut:false, mt:false, pt:false, notlar:'4 ADET 10*24 (33A-33B-C-33D) ...' }
-    ];
-    DB.set('tasks', defaults);
-    renderTasks();
-    return;
+  // Tarih bazlı veri yapısını kontrol et
+  let tasksForDate = [];
+  if (Array.isArray(allTasks)) {
+    // Eski format - migrate et
+    const migrated = migrateTasksToDated();
+    const date = document.getElementById('taskDate').value;
+    tasksForDate = migrated[date] || [];
+  } else {
+    const date = document.getElementById('taskDate').value;
+    tasksForDate = allTasks[date] || [];
   }
 
-  tasks.forEach((t, i) => {
+  if (tasksForDate.length === 0) {
+    // Boş tablo - varsayılan boş satır ekle
+    const emptyRow = { color: 'gray', firma: '', saat: '', yer: '', musteriAd: '', musteriTel: '', aciklama: '', cihazlar: '', rt: false, ut: false, mt: false, pt: false, notlar: '' };
+    tasksForDate = [emptyRow];
+    
+    // Boş satırı kaydet
+    if (Array.isArray(allTasks)) {
+      const migrated = migrateTasksToDated();
+      const date = document.getElementById('taskDate').value;
+      migrated[date] = tasksForDate;
+      DB.set('tasks', migrated);
+    } else {
+      const date = document.getElementById('taskDate').value;
+      allTasks[date] = tasksForDate;
+      DB.set('tasks', allTasks);
+    }
+  }
+
+  tasksForDate.forEach((t, i) => {
     const tr = document.createElement('tr');
     tr.className = 'row-' + (t.color || 'gray');
     tr.dataset.color = t.color || 'gray';
@@ -596,18 +652,41 @@ function renderTasks() {
 }
 
 function addRow() {
-  const tasks = DB.get('tasks', []);
-    tasks.push({ color: 'gray', firma: '', saat: '', yer: '', musteriAd: '', musteriTel: '', aciklama: '', cihazlar: '', rt: false, ut: false, mt: false, pt: false, notlar: '' });
-  DB.set('tasks', tasks);
+  const allTasks = DB.get('tasks', {});
+  const date = document.getElementById('taskDate').value;
+  
+  if (Array.isArray(allTasks)) {
+    const migrated = migrateTasksToDated();
+    const newRow = { color: 'gray', firma: '', saat: '', yer: '', musteriAd: '', musteriTel: '', aciklama: '', cihazlar: '', rt: false, ut: false, mt: false, pt: false, notlar: '' };
+    if (!migrated[date]) migrated[date] = [];
+    migrated[date].push(newRow);
+    DB.set('tasks', migrated);
+  } else {
+    if (!allTasks[date]) allTasks[date] = [];
+    allTasks[date].push({ color: 'gray', firma: '', saat: '', yer: '', musteriAd: '', musteriTel: '', aciklama: '', cihazlar: '', rt: false, ut: false, mt: false, pt: false, notlar: '' });
+    DB.set('tasks', allTasks);
+  }
   renderTasks();
 }
 
 function deleteRow(btn) {
   const tr = btn.closest('tr');
   const idx = Array.from(tr.parentNode.children).indexOf(tr);
-  const tasks = DB.get('tasks', []);
-  tasks.splice(idx, 1);
-  DB.set('tasks', tasks);
+  const allTasks = DB.get('tasks', {});
+  const date = document.getElementById('taskDate').value;
+  
+  if (Array.isArray(allTasks)) {
+    const migrated = migrateTasksToDated();
+    if (migrated[date]) {
+      migrated[date].splice(idx, 1);
+      DB.set('tasks', migrated);
+    }
+  } else {
+    if (allTasks[date]) {
+      allTasks[date].splice(idx, 1);
+      DB.set('tasks', allTasks);
+    }
+  }
   renderTasks();
 }
 
