@@ -379,6 +379,14 @@ open Anasayfa.html
 
 ## 10. Değişiklik Geçmişi (CHANGELOG)
 
+### v4.9 - 2026-09-05 (CSS Bütünlük + Premium Sunum Düzeltmeleri)
+- **Tanımsız CSS değişken referansları giderildi** (gerçek görünürlük hatası düzeldi):
+  - Tablo başlığı (`.grid-header`) kullanıyordu: `--accent-primary`, hover ve light/bg tintleri `:root` ta artık tanımlı (EKA kırmızısı)
+  - Backward-compat alias eklendi: `--border`, `--border-light`, `--surface-hover`, `--text-subtle`, `--gray-tint` → mevcut tokenlara bağlandı
+- **Eksik noktalı virgül düzeltmeleri (18 yer):** `color: var(--text-primary)` sonrası `;` eksikti → sonraki tüm deklarasyonlar kırılıyordu
+- **Animasyon çakışması çözüldü:** `.main-container` scroll-reveal `opacity:0` ile tablo başlığını gizliyordu; artık `fadeInMain` keyframe (0.4s ease-out) kullanıyor
+- **Premium hover fizik:** `.top-nav` ve `.add-form` butonları için `::after` parlama overlay'i + `:active` scale (magnetic touch)
+- **Doğrulama:** CSS 220/220 blok dengeli, tanımsız değişken kalmadı (otomatik script ile doğrulandı)
 ### v2.0 - 2026-09-04
 - Modern dashboard UI (Inter Font, CSS değişkenleri)
 - 27 CSS değişkeni ile tema sistemi
@@ -573,5 +581,5 @@ open Anasayfa.html
 ---
 
 **Dokümantasyon Son Güncelleme:** 2026-09-05
-**Uygulama Versiyon:** 4.6
+**Uygulama Versiyon:** 4.9
 **Toplam Kod:** ~1245 satır (HTML + CSS + JS)
