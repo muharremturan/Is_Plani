@@ -298,9 +298,9 @@
   .test-multiselect.open .test-multiselect-dropdown, .personel-multiselect.open .test-multiselect-dropdown, .arac-multiselect.open .test-multiselect-dropdown, .cihaz-multiselect.open .test-multiselect-dropdown { display: block; }
   /* Dropdown overlay - ensures visibility above grid */
   .test-multiselect.open, .personel-multiselect.open, .arac-multiselect.open, .cihaz-multiselect.open { z-index: 9999; position: relative; }
-  .test-multiselect-option { padding: var(--space-sm) var(--space-md); cursor: pointer; font-size: 0.875rem; display: flex; align-items: center; gap: var(--space-sm); }
+  .test-multiselect-option { padding: var(--space-sm) var(--space-md); cursor: pointer; font-size: 0.875rem; display: flex; align-items: center; gap: var(--space-sm); color: var(--text-primary); }
   .test-multiselect-option:hover { background: var(--primary-light); }
-  .test-multiselect-option.selected { background: var(--primary-bg); color: var(--primary); font-weight: 500; }
+  .test-multiselect-option.selected { background: var(--primary-bg); color: var(--text-primary); font-weight: 500; }
   .test-multiselect-option .check { width: 16px; height: 16px; border: 1px solid var(--border); border-radius: 3px; display: inline-flex; align-items: center; justify-content: center; font-size: 0.75rem; flex-shrink: 0; }
   .test-multiselect-option.selected .check { background: var(--primary); border-color: var(--primary); color: var(--surface); }
   .test-tags { display: flex; flex-wrap: wrap; gap: 2px; }
@@ -321,7 +321,7 @@
   .footer-info { text-align: center; padding: var(--space-md); color: var(--text-subtle); font-size: 0.75rem; }
 
   .autocomplete-list { position: absolute; background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-lg); max-height: 200px; overflow-y: auto; z-index: 9999; box-shadow: var(--shadow-xl); min-width: 100%; white-space: nowrap; }
-  .autocomplete-list div { padding: var(--space-sm) var(--space-md); cursor: pointer; font-size: 0.8125rem; }
+  .autocomplete-list div { padding: var(--space-sm) var(--space-md); cursor: pointer; font-size: 0.8125rem; color: var(--text-primary); }
   .autocomplete-list div:hover { background: var(--primary); color: var(--surface); }
 
     .grid-relative { position: relative; }
