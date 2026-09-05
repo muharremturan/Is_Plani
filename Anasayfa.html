@@ -873,13 +873,52 @@ function getMsKey(el) {
 
 function toggleTestDropdown(btn) {
   const ms = btn.closest('.test-multiselect, .personel-multiselect, .arac-multiselect, .cihaz-multiselect');
-  document.querySelectorAll('.test-multiselect, .personel-multiselect, .arac-multiselect, .cihaz-multiselect').forEach(m => { if (m !== ms) m.classList.remove('open'); });
-  ms.classList.toggle('open');
+  if (!ms) return;
+  const willOpen = !ms.classList.contains('open');
+  closeAllMsDropdowns();
+  if (willOpen) openMsDropdown(ms, btn);
+}
+
+function openMsDropdown(ms, btn) {
+  const dd = ms.querySelector('.test-multiselect-dropdown');
+  if (!dd) return;
+  const r = btn.getBoundingClientRect();
+  const pad = 4;
+  dd._ownerMs = ms;
+  dd.style.position = 'fixed';
+  dd.style.left = r.left + 'px';
+  dd.style.width = Math.max(r.width, 40) + 'px';
+  dd.style.top = (r.bottom + pad) + 'px';
+  dd.style.margin = '0';
+  dd.style.zIndex = '100000';
+  dd.style.display = 'block';
+  ms.classList.add('open');
+  /* Portal: dropdown'ı overflow: hidden + transform'lu ata ağacının
+     dışına taşı ki tablo wrapper / row alttan kesmesin. */
+  document.body.appendChild(dd);
+}
+
+function closeAllMsDropdowns() {
+  document.querySelectorAll('body > .test-multiselect-dropdown').forEach(dd => {
+    const ms = dd._ownerMs;
+    dd.style.display = 'none';
+    if (ms && document.contains(ms)) {
+      ms.appendChild(dd);
+      ms.classList.remove('open');
+    }
+    dd.style.position = '';
+    dd.style.left = '';
+    dd.style.top = '';
+    dd.style.width = '';
+    dd.style.margin = '';
+    dd.style.zIndex = '';
+  });
 }
 
 function toggleTest(option) {
+  const dd = option.closest('.test-multiselect-dropdown');
+  const ms = (dd && dd._ownerMs) || option.closest('.test-multiselect, .personel-multiselect, .arac-multiselect, .cihaz-multiselect');
   option.classList.toggle('selected');
-  const ms = option.closest('.test-multiselect, .personel-multiselect, .arac-multiselect, .cihaz-multiselect');
   const key = getMsKey(ms);
   const selected = Array.from(ms.querySelectorAll('.test-multiselect-option.selected')).map(o => o.dataset.value);
   ms.dataset[key] = selected.join(',');
@@ -895,10 +934,26 @@ function toggleTest(option) {
 }
 
 document.addEventListener('click', (e) => {
-  if (!e.target.closest('.test-multiselect, .personel-multiselect, .arac-multiselect, .cihaz-multiselect')) {
-    document.querySelectorAll('.test-multiselect.open, .personel-multiselect.open, .arac-multiselect.open, .cihaz-multiselect.open').forEach(m => m.classList.remove('open'));
-  }
+  const inside = e.target.closest('.test-multiselect-option, .test-multiselect, .personel-multiselect, .arac-multiselect, .cihaz-multiselect');
+  const ddOpen = e.target.closest('body > .test-multiselect-dropdown');
+  if (!inside && !ddOpen) closeAllMsDropdowns();
 });
+
+/* Sayfa kaydırıldığında açık dropdown'ı trigger konumuna sabitle */
+function repositionOpenDropdown() {
+  const dd = document.querySelector('body > .test-multiselect-dropdown');
+  if (!dd || dd.style.display === 'none') return;
+  const owner = dd._ownerMs;
+  if (!owner) return;
+  const trig = owner.querySelector('.test-multiselect-trigger');
+  if (!trig) return;
+  const r = trig.getBoundingClientRect();
+  const pad = 4;
+  dd.style.left = r.left + 'px';
+  dd.style.top = (r.bottom + pad) + 'px';
+  dd.style.width = Math.max(r.width, 40) + 'px';
+}
+window.addEventListener('scroll', repositionOpenDropdown, { passive: true });
 
 function saveTasksFromTable(dateOverride) {
   const rows = document.querySelectorAll('#taskBody .grid-row');
