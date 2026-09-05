@@ -2,8 +2,8 @@
 
 ## Proje Dokümantasyonu
 
-**Son Güncelleme:** 2026-09-04
-**Versiyon:** 2.0
+**Son Güncelleme:** 2026-09-05
+**Versiyon:** 4.5
 **Teknoloji:** HTML5 + CSS3 + Vanilla JS + localStorage
 
 ---
@@ -121,7 +121,7 @@ Is_Plani/
 | `eka_cihazlar` | `[{ad, kod, durum}]` | Cihaz listesi |
 | `eka_araclar` | `[{plaka, model, surucu}]` | Araç listesi |
 | `eka_izinli` | `{date: [string]}` | Tarihe göre izinli personel adları |
-| `eka_tasks` | `[task]` | Günlük görevler |
+| `eka_tasks`       | `{date: [task]}` | Tarihe göre günlük görevler (her gün ayrıdır) |
 | `eka_taskDate` | `string (YYYY-MM-DD)` | Seçili tarih |
 
 ### Task Nesnesi
@@ -477,6 +477,18 @@ open Anasayfa.html
   - `saveTasksFromTable()`, `renderTasks()`, `addRow()`, `deleteRow()`, `copyRow()`, `confirmCopy()`
 - **Davranış değişikliği:** Boş günde varsayılan boş satır artık **veriye kaydedilmiyor**; yalnızca ekranda tek boş satır gösteriliyor. Kalıcı satır "Yeni Satır Ekle" ile eklenir. Böylece boş bir güne bakıldığında `eka_tasks` içine gereksiz kayıt yazılmaz.
 - Doğrulama: Node simülasyonu ile iki farklı günün listesinin bağımsız olduğu ve bir günü sildiğinde diğer günün etkilenmediği teyit edildi.
+
+### v4.5 - 2026-09-05 (EKA marka renk paleti - ekandt.com.tr)
+- Palet `https://www.ekandt.com.tr` sitesinden alındı (color.css `red.css` ile `--primary` #e40a20 marka kırmızısı; site gri/yişil/sarı tonları).
+- `:root` değişken değerleri yenilendi (`Anasayfa.html` `<style>`):
+  - `--primary` = `#e40a20`, `--primary-hover` = `#b80019`, `--primary-light` = `#ffe5e5`, `--primary-bg` = `#ffebee`
+  - `--danger` = `#b91c1c` (primary'den ayrı tutuldu), `--success` = `#1a8b49` (EKA yeşili), `--warning` = `#f7c51e`
+  - Nötr gri palet EKA tonlarına yönlendirildi (`--bg #f5f5f5`, `--text #222222`, `--border #e0e0e0`, ...)
+  - `--nav-bg` = `#18191b`, `--nav-text`/`--nav-link` beyaz/gri (site header tonu)
+  - `--izinli-*` renkleri kırmızı/marka tonlarına alındı
+  - `--date-bg` gradienti kırmızı tonlara çevrildi
+- Yapı değişmedi: hâlâ CSS değişkenleri + sınıflar. `.clinerules` "CSS değişkenleri hardcode kullanma" kuralına uygun.
+- **Görsel etki:** Nav/menü koyu gri, logo ve vurgu renkleri EKA kırmızısı, focus-outline mavi → kırmızı.
 
 ### v4.4 - 2026-09-05 (Her gün ayrı sayfa garantisi / veri tamiri)
 - **Teşhis:** "Tüm günlerde aynı tablo görünüyor / bir satır silinince her yerde siliniyor" sorununun kök nedeni backend değil; tarayıcının uygulamanın **eski (global tek dizi)** sürümünü önbellekten çalıştırmasıydı. LocalStorage tarih bazlı mimariyi zaten destekliyor; Node simülasyonu ile de doğrulandı (D1'in D2'den silme işlemi etkilenmediği görüldü).
