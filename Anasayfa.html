@@ -1295,6 +1295,19 @@ updateAuthUI();
 renderTasks();
 renderIzinliMain();
 populateIzinliSelects();
+
+// === DEBUG (verify tarih bazlı yapı için) ===
+// URL'ye ?debug=1 ekleyerek aktif et: Anasayfa.html?debug=1
+// Ürün düzeyinde console.log basmaz (debug flag kontrollü).
+window.debugTasks = function () {
+  console.log('[EKA] modelVersion:', DB.get('modelVersion'));
+  console.log('[EKA] taskDate:', DB.get('taskDate'));
+  console.log('[EKA] Tasks structure:', typeof localStorage.getItem('eka_tasks'));
+  console.log('[EKA] Current date tasks:', getTasksForDate(getSelectedDate()));
+};
+if (location.search.includes('debug=1')) {
+  debugTasks();
+}
 </script>
 </body>
 </html>
