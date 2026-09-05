@@ -139,8 +139,9 @@ Is_Plani/
   yer: string,
   musteriAd: string,
   musteriTel: string,
-  aciklama: string,
+  arac: string,      // "PLAKA - MODEL" (ayarlar > araçlar listesinden)
   cihazlar: string,
+  personel: string,  // personel adı (ayarlar > personel listesinden)
   tests: string[],   // örn: ["RT","UT","MT","PT"]
   notlar: string
 }

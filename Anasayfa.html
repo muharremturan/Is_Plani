@@ -8,60 +8,60 @@
 <meta http-equiv="Pragma" content="no-cache">
 <meta http-equiv="Expires" content="0">
 <title>EKA NDT - Günlük Görevlendirme Planı</title>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Oswald:wght@500;600;700&display=swap" rel="stylesheet">
 <style>
     :root {
     /* Primary Colors - EKA Kırmızı (marka rengi) */
     --primary: #e40a20;
-    --primary-hover: #b80019;
-    --primary-light: #ffe5e5;
-    --primary-bg: #ffebee;
+    --primary-hover: #c40a1c;
+    --primary-light: #fce8ea;
+    --primary-bg: #fdf1f2;
 
-    /* Semantic Colors */
-    --danger: #b91c1c;
-    --danger-hover: #991b1b;
-    --danger-light: #fef2f2;
-    --danger-border: #fecaca;
-    --success: #1a8b49;
-    --success-hover: #166f3b;
-    --success-light: #dcf2e0;
-    --warning: #f7c51e;
-    --warning-hover: #d9a00;
-    --warning-light: #fef9e6;
+    /* Semantic Colors - soft tint sistemi (2026 muted accents) */
+    --danger: #c2182b;
+    --danger-hover: #a31323;
+    --danger-light: #fce8ea;
+    --danger-border: #f5c2c8;
+    --success: #178a50;
+    --success-hover: #116e3e;
+    --success-light: #e6f6ec;
+    --warning: #d99000;
+    --warning-hover: #b87800;
+    --warning-light: #fdf3dd;
 
-    /* Neutral Colors */
-    --bg: #f5f5f5;
+    /* Neutral Colors - yumuşak, hafif sıcak nötrler */
+    --bg: #f6f6f8;
     --surface: #ffffff;
-    --surface-hover: #efefef;
-    --text: #222222;
-    --text-light: #333333;
-    --text-muted: #595959;
-    --text-subtle: #888888;
-    --border: #e0e0e0;
-    --border-light: #eeeeee;
-    --border-dark: #d4d4d4;
+    --surface-hover: #f1f1f4;
+    --text: #1b1c20;
+    --text-light: #2e3036;
+    --text-muted: #63656e;
+    --text-subtle: #90929c;
+    --border: #e5e5ea;
+    --border-light: #eeeef2;
+    --border-dark: #d6d7de;
 
-    /* Navigation */
-    --nav-bg: #18191b;
-    --nav-text: #f1f1f1;
-    --nav-link: #cccccc;
+    /* Navigation - koyu, hafif mavi-gri ton (soft dark) */
+    --nav-bg: #1a1b20;
+    --nav-text: #f4f4f6;
+    --nav-link: #b9bac3;
 
-    /* Table Rows */
-    --row-green: #dcf2e0;
-    --row-blue: #e0e7ff;
-    --row-gray: #fafafa;
-    --row-yellow: #fef9e6;
-    --row-hover: #eeeeee;
+    /* Table Rows - pastel tintler (2026 soft data-viz) */
+    --row-green: #e8f6ec;
+    --row-blue: #e9eefb;
+    --row-gray: #fafafb;
+    --row-yellow: #fdf5e1;
+    --row-hover: #f2f2f6;
 
-    /* İzinli Personel */
-    --izinli-bg: #fff1f1;
-    --izinli-border: #e40a20;
-    --izinli-title: #b91c1c;
+    /* İzinli Personel - marka kırmızısı tintleri */
+    --izinli-bg: #fdf1f2;
+    --izinli-border: #f3b8bd;
+    --izinli-title: #a31323;
     --izinli-tag-bg: #e40a20;
     --izinli-tag-text: #ffffff;
 
-    /* Date Bar */
-    --date-bg: linear-gradient(135deg, #ffe5e5, #ffebee);
+    /* Date Bar - yumuşak marka gradienti */
+    --date-bg: linear-gradient(135deg, #fdf1f2, #fce8ea);
 
     
     /* Spacing */
@@ -80,14 +80,15 @@
     --radius-2xl: 16px;
     --radius-full: 9999px;
     
-    /* Shadows */
-    --shadow-sm: 0 1px 2px rgba(0,0,0,0.05);
-    --shadow-md: 0 1px 3px rgba(0,0,0,0.1), 0 1px 2px rgba(0,0,0,0.06);
-    --shadow-lg: 0 4px 6px -1px rgba(0,0,0,0.1), 0 2px 4px -1px rgba(0,0,0,0.06);
-    --shadow-xl: 0 10px 15px -3px rgba(0,0,0,0.1), 0 4px 6px -2px rgba(0,0,0,0.05);
+    /* Shadows - layered, yumuşak (2026 elevation) */
+    --shadow-sm: 0 1px 2px rgba(27,28,32,0.04);
+    --shadow-md: 0 1px 2px rgba(27,28,32,0.05), 0 2px 6px rgba(27,28,32,0.05);
+    --shadow-lg: 0 4px 10px -2px rgba(27,28,32,0.08), 0 2px 4px -1px rgba(27,28,32,0.04);
+    --shadow-xl: 0 12px 24px -6px rgba(27,28,32,0.12), 0 4px 8px -2px rgba(27,28,32,0.06);
     
     /* Typography */
     --font-sans: 'Inter', system-ui, -apple-system, sans-serif;
+    --font-display: 'Oswald', 'Inter', sans-serif;
     --font-mono: 'JetBrains Mono', monospace;
   }
   *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
@@ -95,9 +96,9 @@
   body { font-family: var(--font-sans); background: var(--bg); font-size: 1rem; line-height: 1.5; color: var(--text); -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; }
   button, input, select, textarea { transition: background-color 0.2s ease, color 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease, transform 0.15s ease; }
   button:focus-visible, input:focus-visible, select:focus-visible, textarea:focus-visible { outline: 2px solid var(--primary); outline-offset: 2px; }
-  .top-nav { background: var(--nav-bg); color: var(--nav-text); display: flex; align-items: center; padding: 0 var(--space-xl); gap: var(--space-sm); height: 64px; box-shadow: var(--shadow-md); position: sticky; top: 0; z-index: 50; }
-  .top-nav .logo { font-size: 1.5rem; font-weight: 800; color: var(--primary); letter-spacing: 0.1em; display: flex; flex-direction: column; }
-  .top-nav .logo span { color: var(--nav-text); font-size: 0.6875rem; font-weight: 400; display: block; letter-spacing: 0; }
+  .top-nav { background: var(--nav-bg); color: var(--nav-text); display: flex; align-items: center; padding: 0 var(--space-xl); gap: var(--space-sm); height: 64px; box-shadow: var(--shadow-md); position: sticky; top: 0; z-index: 50; border-top: 3px solid var(--primary); }
+  .top-nav .logo { font-family: var(--font-display); font-size: 1.625rem; font-weight: 700; color: var(--primary); letter-spacing: 0.14em; display: flex; flex-direction: column; line-height: 1; }
+  .top-nav .logo span { color: var(--nav-link); font-family: var(--font-sans); font-size: 0.59375rem; font-weight: 500; display: block; letter-spacing: 0.28em; text-transform: uppercase; margin-top: 3px; }
   .top-nav .nav-links { display: flex; gap: var(--space-xs); margin-left: var(--space-lg); }
   .top-nav .nav-links button { background: transparent; color: var(--nav-link); border: 1px solid transparent; padding: var(--space-sm) var(--space-md); cursor: pointer; border-radius: var(--radius-lg); font-size: 0.875rem; font-weight: 500; display: inline-flex; align-items: center; gap: var(--space-sm); }
   .top-nav .nav-links button:hover { background: rgba(255,255,255,0.1); color: var(--surface); }
@@ -115,49 +116,59 @@
   .page { display: none; padding: 15px; }
   .page.active { display: block; }
 
-  .main-container { background: var(--surface); border-radius: 12px; box-shadow: 0 1px 3px rgba(0,0,0,0.1), 0 1px 2px rgba(0,0,0,0.06); overflow: hidden; margin: 1rem; }
+  .main-container { background: var(--surface); border-radius: 12px; box-shadow: 0 1px 3px rgba(0,0,0,0.1), 0 1px 2px rgba(0,0,0,0.06); margin: 1rem; }
 
   .header-info { display: grid; grid-template-columns: 1fr auto; gap: 24px; align-items: center; padding: 15px 20px; }
-  .header-info .company h1 { color: var(--danger); font-size: 32px; font-weight: 800; letter-spacing: 3px; }
-  .header-info .company h1 span { color: var(--text-muted); font-size: 11px; font-weight: 400; display: block; letter-spacing: 0; }
+  .header-info .company h1 { color: var(--danger); font-family: var(--font-display); font-size: 34px; font-weight: 700; letter-spacing: 4px; }
+  .header-info .company h1 span { color: var(--text-muted); font-family: var(--font-sans); font-size: 10px; font-weight: 500; display: block; letter-spacing: 0.3em; }
+  .header-info .company h3 { color: var(--text-muted); font-family: var(--font-display); font-size: 15px; margin-top: 3px; font-weight: 600; letter-spacing: 0.1em; }
   .header-info .company h2 { color: var(--text-muted); font-size: 14px; margin-top: 5px; font-weight: 500; }
-  .header-info .company h3 { color: var(--text-muted); font-size: 14px; margin-top: 3px; font-weight: 600; }
   .header-info .doc-info { font-size: 11px; }
   .header-info .doc-card { background: var(--surface); border-radius: 8px; padding: 12px 16px; box-shadow: 0 1px 2px rgba(0,0,0,0.05); }
   .header-info .doc-row { display: flex; justify-content: space-between; gap: 16px; padding: 2px 0; }
   .header-info .doc-label { color: var(--text-muted); font-weight: 500; font-size: 11px; }
   .header-info .doc-value { color: var(--text); font-weight: 600; font-size: 12px; }
 
-  .date-bar { background: var(--date-bg); padding: var(--space-md) var(--space-xl); margin: var(--space-lg) var(--space-xl); text-align: center; font-size: 0.9375rem; font-weight: 700; color: var(--text); border: none; border-radius: var(--radius-xl); box-shadow: var(--shadow-sm); display: flex; align-items: center; justify-content: center; gap: var(--space-md); }
-  .date-bar input[type="date"] { padding: var(--space-sm) var(--space-md); border: 1px solid var(--border); border-radius: var(--radius-md); font-size: 0.875rem; font-family: var(--font-sans); color: var(--text); }
-  .date-bar input[type="date"]:focus { outline: none; border-color: var(--primary); box-shadow: 0 0 0 3px rgba(228,10,32,0.15); }
-  .date-bar #dayName { background: var(--primary); color: var(--surface); padding: var(--space-xs) var(--space-md); border-radius: var(--radius-full); font-size: 0.75rem; font-weight: 600; }
+  .date-bar { background: var(--nav-bg); padding: var(--space-md) var(--space-xl); margin: var(--space-lg) var(--space-xl); text-align: center; font-size: 0.8125rem; font-weight: 600; color: var(--nav-text); border: none; border-radius: var(--radius-xl); box-shadow: var(--shadow-md); display: flex; align-items: center; justify-content: center; gap: var(--space-md); letter-spacing: 0.06em; }
+  .date-bar input[type="date"] { padding: var(--space-sm) var(--space-md); border: 1px solid rgba(255,255,255,0.25); border-radius: var(--radius-md); font-size: 0.875rem; font-family: var(--font-sans); color: var(--text); background: var(--surface); color-scheme: light; }
+  .date-bar input[type="date"]:focus { outline: none; border-color: var(--primary); box-shadow: 0 0 0 3px rgba(228,10,32,0.35); }
+  .date-bar #dayName { background: var(--primary); color: var(--surface); font-family: var(--font-display); padding: var(--space-xs) var(--space-md); border-radius: var(--radius-md); font-size: 0.875rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.12em; min-width: 96px; text-align: center; box-sizing: border-box; }
+  .date-nav-btn { display: inline-flex; align-items: center; justify-content: center; width: 26px; height: 26px; padding: 0; border: 1px solid rgba(255,255,255,0.25); border-radius: var(--radius-full); background: transparent; color: var(--nav-text); cursor: pointer; transition: background 0.15s, color 0.15s, border-color 0.15s; }
+  .date-nav-btn:hover { background: var(--primary); border-color: var(--primary); color: var(--surface); }
+  .date-nav-btn:active { transform: scale(0.92); }
+  .date-nav-btn:focus-visible { outline: 2px solid var(--primary); outline-offset: 2px; }
 
   /* CSS Grid Task Table - Compact, fits viewport */
-  .table-wrapper { overflow-x: auto; position: relative; border-radius: var(--radius-lg); border: 1px solid var(--border); background: var(--surface); margin: var(--space-lg) var(--space-xl); }
+  .table-wrapper { position: relative; border-radius: var(--radius-lg); border: 1px solid var(--border); background: var(--surface); margin: var(--space-lg) var(--space-xl); }
   .task-grid { display: block; width: 100%; }
   
   /* Shared column template - compact, aligns with siblings (1.5rem margin) */
-  .grid-header, .grid-row { display: grid; grid-template-columns: 32px 1fr 55px 1fr 1fr 72px 1.4fr 1fr 108px 1fr 60px; }
+  .grid-header, .grid-row { display: grid; grid-template-columns: 32px 1fr 72px 1fr 1fr 72px 1fr 108px 1fr 2fr 60px; }
   
   /* Header - Sticky */
   .grid-header { position: sticky; top: 0; z-index: 20; background: var(--text); }
-  .grid-header .grid-cell { background: var(--text); color: var(--surface); padding: var(--space-sm) var(--space-xs); font-size: 0.6875rem; font-weight: 600; text-align: center; text-transform: uppercase; letter-spacing: 0.03em; white-space: nowrap; border-bottom: 2px solid var(--border-dark); display: flex; align-items: center; justify-content: center; }
+  .grid-header .grid-cell { background: var(--text); color: var(--surface); padding: var(--space-sm) var(--space-xs); font-size: 0.8125rem; font-weight: 600; text-align: center; text-transform: uppercase; letter-spacing: 0.03em; white-space: nowrap; border-bottom: 2px solid var(--border-dark); border-right: 1px solid var(--border-dark); display: flex; align-items: center; justify-content: center; }
   .grid-header .grid-cell:first-child { border-radius: var(--radius-lg) 0 0 0; }
-  .grid-header .grid-cell:last-child { border-radius: 0 var(--radius-lg) 0 0; }
+  .grid-header .grid-cell:last-child { border-right: none; border-radius: 0 var(--radius-lg) 0 0; }
   
   /* Row - Grid Layout */
   .grid-row { border-bottom: 1px solid var(--border-light); }
   .grid-row:last-child { border-bottom: 1px solid var(--border); }
   
   /* Cell - compact, vertically centered & aligned */
-  .grid-cell { padding: 2px 5px; text-align: center; display: flex; align-items: center; justify-content: center; position: relative; background: var(--surface); border-right: 1px solid var(--border-light); }
+  .grid-cell { padding: 5px 8px; text-align: center; display: flex; align-items: center; justify-content: center; position: relative; background: var(--surface); border-right: 1px solid var(--border-light); }
   .grid-cell:last-child { border-right: none; }
-  
+
+  /* Zebra rows (renkli satırlar aşağıda override edilir) */
+  .grid-row:nth-child(even) .grid-cell { background: var(--bg); }
+
   /* Input Styles - uniform height so row items align */
-  .grid-cell input, .grid-cell select, .grid-cell textarea, .test-multiselect-trigger { width: 100%; border: 1px solid transparent; background: transparent; padding: 4px 7px; font-size: 0.8125rem; font-family: var(--font-sans); border-radius: var(--radius-md); color: var(--text); min-width: 0; line-height: 1.3; box-sizing: border-box; }
+  .grid-cell input, .grid-cell select, .grid-cell textarea, .test-multiselect-trigger { width: 100%; border: 1px solid transparent; background: transparent; padding: 4px 7px; font-size: 0.875rem; font-family: var(--font-sans); border-radius: var(--radius-md); color: var(--text); min-width: 0; line-height: 1.3; box-sizing: border-box; font-variant-numeric: tabular-nums; }
+  .grid-cell input:not(:placeholder-shown), .grid-cell textarea:not(:placeholder-shown) { font-weight: 500; }
+  .grid-cell input::placeholder, .grid-cell textarea::placeholder, .grid-cell select:invalid { color: var(--text-subtle); font-style: italic; font-weight: 400; }
   .grid-cell input[type="text"], .grid-cell input[type="time"], .grid-cell select { height: 32px; }
   .grid-cell textarea { min-height: 32px; height: auto; max-height: 200px; resize: vertical; overflow: hidden; padding-top: 6px; }
+  .grid-cell .saat-input { text-align: center; }
   .test-multiselect-trigger { min-height: 32px; height: auto; }
   .grid-cell input:focus, .grid-cell select:focus, .grid-cell textarea:focus { border-color: var(--primary); background: var(--surface); outline: none; box-shadow: 0 0 0 3px rgba(228,10,32,0.1); }
   .grid-cell .row-num { background: var(--border); color: var(--text); width: 28px; height: 28px; border-radius: 50%; display: inline-flex; align-items: center; justify-content: center; font-size: 0.75rem; font-weight: 600; flex-shrink: 0; }
@@ -167,6 +178,12 @@
   .grid-row.row-blue .grid-cell { background: var(--row-blue); }
   .grid-row.row-gray .grid-cell { background: var(--row-gray); }
   .grid-row.row-yellow .grid-cell { background: var(--row-yellow); }
+
+  /* Renkli satırlarda zebra override + sol renkli şerit (inset shadow, padding'i etkilemez) */
+  .grid-row.row-green:nth-child(even) .grid-cell, .grid-row.row-blue:nth-child(even) .grid-cell, .grid-row.row-gray:nth-child(even) .grid-cell, .grid-row.row-yellow:nth-child(even) .grid-cell { background: var(--row-gray); }
+  .grid-row.row-green .grid-cell:first-child { box-shadow: inset 4px 0 0 var(--success); }
+  .grid-row.row-blue .grid-cell:first-child { box-shadow: inset 4px 0 0 var(--primary); }
+  .grid-row.row-yellow .grid-cell:first-child { box-shadow: inset 4px 0 0 var(--warning); }
 
   .settings-container { max-width: 960px; margin: 0 auto; }
   .settings-tabs { display: flex; gap: var(--space-xs); border-bottom: 2px solid var(--border); padding-bottom: 0; margin-bottom: var(--space-xl); flex-wrap: wrap; }
@@ -188,6 +205,12 @@
   .settings-panel .list-table tr:nth-child(even) td { background: #fafafa; }
   .settings-panel .list-table .del-btn { background: transparent; color: var(--danger); border: 1px solid var(--danger-border); border-radius: var(--radius-md); padding: var(--space-xs) var(--space-sm); cursor: pointer; font-size: 0.75rem; transition: all 0.2s ease; }
   .settings-panel .list-table .del-btn:hover { background: var(--danger); color: var(--surface); }
+  .settings-panel .list-table .edit-btn { background: transparent; color: var(--primary); border: 1px solid var(--primary); border-radius: var(--radius-md); padding: var(--space-xs) var(--space-sm); cursor: pointer; font-size: 0.75rem; margin-right: 4px; transition: all 0.2s ease; }
+  .settings-panel .list-table .edit-btn:hover { background: var(--primary); color: var(--surface); }
+  .settings-panel .list-table .save-btn { background: var(--success); color: var(--surface); border: 1px solid var(--success); border-radius: var(--radius-md); padding: var(--space-xs) var(--space-sm); cursor: pointer; font-size: 0.75rem; margin-right: 4px; transition: all 0.2s ease; }
+  .settings-panel .list-table .save-btn:hover { filter: brightness(0.9); }
+  .settings-panel .list-table .edit-cell-input { width: 100%; min-width: 80px; padding: 4px 8px; border: 1px solid var(--primary); border-radius: var(--radius-md); font-size: 0.8125rem; font-family: var(--font-sans); color: var(--text); box-sizing: border-box; }
+  .settings-panel .list-table .edit-cell-input:focus { outline: none; box-shadow: 0 0 0 3px rgba(228,10,32,0.15); }
 
   .modal-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(15, 23, 42, 0.6); backdrop-filter: blur(4px); z-index: 10000; justify-content: center; align-items: center; }
   .modal-overlay.show { display: flex; }
@@ -214,23 +237,23 @@
   .test-checks label { font-size: 0.6875rem; cursor: pointer; display: flex; align-items: center; gap: 2px; font-weight: 500; }
 
   /* Multi-select dropdown - Fixed for Grid */
-  .test-multiselect { position: relative; width: 100%; }
+  .test-multiselect, .personel-multiselect, .arac-multiselect, .cihaz-multiselect { position: relative; width: 100%; }
   .test-multiselect-trigger { width: 100%; min-height: 32px; padding: 2px 5px; border: 1px solid var(--border); border-radius: var(--radius-md); background: var(--surface); cursor: pointer; font-size: 0.75rem; font-family: var(--font-sans); color: var(--text); text-align: left; display: flex; align-items: center; justify-content: space-between; gap: 2px; flex-wrap: wrap; }
   .test-multiselect-trigger:hover { border-color: var(--primary); }
   .test-multiselect-trigger:focus { outline: none; border-color: var(--primary); box-shadow: 0 0 0 3px rgba(228,10,32,0.1); }
   .test-multiselect-trigger .arrow { font-size: 0.625rem; transition: transform 0.2s ease; flex-shrink: 0; }
-  .test-multiselect.open .test-multiselect-trigger .arrow { transform: rotate(180deg); }
+  .test-multiselect.open .test-multiselect-trigger .arrow, .personel-multiselect.open .test-multiselect-trigger .arrow, .arac-multiselect.open .test-multiselect-trigger .arrow, .cihaz-multiselect.open .test-multiselect-trigger .arrow { transform: rotate(180deg); }
   .test-multiselect-dropdown { position: absolute; top: 100%; left: 0; right: 0; background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-md); box-shadow: var(--shadow-xl); z-index: 9999; max-height: 200px; overflow-y: auto; display: none; margin-top: 4px; }
-  .test-multiselect.open .test-multiselect-dropdown { display: block; }
+  .test-multiselect.open .test-multiselect-dropdown, .personel-multiselect.open .test-multiselect-dropdown, .arac-multiselect.open .test-multiselect-dropdown, .cihaz-multiselect.open .test-multiselect-dropdown { display: block; }
   /* Dropdown overlay - ensures visibility above grid */
-  .test-multiselect.open { z-index: 9999; position: relative; }
-  .test-multiselect-option { padding: var(--space-xs) var(--space-sm); cursor: pointer; font-size: 0.75rem; display: flex; align-items: center; gap: var(--space-xs); }
+  .test-multiselect.open, .personel-multiselect.open, .arac-multiselect.open, .cihaz-multiselect.open { z-index: 9999; position: relative; }
+  .test-multiselect-option { padding: var(--space-sm) var(--space-md); cursor: pointer; font-size: 0.875rem; display: flex; align-items: center; gap: var(--space-sm); }
   .test-multiselect-option:hover { background: var(--primary-light); }
   .test-multiselect-option.selected { background: var(--primary-bg); color: var(--primary); font-weight: 500; }
-  .test-multiselect-option .check { width: 14px; height: 14px; border: 1px solid var(--border); border-radius: 3px; display: inline-flex; align-items: center; justify-content: center; font-size: 0.625rem; flex-shrink: 0; }
+  .test-multiselect-option .check { width: 16px; height: 16px; border: 1px solid var(--border); border-radius: 3px; display: inline-flex; align-items: center; justify-content: center; font-size: 0.75rem; flex-shrink: 0; }
   .test-multiselect-option.selected .check { background: var(--primary); border-color: var(--primary); color: var(--surface); }
   .test-tags { display: flex; flex-wrap: wrap; gap: 2px; }
-  .test-tag { background: var(--primary); color: var(--surface); padding: 1px 6px; border-radius: var(--radius-sm); font-size: 0.625rem; font-weight: 500; }
+  .test-tag { background: var(--primary); color: var(--surface); padding: 2px 8px; border-radius: var(--radius-sm); font-size: 0.75rem; font-weight: 500; }
 
   /* ComboBox datatalist styling */
   .combo-input { width: 100%; padding: var(--space-xs) var(--space-sm); border: 1px solid transparent; background: transparent; font-size: 0.8125rem; font-family: var(--font-sans); color: var(--text); border-radius: var(--radius-md); }
@@ -282,9 +305,13 @@
     .main-container { box-shadow: none; margin: 0; }
     .table-wrapper { overflow: visible !important; border: none; margin: 0 !important; }
     .task-grid { min-width: 0 !important; width: 100% !important; }
-    .grid-header, .grid-row { grid-template-columns: 40px 1fr 60px 1fr 1fr 90px 1fr 1fr 130px 1fr 70px; }
-    .grid-header { position: static; }
-    .grid-cell, .grid-header .grid-cell { padding: 4px 6px; font-size: 0.625rem; }
+    .grid-header, .grid-row { grid-template-columns: 40px 1fr 75px 1fr 1fr 90px 1fr 130px 1fr 2fr 70px; }
+    .grid-header { position: static; background: var(--bg) !important; }
+    .grid-cell, .grid-header .grid-cell { padding: 4px 6px; font-size: 10px; }
+    .grid-cell input, .grid-cell select, .grid-cell textarea, .test-multiselect-trigger { font-size: 10px; }
+    .grid-header .grid-cell { color: var(--text) !important; font-weight: 700; border-bottom: 2px solid var(--text); border-right: 1px solid var(--border); }
+    .grid-row.row-green .grid-cell:first-child, .grid-row.row-blue .grid-cell:first-child, .grid-row.row-yellow .grid-cell:first-child { box-shadow: inset 3px 0 0 var(--border-dark); }
+    .grid-row:nth-child(even) .grid-cell { background: var(--bg) !important; }
     .grid-header .grid-cell, .grid-row.row-green .grid-cell, .grid-row.row-blue .grid-cell, .grid-row.row-gray .grid-cell, .grid-row.row-yellow .grid-cell { background: var(--surface) !important; color: var(--text) !important; }
     .grid-header .grid-cell { font-weight: 700; border-bottom: 2px solid var(--text); }
   }
@@ -364,8 +391,10 @@
 
     <div class="date-bar">
       GÖREVLENDİRME TARİHİ :
-      <input type="date" id="taskDate" onchange="saveMainData()">
+      <input type="date" id="taskDate" onchange="saveMainData(); renderTasks();">
+      <button type="button" class="date-nav-btn" onclick="shiftDate(-1)" title="Önceki gün" aria-label="Önceki gün"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="15 18 9 12 15 6"></polyline></svg></button>
       <span id="dayName"></span>
+      <button type="button" class="date-nav-btn" onclick="shiftDate(1)" title="Sonraki gün" aria-label="Sonraki gün"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="9 18 15 12 9 6"></polyline></svg></button>
     </div>
 
     <div class="izinli-box" id="izinliBox" style="display:none">
@@ -380,15 +409,16 @@
     <div class="table-wrapper">
       <div class="task-grid" id="taskGrid">
         <div class="grid-header">
-          <div class="grid-cell">İŞ NO</div>
+          <div class="grid-cell">NO</div>
           <div class="grid-cell">FİRMA ADI</div>
           <div class="grid-cell">SAAT</div>
-          <div class="grid-cell">YER/ADRES</div>
-          <div class="grid-cell">MÜŞTERI ADI</div>
-          <div class="grid-cell">MÜŞTERİ TEL</div>
-          <div class="grid-cell">AÇIKLAMA</div>
+          <div class="grid-cell">ADRES</div>
+          <div class="grid-cell">YETKİLİ ADI</div>
+          <div class="grid-cell">TELEFON</div>
+
           <div class="grid-cell">CİHAZLAR</div>
-          <div class="grid-cell">UYGULANACAK TESTLER</div>
+          <div class="grid-cell">TESTLER</div>
+          <div class="grid-cell">PERSONEL</div>
           <div class="grid-cell">NOTLAR</div>
           <div class="grid-cell no-print">İŞLEM</div>
         </div>
@@ -478,7 +508,7 @@
         <input type="password" id="kullaniciSifre" placeholder="Şifre">
         <button onclick="addKullanici()">Ekle</button>
       </div>
-      <table class="list-table"><thead><tr><th>#</th><th>Kullanıcı Adı</th><th class="no-print">İşlem</th></tr></thead><tbody id="kullaniciBody"></tbody></table>
+      <table class="list-table"><thead><tr><th>#</th><th>Kullanıcı Adı</th><th>Şifre</th><th class="no-print">İşlem</th></tr></thead><tbody id="kullaniciBody"></tbody></table>
     </div>
 
     <div class="settings-panel" id="panel-test">
@@ -627,7 +657,13 @@ function getDayName(dateStr) {
 }
 
 // ==================== NAVİGASYON ====================
+function requireAuth() {
+  if (!currentUser) { alert('Bu işlem için giriş yapmalısınız!'); showLogin(); return false; }
+  return true;
+}
+
 function showPage(page, btn) {
+  if (page === 'settings' && !requireAuth()) return;
   document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
   document.getElementById('page-' + page).classList.add('active');
   document.querySelectorAll('.nav-links button').forEach(b => b.classList.remove('active'));
@@ -688,6 +724,12 @@ function doLogout() {
   currentUser = null;
   DB.set('currentUser', null);
   updateAuthUI();
+  // Ayarlar sayfasındaysa ana sayfaya dön
+  const settingsPage = document.getElementById('page-settings');
+  if (settingsPage && settingsPage.classList.contains('active')) {
+    const mainBtn = document.querySelector('.nav-links button');
+    if (mainBtn) showPage('main', mainBtn);
+  }
   renderIzinliMain();
 }
 
@@ -698,13 +740,44 @@ function initDate() {
   document.getElementById('dayName').textContent = getDayName(d);
 }
 
+function shiftDate(days) {
+  const input = document.getElementById('taskDate');
+  if (!input.value) return;
+  const d = new Date(input.value + 'T00:00:00');
+  d.setDate(d.getDate() + days);
+  const pad = n => String(n).padStart(2, '0');
+  input.value = `${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(d.getDate())}`;
+  saveMainData();
+  renderTasks();
+}
+
+function formatSaat(el) {
+  // Sadece rakamları al, SS:DD biçimine çevir (örn. "930" -> "09:30")
+  const digits = el.value.replace(/\D/g, '').slice(0, 4);
+  if (digits.length <= 2) { el.value = digits; return; }
+  let hh = digits.slice(0, 2), mm = digits.slice(2, 4);
+  if (parseInt(hh, 10) > 23) hh = '23';
+  if (mm.length === 2 && parseInt(mm, 10) > 59) mm = '59';
+  el.value = hh + ':' + mm;
+}
+
+function autoGrow(el) {
+  el.style.height = 'auto';
+  el.style.height = Math.min(el.scrollHeight, 200) + 'px';
+}
+
+function autoGrowAll() {
+  document.querySelectorAll('#taskBody .notes-area').forEach(autoGrow);
+}
+
 function saveMainData() {
+  if (!requireAuth()) return;
   const date = document.getElementById('taskDate').value;
   const prevDate = DB.get('taskDate', date);
   
   // Tarih değiştiyse, önceki tarihin verilerini kaydet ve yeni tarihi yükle
   if (prevDate !== date) {
-    saveTasksFromTable(); // Mevcut tabloyu önceki tarihe kaydet
+    saveTasksFromTable(prevDate); // Ekrandaki tablo önceki tarihe aittir → prevDate'e kaydet
     DB.set('taskDate', date);
     document.getElementById('dayName').textContent = getDayName(date);
     renderTasks(); // Yeni tarihin verilerini yükle
@@ -721,21 +794,44 @@ function getTestOptionsHtml(selected) {
   const allTests = DB.get('testler', ['RT', 'UT', 'MT', 'PT']);
   return allTests.map(t => {
     const isSel = selected.includes(t);
-    return `<div class="test-multiselect-option ${isSel ? 'selected' : ''}" onclick="toggleTest(this, '${esc(t)}')"><span class="check">${isSel ? '✓' : ''}</span>${esc(t)}</div>`;
+    return `<div class="test-multiselect-option ${isSel ? 'selected' : ''}" data-value="${esc(t)}" onclick="toggleTest(this)"><span class="check">${isSel ? '✓' : ''}</span>${esc(t)}</div>`;
   }).join('');
 }
 
+function getMultiOptionsHtml(options, selected) {
+  return options.map(v => {
+    const isSel = selected.includes(v);
+    return `<div class="test-multiselect-option ${isSel ? 'selected' : ''}" data-value="${esc(v)}" onclick="toggleTest(this)"><span class="check">${isSel ? '✓' : ''}</span>${esc(v)}</div>`;
+  }).join('');
+}
+function getPersonelOptionsHtml(selected) {
+  return getMultiOptionsHtml(DB.get('personel', []).map(p => p.ad).filter(v => v).sort(), selected);
+}
+function getAracOptionsHtml(selected) {
+  return getMultiOptionsHtml([...new Set(DB.get('araclar', []).map(a => a.model ? `${a.plaka} - ${a.model}` : a.plaka).filter(v => v))].sort(), selected);
+}
+function getCihazOptionsHtml(selected) {
+  return getMultiOptionsHtml([...new Set(DB.get('cihazlar', []).map(c => c.ad).filter(v => v))].sort(), selected);
+}
+function getMsKey(el) {
+  if (el.classList.contains('personel-multiselect')) return 'personel';
+  if (el.classList.contains('arac-multiselect')) return 'arac';
+  if (el.classList.contains('cihaz-multiselect')) return 'cihazlar';
+  return 'tests';
+}
+
 function toggleTestDropdown(btn) {
-  const ms = btn.closest('.test-multiselect');
-  document.querySelectorAll('.test-multiselect').forEach(m => { if (m !== ms) m.classList.remove('open'); });
+  const ms = btn.closest('.test-multiselect, .personel-multiselect, .arac-multiselect, .cihaz-multiselect');
+  document.querySelectorAll('.test-multiselect, .personel-multiselect, .arac-multiselect, .cihaz-multiselect').forEach(m => { if (m !== ms) m.classList.remove('open'); });
   ms.classList.toggle('open');
 }
 
-function toggleTest(option, testName) {
+function toggleTest(option) {
   option.classList.toggle('selected');
-  const ms = option.closest('.test-multiselect');
-  const selected = Array.from(ms.querySelectorAll('.test-multiselect-option.selected')).map(o => o.textContent.replace('✓', '').trim());
-  ms.dataset.tests = selected.join(',');
+  const ms = option.closest('.test-multiselect, .personel-multiselect, .arac-multiselect, .cihaz-multiselect');
+  const key = getMsKey(ms);
+  const selected = Array.from(ms.querySelectorAll('.test-multiselect-option.selected')).map(o => o.dataset.value);
+  ms.dataset[key] = selected.join(',');
   
   const tags = ms.querySelector('.test-tags');
   if (selected.length > 0) {
@@ -748,12 +844,12 @@ function toggleTest(option, testName) {
 }
 
 document.addEventListener('click', (e) => {
-  if (!e.target.closest('.test-multiselect')) {
-    document.querySelectorAll('.test-multiselect.open').forEach(m => m.classList.remove('open'));
+  if (!e.target.closest('.test-multiselect, .personel-multiselect, .arac-multiselect, .cihaz-multiselect')) {
+    document.querySelectorAll('.test-multiselect.open, .personel-multiselect.open, .arac-multiselect.open, .cihaz-multiselect.open').forEach(m => m.classList.remove('open'));
   }
 });
 
-function saveTasksFromTable() {
+function saveTasksFromTable(dateOverride) {
   const rows = document.querySelectorAll('#taskBody .grid-row');
   const tasks = [];
   rows.forEach((row) => {
@@ -767,22 +863,34 @@ function saveTasksFromTable() {
       yer: inputs[2] ? inputs[2].value : '',
       musteriAd: inputs[3] ? inputs[3].value : '',
       musteriTel: inputs[4] ? inputs[4].value : '',
-      aciklama: inputs[5] ? inputs[5].value : '',
-      cihazlar: inputs[6] ? inputs[6].value : '',
+      aciklama: '',
+      cihazlar: (() => { const cm = row.querySelector('.cihaz-multiselect'); return cm && cm.dataset.cihazlar ? cm.dataset.cihazlar : ''; })(),
       tests: tests,
-      notlar: inputs[7] ? inputs[7].value : ''
+      personel: (() => { const pm = row.querySelector('.personel-multiselect'); return pm && pm.dataset.personel ? pm.dataset.personel : ''; })(),
+      notlar: inputs[5] ? inputs[5].value : ''
     });
   });
-  
-  // Tarih bazlı kaydet (sadece seçili günün listesi güncellenir)
-  const date = document.getElementById('taskDate').value;
-  setTasksForDate(date, tasks);
+
+  // NOT: tarih geçişinde (D1→D2) input zaten D2'yi tutar; ekrandaki D1 tablosunu
+  // D1'ye kaydetmek için `dateOverride` kullanılır (aksi takdirde D2'ye yazılır).
+  const date = dateOverride || document.getElementById('taskDate').value;
+  // Tamamen boş satırları kaydetme (yalnızca dolu işler kalıcıdır)
+  const meaningful = tasks.filter(t =>
+    (t.firma || t.saat || t.yer || t.musteriAd || t.musteriTel || t.cihazlar || t.personel || t.notlar || (t.tests && t.tests.length))
+  );
+  setTasksForDate(date, meaningful);
 }
 
 // ==================== COMBOBOX (DATALIST) ====================
 function getDatalistHtml(listType, field, datalistId) {
-  const data = DB.get(listType === 'musteri' ? 'musteriler' : listType === 'cihaz' ? 'cihazlar' : 'personel', []);
-  const values = [...new Set(data.map(x => x[field]).filter(v => v))].sort();
+  let values;
+  if (listType === 'arac') {
+    // Araçlar: "PLAKA - MODEL" biçiminde listelenir
+    values = [...new Set(DB.get('araclar', []).map(a => a.model ? `${a.plaka} - ${a.model}` : a.plaka).filter(v => v))].sort();
+  } else {
+    const data = DB.get(listType === 'musteri' ? 'musteriler' : listType === 'cihaz' ? 'cihazlar' : 'personel', []);
+    values = [...new Set(data.map(x => x[field]).filter(v => v))].sort();
+  }
   let html = `<datalist id="${datalistId}">`;
   values.forEach(v => { html += `<option value="${esc(v)}">`; });
   html += `</datalist>`;
@@ -793,11 +901,10 @@ function renderTasks() {
   const tbody = document.getElementById('taskBody');
   tbody.innerHTML = '';
 
-  // Datalist'leri oluştur
+  // Datalist'leri oluştur (hâlâ datalist kullanan alanlar: firma, yer, yetkili)
   const firmaList = getDatalistHtml('musteri', 'ad', 'firmaList');
   const yerList = getDatalistHtml('musteri', 'adres', 'yerList');
   const yetkiliList = getDatalistHtml('musteri', 'yetkili', 'yetkiliList');
-  const cihazList = getDatalistHtml('cihaz', 'ad', 'cihazList');
 
   // Seçili günün kendi görev listesi (her gün bağımsızdır)
   const date = document.getElementById('taskDate').value;
@@ -805,7 +912,7 @@ function renderTasks() {
 
   if (tasksForDate.length === 0) {
     // Boş gün - tek boş satır göster (kaydedilmez; "Yeni Satır Ekle" ile kalıcı eklenir)
-    const emptyRow = { color: 'gray', firma: '', saat: '', yer: '', musteriAd: '', musteriTel: '', aciklama: '', cihazlar: '', rt: false, ut: false, mt: false, pt: false, notlar: '' };
+    const emptyRow = { color: 'gray', firma: '', saat: '', yer: '', musteriAd: '', musteriTel: '', arac: '', cihazlar: '', tests: [], personel: '', notlar: '' };
     tasksForDate = [emptyRow];
   }
 
@@ -816,14 +923,14 @@ function renderTasks() {
     row.innerHTML = `
       <div class="grid-cell"><span class="row-num">${i+1}</span></div>
       <div class="grid-cell grid-relative"><input type="text" value="${esc(t.firma)}" oninput="saveMainData()" list="firmaList" placeholder="Firma..."></div>
-      <div class="grid-cell"><input type="time" value="${esc(t.saat)}" oninput="saveMainData()"></div>
+      <div class="grid-cell"><input type="text" class="saat-input" inputmode="numeric" maxlength="5" placeholder="SS:DD" value="${esc(t.saat)}" oninput="formatSaat(this); saveMainData()"></div>
       <div class="grid-cell grid-relative"><input type="text" value="${esc(t.yer)}" oninput="saveMainData()" list="yerList" placeholder="Yer..."></div>
       <div class="grid-cell grid-relative"><input type="text" value="${esc(t.musteriAd)}" oninput="saveMainData()" list="yetkiliList" placeholder="Ad Soyad..."></div>
       <div class="grid-cell"><input type="text" value="${esc(t.musteriTel)}" oninput="saveMainData()" placeholder="Telefon..."></div>
-      <div class="grid-cell"><textarea class="notes-area" oninput="saveMainData()" placeholder="Açıklama..." rows="1">${esc(t.aciklama)}</textarea></div>
-      <div class="grid-cell grid-relative"><input type="text" value="${esc(t.cihazlar)}" oninput="saveMainData()" list="cihazList" placeholder="Cihaz..."></div>
+      <div class="grid-cell"><div class="cihaz-multiselect" data-cihazlar="${esc(t.cihazlar)}"><button type="button" class="test-multiselect-trigger" onclick="toggleTestDropdown(this)"><span class="test-tags">${t.cihazlar ? t.cihazlar.split(',').filter(c => c).map(c => `<span class="test-tag">${esc(c)}</span>`).join('') : '<span style="color:var(--text-muted);font-size:0.6875rem;">Seç...</span>'}</span><span class="arrow">▼</span></button><div class="test-multiselect-dropdown">${getCihazOptionsHtml(t.cihazlar ? t.cihazlar.split(',').filter(c => c) : [])}</div></div></div>
       <div class="grid-cell"><div class="test-multiselect" data-tests="${esc(t.tests ? t.tests.join(',') : '')}"><button type="button" class="test-multiselect-trigger" onclick="toggleTestDropdown(this)"><span class="test-tags">${(t.tests && t.tests.length > 0) ? t.tests.map(t => `<span class="test-tag">${esc(t)}</span>`).join('') : '<span style="color:var(--text-muted);font-size:0.6875rem;">Seç...'}</span></span><span class="arrow">▼</span></button><div class="test-multiselect-dropdown">${getTestOptionsHtml(t.tests || [])}</div></div></div>
-      <div class="grid-cell"><textarea class="notes-area" oninput="saveMainData()" placeholder="Notlar...">${esc(t.notlar)}</textarea></div>
+      <div class="grid-cell"><div class="personel-multiselect" data-personel="${esc(t.personel || '')}"><button type="button" class="test-multiselect-trigger" onclick="toggleTestDropdown(this)"><span class="test-tags">${t.personel ? t.personel.split(',').filter(p => p).map(p => `<span class="test-tag">${esc(p)}</span>`).join('') : '<span style="color:var(--text-muted);font-size:0.6875rem;">Seç...</span>'}</span><span class="arrow">▼</span></button><div class="test-multiselect-dropdown">${getPersonelOptionsHtml(t.personel ? t.personel.split(',').filter(p => p) : [])}</div></div></div>
+      <div class="grid-cell"><textarea class="notes-area" oninput="saveMainData(); autoGrow(this)" placeholder="Notlar...">${esc(t.notlar)}</textarea></div>
       <div class="grid-cell no-print">
         <div class="row-menu">
           <button type="button" class="row-menu-btn" onclick="toggleRowMenu(this)" title="İşlemler" aria-label="İşlemler" aria-haspopup="true" aria-expanded="false">⋮</button>
@@ -839,7 +946,7 @@ function renderTasks() {
   });
   
   // Datalist'leri body'ye ekle
-  const datalistsHtml = firmaList + yerList + yetkiliList + cihazList;
+  const datalistsHtml = firmaList + yerList + yetkiliList;
   let datalistContainer = document.getElementById('datalistContainer');
   if (!datalistContainer) {
     datalistContainer = document.createElement('div');
@@ -847,6 +954,9 @@ function renderTasks() {
     document.body.appendChild(datalistContainer);
   }
   datalistContainer.innerHTML = datalistsHtml;
+
+  // Kayıtlı uzun metinlerin satırı büyütmesi için yükleme sonrası otomatik genişlet
+  autoGrowAll();
 }
 
 // ==================== ROW KEBAB MENÜ ====================
@@ -876,6 +986,7 @@ document.addEventListener('keydown', (e) => {
 
 // ==================== GÖREV KOPYALAMA ====================
 function copyRow(btn) {
+  if (!requireAuth()) return;
   const tr = btn.closest('.grid-row');
   const idx = Array.from(tr.parentNode.children).indexOf(tr);
   const currentDate = document.getElementById('taskDate').value;
@@ -904,7 +1015,7 @@ function copyRow(btn) {
     </div>
   `;
   document.body.appendChild(modal);
-  document.querySelectorAll('.test-multiselect.open').forEach(m => m.classList.remove('open'));
+  document.querySelectorAll('.test-multiselect.open, .personel-multiselect.open, .arac-multiselect.open, .cihaz-multiselect.open').forEach(m => m.classList.remove('open'));
 }
 
 function closeCopyModal() {
@@ -913,6 +1024,7 @@ function closeCopyModal() {
 }
 
 function confirmCopy(sourceIdx) {
+  if (!requireAuth()) return;
   const targetDate = document.getElementById('copyTargetDate').value;
   if (!targetDate) { closeCopyModal(); return; }
 
@@ -937,14 +1049,16 @@ function confirmCopy(sourceIdx) {
 }
 
 function addRow() {
+  if (!requireAuth()) return;
   const date = document.getElementById('taskDate').value;
   const tasksForDate = getTasksForDate(date);
-  tasksForDate.push({ color: 'gray', firma: '', saat: '', yer: '', musteriAd: '', musteriTel: '', aciklama: '', cihazlar: '', rt: false, ut: false, mt: false, pt: false, notlar: '' });
+  tasksForDate.push({ color: 'gray', firma: '', saat: '', yer: '', musteriAd: '', musteriTel: '', arac: '', cihazlar: '', tests: [], personel: '', notlar: '' });
   setTasksForDate(date, tasksForDate);
   renderTasks();
 }
 
 function deleteRow(btn) {
+  if (!requireAuth()) return;
   const tr = btn.closest('.grid-row');
   const idx = Array.from(tr.parentNode.children).indexOf(tr);
   const date = document.getElementById('taskDate').value;
@@ -956,6 +1070,7 @@ function deleteRow(btn) {
 }
 
 function changeRowColor(btn) {
+  if (!requireAuth()) return;
   const tr = btn.closest('.grid-row');
   const colors = ['gray', 'green', 'blue', 'yellow'];
   const current = tr.dataset.color || 'gray';
@@ -1064,6 +1179,7 @@ function renderIzinliMain() {
 }
 
 function addIzinli() {
+  if (!requireAuth()) return;
   const sel = document.getElementById('izinliSelect');
   if (!sel.value) return;
   const date = getSelectedDate();
@@ -1077,6 +1193,7 @@ function addIzinli() {
 }
 
 function removeIzinli(i) {
+  if (!requireAuth()) return;
   const date = getSelectedDate();
   const izinli = getIzinliForDate(date);
   if (i < 0 || i >= izinli.length) return;
@@ -1087,6 +1204,50 @@ function removeIzinli(i) {
 }
 
 // ==================== AYARLAR CRUD ====================
+// Satır içi düzenleme durumu: {type:'musteri', index:2} gibi
+let settingsEdit = null;
+
+function editCell(type, i, field, value) {
+  return `<input type="text" class="edit-cell-input" id="edit-${type}-${i}-${field}" value="${esc(value)}">`;
+}
+function startEdit(type, i) { if (!requireAuth()) return; settingsEdit = { type, index: i }; renderAllSettings(); }
+function cancelEdit() { settingsEdit = null; renderAllSettings(); }
+function saveEdit() {
+  if (!requireAuth()) return;
+  const t = settingsEdit; if (!t) return;
+  const f = (field) => { const el = document.getElementById(`edit-${t.type}-${t.index}-${field}`); return el ? el.value.trim() : ''; };
+  if (t.type === 'musteri') {
+    if (!f('ad')) { alert('Firma adı boş olamaz!'); return; }
+    const l = DB.get('musteriler', []); l[t.index] = { ad: f('ad'), yetkili: f('yetkili'), telefon: f('telefon'), adres: f('adres') }; DB.set('musteriler', l);
+  } else if (t.type === 'personel') {
+    if (!f('ad')) { alert('Personel adı boş olamaz!'); return; }
+    const l = DB.get('personel', []); l[t.index] = { ad: f('ad'), gorev: f('gorev'), telefon: f('telefon') }; DB.set('personel', l); populateIzinliSelects();
+  } else if (t.type === 'cihaz') {
+    if (!f('ad')) { alert('Cihaz adı boş olamaz!'); return; }
+    const l = DB.get('cihazlar', []); l[t.index] = { ad: f('ad'), kod: f('kod'), durum: f('durum') }; DB.set('cihazlar', l);
+  } else if (t.type === 'arac') {
+    if (!f('plaka')) { alert('Plaka boş olamaz!'); return; }
+    const l = DB.get('araclar', []); l[t.index] = { plaka: f('plaka'), model: f('model'), surucu: f('surucu') }; DB.set('araclar', l);
+  } else if (t.type === 'kullanici') {
+    if (!f('user')) { alert('Kullanıcı adı boş olamaz!'); return; }
+    const l = DB.get('users', []);
+    if (l.some((x, j) => j !== t.index && x.user === f('user'))) { alert('Bu kullanıcı adı zaten kullanılıyor!'); return; }
+    l[t.index] = { user: f('user'), pass: f('pass') || l[t.index].pass }; DB.set('users', l);
+    if (l[t.index].user === currentUser) updateAuthUI();
+  } else if (t.type === 'test') {
+    if (!f('ad')) { alert('Test adı boş olamaz!'); return; }
+    const l = DB.get('testler', []); l[t.index] = f('ad'); DB.set('testler', l);
+  }
+  settingsEdit = null;
+  renderAllSettings();
+}
+function editActions(type, i) {
+  return `<button class="save-btn" onclick="saveEdit()">Kaydet</button><button class="del-btn" onclick="cancelEdit()">Vazgeç</button>`;
+}
+function editBtn(type, i) {
+  return `<button class="edit-btn" onclick="startEdit('${type}',${i})">Düzenle</button>`;
+}
+
 function renderAllSettings() {
   renderMusteri();
   renderPersonel();
@@ -1101,12 +1262,15 @@ function renderAllSettings() {
 // ==================== TEST YÖNETİMİ ====================
 function renderTestler() {
   const list = DB.get('testler', ['RT', 'UT', 'MT', 'PT']);
-  document.getElementById('testBody').innerHTML = list.map((t, i) =>
-    `<tr><td>${i+1}</td><td>${esc(t)}</td><td class="no-print"><button class="del-btn" onclick="delTest(${i})">Sil</button></td></tr>`
-  ).join('');
+  document.getElementById('testBody').innerHTML = list.map((t, i) => {
+    const isEdit = settingsEdit && settingsEdit.type === 'test' && settingsEdit.index === i;
+    return isEdit
+      ? `<tr><td>${i+1}</td><td>${editCell('test', i, 'ad', t)}</td><td class="no-print">${editActions()}</td></tr>`
+      : `<tr><td>${i+1}</td><td>${esc(t)}</td><td class="no-print">${editBtn('test', i)}<button class="del-btn" onclick="delTest(${i})">Sil</button></td></tr>`;
+  }).join('');
 }
 
-function addTest() {
+function addTest() { if (!requireAuth()) return;
   const ad = val('testAd');
   if (!ad) return;
   const list = DB.get('testler', []);
@@ -1118,7 +1282,7 @@ function addTest() {
   renderTestler();
 }
 
-function delTest(i) {
+function delTest(i) { if (!requireAuth()) return;
   const list = DB.get('testler', []);
   if (list.length <= 1) { alert('En az bir test olmalı!'); return; }
   list.splice(i, 1);
@@ -1128,26 +1292,32 @@ function delTest(i) {
 
 function renderMusteri() {
   const list = DB.get('musteriler', []);
-  document.getElementById('musteriBody').innerHTML = list.map((m, i) =>
-    `<tr><td>${i+1}</td><td>${esc(m.ad)}</td><td>${esc(m.yetkili)}</td><td>${esc(m.telefon)}</td><td>${esc(m.adres)}</td><td class="no-print"><button class="del-btn" onclick="delMusteri(${i})">Sil</button></td></tr>`
-  ).join('');
+  document.getElementById('musteriBody').innerHTML = list.map((m, i) => {
+    const isEdit = settingsEdit && settingsEdit.type === 'musteri' && settingsEdit.index === i;
+    return isEdit
+      ? `<tr><td>${i+1}</td><td>${editCell('musteri', i, 'ad', m.ad)}</td><td>${editCell('musteri', i, 'yetkili', m.yetkili)}</td><td>${editCell('musteri', i, 'telefon', m.telefon)}</td><td>${editCell('musteri', i, 'adres', m.adres)}</td><td class="no-print">${editActions()}</td></tr>`
+      : `<tr><td>${i+1}</td><td>${esc(m.ad)}</td><td>${esc(m.yetkili)}</td><td>${esc(m.telefon)}</td><td>${esc(m.adres)}</td><td class="no-print">${editBtn('musteri', i)}<button class="del-btn" onclick="delMusteri(${i})">Sil</button></td></tr>`;
+  }).join('');
 }
-function addMusteri() {
+function addMusteri() { if (!requireAuth()) return;
   const list = DB.get('musteriler', []);
   list.push({ ad: val('musteriAd'), yetkili: val('musteriYetkili'), telefon: val('musteriTelefon'), adres: val('musteriAdres') });
   DB.set('musteriler', list);
   ['musteriAd','musteriYetkili','musteriTelefon','musteriAdres'].forEach(id => document.getElementById(id).value = '');
   renderMusteri();
 }
-function delMusteri(i) { const l = DB.get('musteriler',[]); l.splice(i,1); DB.set('musteriler',l); renderMusteri(); }
+function delMusteri(i) { if (!requireAuth()) return; const l = DB.get('musteriler',[]); l.splice(i,1); DB.set('musteriler',l); renderMusteri(); }
 
 function renderPersonel() {
   const list = DB.get('personel', []);
-  document.getElementById('personelBody').innerHTML = list.map((p, i) =>
-    `<tr><td>${i+1}</td><td>${esc(p.ad)}</td><td>${esc(p.gorev)}</td><td>${esc(p.telefon)}</td><td class="no-print"><button class="del-btn" onclick="delPersonel(${i})">Sil</button></td></tr>`
-  ).join('');
+  document.getElementById('personelBody').innerHTML = list.map((p, i) => {
+    const isEdit = settingsEdit && settingsEdit.type === 'personel' && settingsEdit.index === i;
+    return isEdit
+      ? `<tr><td>${i+1}</td><td>${editCell('personel', i, 'ad', p.ad)}</td><td>${editCell('personel', i, 'gorev', p.gorev)}</td><td>${editCell('personel', i, 'telefon', p.telefon)}</td><td class="no-print">${editActions()}</td></tr>`
+      : `<tr><td>${i+1}</td><td>${esc(p.ad)}</td><td>${esc(p.gorev)}</td><td>${esc(p.telefon)}</td><td class="no-print">${editBtn('personel', i)}<button class="del-btn" onclick="delPersonel(${i})">Sil</button></td></tr>`;
+  }).join('');
 }
-function addPersonel() {
+function addPersonel() { if (!requireAuth()) return;
   const list = DB.get('personel', []);
   list.push({ ad: val('personelAd'), gorev: val('personelGorev'), telefon: val('personelTelefon') });
   DB.set('personel', list);
@@ -1155,37 +1325,43 @@ function addPersonel() {
   renderPersonel();
   populateIzinliSelects();
 }
-function delPersonel(i) { const l = DB.get('personel',[]); l.splice(i,1); DB.set('personel',l); renderPersonel(); populateIzinliSelects(); }
+function delPersonel(i) { if (!requireAuth()) return; const l = DB.get('personel',[]); l.splice(i,1); DB.set('personel',l); renderPersonel(); populateIzinliSelects(); }
 
 function renderCihaz() {
   const list = DB.get('cihazlar', []);
-  document.getElementById('cihazBody').innerHTML = list.map((c, i) =>
-    `<tr><td>${i+1}</td><td>${esc(c.ad)}</td><td>${esc(c.kod)}</td><td>${esc(c.durum)}</td><td class="no-print"><button class="del-btn" onclick="delCihaz(${i})">Sil</button></td></tr>`
-  ).join('');
+  document.getElementById('cihazBody').innerHTML = list.map((c, i) => {
+    const isEdit = settingsEdit && settingsEdit.type === 'cihaz' && settingsEdit.index === i;
+    return isEdit
+      ? `<tr><td>${i+1}</td><td>${editCell('cihaz', i, 'ad', c.ad)}</td><td>${editCell('cihaz', i, 'kod', c.kod)}</td><td>${editCell('cihaz', i, 'durum', c.durum)}</td><td class="no-print">${editActions()}</td></tr>`
+      : `<tr><td>${i+1}</td><td>${esc(c.ad)}</td><td>${esc(c.kod)}</td><td>${esc(c.durum)}</td><td class="no-print">${editBtn('cihaz', i)}<button class="del-btn" onclick="delCihaz(${i})">Sil</button></td></tr>`;
+  }).join('');
 }
-function addCihaz() {
+function addCihaz() { if (!requireAuth()) return;
   const list = DB.get('cihazlar', []);
   list.push({ ad: val('cihazAd'), kod: val('cihazKod'), durum: val('cihazDurum') });
   DB.set('cihazlar', list);
   ['cihazAd','cihazKod','cihazDurum'].forEach(id => document.getElementById(id).value = '');
   renderCihaz();
 }
-function delCihaz(i) { const l = DB.get('cihazlar',[]); l.splice(i,1); DB.set('cihazlar',l); renderCihaz(); }
+function delCihaz(i) { if (!requireAuth()) return; const l = DB.get('cihazlar',[]); l.splice(i,1); DB.set('cihazlar',l); renderCihaz(); }
 
 function renderArac() {
   const list = DB.get('araclar', []);
-  document.getElementById('aracBody').innerHTML = list.map((a, i) =>
-    `<tr><td>${i+1}</td><td>${esc(a.plaka)}</td><td>${esc(a.model)}</td><td>${esc(a.surucu)}</td><td class="no-print"><button class="del-btn" onclick="delArac(${i})">Sil</button></td></tr>`
-  ).join('');
+  document.getElementById('aracBody').innerHTML = list.map((a, i) => {
+    const isEdit = settingsEdit && settingsEdit.type === 'arac' && settingsEdit.index === i;
+    return isEdit
+      ? `<tr><td>${i+1}</td><td>${editCell('arac', i, 'plaka', a.plaka)}</td><td>${editCell('arac', i, 'model', a.model)}</td><td>${editCell('arac', i, 'surucu', a.surucu)}</td><td class="no-print">${editActions()}</td></tr>`
+      : `<tr><td>${i+1}</td><td>${esc(a.plaka)}</td><td>${esc(a.model)}</td><td>${esc(a.surucu)}</td><td class="no-print">${editBtn('arac', i)}<button class="del-btn" onclick="delArac(${i})">Sil</button></td></tr>`;
+  }).join('');
 }
-function addArac() {
+function addArac() { if (!requireAuth()) return;
   const list = DB.get('araclar', []);
   list.push({ plaka: val('aracPlaka'), model: val('aracModel'), surucu: val('aracSurucu') });
   DB.set('araclar', list);
   ['aracPlaka','aracModel','aracSurucu'].forEach(id => document.getElementById(id).value = '');
   renderArac();
 }
-function delArac(i) { const l = DB.get('araclar',[]); l.splice(i,1); DB.set('araclar',l); renderArac(); }
+function delArac(i) { if (!requireAuth()) return; const l = DB.get('araclar',[]); l.splice(i,1); DB.set('araclar',l); renderArac(); }
 
 function populateIzinliSelects() {
   const personel = DB.get('personel', []);
@@ -1205,6 +1381,7 @@ function renderIzinliSettings() {
 }
 
 function addIzinliFromSettings() {
+  if (!requireAuth()) return;
   const sel = document.getElementById('izinliPersonelSelect');
   if (!sel.value) return;
   const date = getSelectedDate();
@@ -1219,11 +1396,14 @@ function addIzinliFromSettings() {
 
 function renderKullanici() {
   const list = DB.get('users', []);
-  document.getElementById('kullaniciBody').innerHTML = list.map((u, i) =>
-    `<tr><td>${i+1}</td><td>${esc(u.user)}</td><td class="no-print"><button class="del-btn" onclick="delKullanici(${i})">Sil</button></td></tr>`
-  ).join('');
+  document.getElementById('kullaniciBody').innerHTML = list.map((u, i) => {
+    const isEdit = settingsEdit && settingsEdit.type === 'kullanici' && settingsEdit.index === i;
+    return isEdit
+      ? `<tr><td>${i+1}</td><td>${editCell('kullanici', i, 'user', u.user)}</td><td>${editCell('kullanici', i, 'pass', '')}</td><td class="no-print">${editActions()}</td></tr>`
+      : `<tr><td>${i+1}</td><td>${esc(u.user)}</td><td>••••</td><td class="no-print">${editBtn('kullanici', i)}<button class="del-btn" onclick="delKullanici(${i})">Sil</button></td></tr>`;
+  }).join('');
 }
-function addKullanici() {
+function addKullanici() { if (!requireAuth()) return;
   const list = DB.get('users', []);
   const user = val('kullaniciAd');
   const pass = val('kullaniciSifre');
@@ -1235,7 +1415,7 @@ function addKullanici() {
   document.getElementById('kullaniciSifre').value = '';
   renderKullanici();
 }
-function delKullanici(i) {
+function delKullanici(i) { if (!requireAuth()) return;
   const list = DB.get('users', []);
   if (list[i].user === currentUser) { alert('Aktif kullanıcıyı silemezsiniz!'); return; }
   list.splice(i, 1);
