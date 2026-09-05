@@ -77,10 +77,15 @@ Is_Plani/
 **Ana Tablo:**
 - `initDate()` - Tarih başlat
 - `saveMainData()` - Tarih + görevleri kaydet
+- `saveTasksFromTable()` - Tabloyu localStorage'a yaz
 - `renderTasks()` - Görevleri tabloya yaz
 - `addRow()` - Yeni satır ekle
 - `deleteRow(btn)` - Satır sil
 - `changeRowColor(btn)` - Satır rengi değiştir
+
+**Görevler (tarih bazlı):**
+- `getTasksForDate(date)` - Belirli bir tarihe ait görev listesi; eski global dizi kalıntısı gelirse tarihe bağlayıp tarih bazlı yapıya çevirir
+- `setTasksForDate(date, list)` - Belirli bir tarihe görev listesi yazar
 
 **Otomatik Tamamlama:**
 - `showAutocomplete(input, listType, field)` - Autocomplete göster
@@ -136,10 +141,7 @@ Is_Plani/
   musteriTel: string,
   aciklama: string,
   cihazlar: string,
-  rt: boolean,
-  ut: boolean,
-  mt: boolean,
-  pt: boolean,
+  tests: string[],   // örn: ["RT","UT","MT","PT"]
   notlar: string
 }
 ```
@@ -152,32 +154,44 @@ Is_Plani/
 
 ```css
 :root {
-  --primary: #2563eb;
-  --primary-light: #e0e7ff;
-  --danger: #dc2626;
-  --danger-light: #fee2e2;
+  --primary: #e40a20;
+  --primary-hover: #b80019;
+  --primary-light: #ffe5e5;
+  --primary-bg: #ffebee;
+  --danger: #b91c1c;
+  --danger-hover: #991b1b;
+  --danger-light: #fef2f2;
   --danger-border: #fecaca;
-  --success: #10b981;
-  --warning: #f59e0b;
-  --bg: #f8fafc;
+  --success: #1a8b49;
+  --success-hover: #166f3b;
+  --success-light: #dcf2e0;
+  --warning: #f7c51e;
+  --warning-hover: #d9a00;
+  --warning-light: #fef9e6;
+  --bg: #f5f5f5;
   --surface: #ffffff;
-  --text: #0f172a;
-  --text-light: #1e293b;
-  --text-muted: #64748b;
-  --border: #e2e8f0;
-  --nav-link: #cbd5e1;
-  --row-green: #dcfce7;
-  --row-blue: #dbeafe;
-  --row-gray: #f8fafc;
-  --row-yellow: #fef3c7;
-  --row-hover: #f1f5f9;
-  --izinli-bg: #fef3c7;
-  --izinli-border: #fde68a;
-  --izinli-title: #92400e;
-  --izinli-tag-bg: #fbbf24;
-  --izinli-tag-text: #78350f;
-  --date-bg-start: #eff6ff;
-  --date-bg-end: #dbeafe;
+  --surface-hover: #efefef;
+  --text: #222222;
+  --text-light: #333333;
+  --text-muted: #595959;
+  --text-subtle: #888888;
+  --border: #e0e0e0;
+  --border-light: #eeeeee;
+  --border-dark: #d4d4d4;
+  --nav-bg: #18191b;
+  --nav-text: #f1f1f1;
+  --nav-link: #cccccc;
+  --row-green: #dcf2e0;
+  --row-blue: #e0e7ff;
+  --row-gray: #fafafa;
+  --row-yellow: #fef9e6;
+  --row-hover: #eeeeee;
+  --izinli-bg: #fff1f1;
+  --izinli-border: #e40a20;
+  --izinli-title: #b91c1c;
+  --izinli-tag-bg: #e40a20;
+  --izinli-tag-text: #ffffff;
+  --date-bg: linear-gradient(135deg, #ffe5e5, #ffebee);
 }
 ```
 
@@ -195,7 +209,7 @@ Is_Plani/
 - Şirket bilgileri + doküman meta verileri
 
 **Tarih Barı (`.date-bar`)**
-- Mavi gradient arka plan
+- Kırmızı tonlu gradient arka plan
 - Tarih input + gün adı pill badge
 - Border-radius: 12px
 
@@ -478,7 +492,7 @@ open Anasayfa.html
 - **Davranış değişikliği:** Boş günde varsayılan boş satır artık **veriye kaydedilmiyor**; yalnızca ekranda tek boş satır gösteriliyor. Kalıcı satır "Yeni Satır Ekle" ile eklenir. Böylece boş bir güne bakıldığında `eka_tasks` içine gereksiz kayıt yazılmaz.
 - Doğrulama: Node simülasyonu ile iki farklı günün listesinin bağımsız olduğu ve bir günü sildiğinde diğer günün etkilenmediği teyit edildi.
 
-### v4.5 - 2026-09-05 (EKA marka renk paleti - ekandt.com.tr)
+### v4.6 - 2026-09-05 (EKA marka renk paleti - ekandt.com.tr)
 - Palet `https://www.ekandt.com.tr` sitesinden alındı (color.css `red.css` ile `--primary` #e40a20 marka kırmızısı; site gri/yişil/sarı tonları).
 - `:root` değişken değerleri yenilendi (`Anasayfa.html` `<style>`):
   - `--primary` = `#e40a20`, `--primary-hover` = `#b80019`, `--primary-light` = `#ffe5e5`, `--primary-bg` = `#ffebee`
@@ -558,5 +572,5 @@ open Anasayfa.html
 ---
 
 **Dokümantasyon Son Güncelleme:** 2026-09-05
-**Uygulama Versiyon:** 4.5
+**Uygulama Versiyon:** 4.6
 **Toplam Kod:** ~1245 satır (HTML + CSS + JS)
