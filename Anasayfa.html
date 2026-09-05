@@ -917,11 +917,13 @@ function closeAllMsDropdowns() {
 }
 
 function toggleTest(option) {
-  const dd = option.closest('.test-multiselect-dropdown');
-  const ms = (dd && dd._ownerMs) || option.closest('.test-multiselect, .personel-multiselect, .arac-multiselect, .cihaz-multiselect');
+  const dd = option.closest('.test-multiselect-dropdown') || option.closest('.test-multiselect, .personel-multiselect, .arac-multiselect, .cihaz-multiselect').querySelector('.test-multiselect-dropdown');
+  const ms = dd && dd._ownerMs;
+  if (!ms) return;
   option.classList.toggle('selected');
   const key = getMsKey(ms);
-  const selected = Array.from(ms.querySelectorAll('.test-multiselect-option.selected')).map(o => o.dataset.value);
+  const drop = dd;
+  const selected = Array.from(drop.querySelectorAll('.test-multiselect-option.selected')).map(o => o.dataset.value);
   ms.dataset[key] = selected.join(',');
   
   const tags = ms.querySelector('.test-tags');

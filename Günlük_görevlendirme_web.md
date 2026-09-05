@@ -395,6 +395,7 @@ open Anasayfa.html
 - `eka_tasks` veri yapısına `arac` alanı eklendi (string, virgülle ayrılmış)
 - `renderTasks`, `saveTasksFromTable`, "anlamlı satır" filtresi `arac` ile güncellendi
 - Sıralama: NO | Firma | Saat | Adres | Yetkili | Tel | Cihazlar | Testler | Personel | **ARAÇ** | Notlar | İşlem
+- **v5.0.1 bug fix:** Dropdown portal yönteminde seçilen öğeler satıra eklenmiyordu — seçili liste `ms` yerine taşınmış `body` üzerindeki dropdown'tan (`dd`) toplanacak şekilde düzeltildi
 - Modern dashboard UI (Inter Font, CSS değişkenleri)
 - 27 CSS değişkeni ile tema sistemi
 - Emoji ikonlar → SVG ikonlar (20+ ikon)
