@@ -86,10 +86,13 @@ Is_Plani/
 - `showAutocomplete(input, listType, field)` - Autocomplete göster
 - `removeAutocomplete()` - Autocomplete kaldır
 
-**İzinli Personel:**
+**İzinli Personel (tarih bazlı):**
+- `getSelectedDate()` - Aktif/seçili tarihi döndürür
+- `getIzinliForDate(date)` - Belirli bir tarihe ait izinli listesi
+- `setIzinliForDate(date, list)` - Belirli bir tarihe izinli listesi yazar
 - `renderIzinliMain()` - Ana sayfa izinli listesi
 - `addIzinli()` - İzinli ekle (ana sayfa)
-- `removeIzinli(i)` - İzinli kaldır
+- `removeIzinli(i)` - İzinli kaldır (seçili tarih)
 
 **Ayarlar CRUD:**
 - `renderAllSettings()` - Tüm ayarları render et
@@ -117,7 +120,7 @@ Is_Plani/
 | `eka_personel` | `[{ad, gorev, telefon}]` | Personel listesi |
 | `eka_cihazlar` | `[{ad, kod, durum}]` | Cihaz listesi |
 | `eka_araclar` | `[{plaka, model, surucu}]` | Araç listesi |
-| `eka_izinli` | `[string]` | İzinli personel adları |
+| `eka_izinli` | `{date: [string]}` | Tarihe göre izinli personel adları |
 | `eka_tasks` | `[task]` | Günlük görevler |
 | `eka_taskDate` | `string (YYYY-MM-DD)` | Seçili tarih |
 
@@ -376,6 +379,125 @@ open Anasayfa.html
 - `find-skills` (vercel-labs) skill kuruldu
 - `.clinerules` verimlilik kurallarıyla güncellendi
 
+### v3.1 - 2026-09-04
+- **CSS Grid Dönüşümü:** `<table>` yapısı tamamen CSS Grid'e çevrildi
+  - `.task-grid` container (display: grid, 11 sütun)
+  - `.grid-header` (display: contents, sticky başlıklar)
+  - `.grid-row` (display: contents, satırlar)
+  - `.grid-cell` (esnek hücreler)
+  - `grid-template-columns: 40px 1fr 60px 1fr 1fr 90px 1fr 1fr 130px 1fr 80px`
+- Tüm JavaScript fonksiyonları güncellendi:
+  - `renderTasks()` → div.grid-row oluşturma
+  - `saveTasksFromTable()` → .grid-row seçicileri
+  - `deleteRow()`, `changeRowColor()`, `copyRow()` → .grid-row seçicileri
+  - `showAutocomplete()` → .grid-row seçicileri
+- Medya sorguları güncellendi (.task-table → .grid-cell)
+- `changeRowColor()` bug fix: `grid-row` class'ı korunuyor
+- Kopyala butonu eklendi (İşlem sütununda)
+
+### v3.2 - 2026-09-04 (UX/UI Düzeltmeleri)
+- **Grid Yapısı Kararlı Hale Getirildi:** `display: contents` kaldırıldı
+  - `.grid-header` ve her `.grid-row` ayrı `display: grid` (paylaşılan sütun şablonu)
+  - Sticky başlık güvenilir çalışıyor (transform edilen stacking sorunu giderildi)
+- **Satır Taşması Çözüldü:** `.table-wrapper` eklendi
+  - `overflow-x: auto` ile yatay kaydırma
+  - Sabit genişlik yerine `min-width: 1360px` (küçük ekranlarda yatay scroll)
+  - `grid-template-columns`: `45px 190px 70px 150px 150px 100px 190px 120px 140px 150px 95px`
+- **Menü/Dropdown Sorunu Çözüldü (alt sütuna kayması):**
+  - Test multi-select dropdown z-index: 200 → 9999
+  - Auto-complete list z-index: 100 → 9999
+  - Modal overlay z-index: 1000 → 10000
+  - Dropdown açıkken üstte kalması için `.test-multiselect.open { z-index: 9999 }`
+- **Hücre Yerleşimi:** `.grid-cell` artık `display: flex` (dikey ortalama), kenarlıklar düzeltildi
+- **Print Stili:** Yazdırmada yatay scroll kaldırıldı, esnekli 1fr kolonlar, header düz
+- **Görsel Geri Bildirim (Feedback):**
+  - Hover'da satır vurgulama
+  - Buton hover'da scale + renk, active durumda scale küçülme
+  - Input hover/focus odak durumları
+- **Erişilebilir Dokunma Alanı:** `.row-actions` butonları radius 8px, hover renkleri
+
+### v3.3 - 2026-09-04 (Kompakt Satır + Tam Ekran Sığdırma)
+- **Kolonlar esnek yapıldı (ekrana tam sığar):**
+  - `min-width: 1360px` kaldırıldı, `.task-grid { width: 100% }`
+  - `grid-template-columns: 38px 1.3fr 60px 1fr 1fr 78px 1.5fr 1fr 120px 1.1fr 66px`
+  - Sabit (İş No, Saat, Tel, Testler, İşlem) + esnek `fr` kolonlar (Firma, Yer, Ad, Açıklama, Cihaz, Notlar)
+  - Yatay scroll kaldırıldı; tablo artık görünür genişliğe tam yayılıyor
+- **Satır aralıkları kompaktlaştırıldı:**
+  - Hücre padding: `var(--space-sm)` → `2px 4px` (mobilde `1px 3px`)
+  - Input padding: `3px 6px`, trigger `min-height` 1.6rem
+  - `space-sm` → kompakt bootstrap'lar
+- **Yazı uzadıkça aşağı genişler:**
+  - `grid-cell` `align-items: stretch` + input'lar `align-self: center`
+  - Açıklama alanı `text` input → `textarea` (rows=1) çevrildi, çok satır destekleniyor
+  - Notlar textarea `height:auto` + `overflow:hidden` (kontenjana göre büyür)
+  - Test etiketleri `flex-wrap: wrap` (çok test seçilince alt satıra sarar, satır büyür)
+  - `.test-multiselect-trigger` `flex-wrap: wrap`
+
+### v4.0 - 2026-09-04 (Tarih Bazlı İzinli Personel + Silme Düzeltmesi)
+- **İzinli personel artık tarih bazlı:** `eka_izinli` array → `{date: [ad, ...]}` obje
+  - Eski genel liste otomatik mevcut tarihe taşınıyor (migration)
+- **Yeni yardımcı fonksiyonlar:** `getSelectedDate()`, `getIzinliForDate(date)`, `setIzinliForDate(date, list)`
+- **Silme düzeltmesi:** `removeIzinli(i)` artık seçili günün listesinden kaldırıyor
+  - Geçersiz index koruması (`i < 0 || i >= length` dönüş)
+  - Ana sayfadaki ✕ ikonu giriş durumundan bağımsız gösteriliyor (eskiden yalnızca girişli kullanıcıda görünüyordu)
+  - ✕ ikonuna `title`, `role=button`, `aria-label` erişilebilirlik etiketleri
+- **Tarih değişim entegrasyonu:**
+  - `saveMainData()` tarih değiştiğinde `renderIzinliMain()` ile o günün izinlilerini yüklüyor
+  - `showPage('main')` dönüşünde de yenileniyor
+- `addIzinli`, `addIzinliFromSettings`, `renderIzinliSettings` fonksiyonları tarih bazlı güncellendi
+
+### v4.1 - 2026-09-04 (Nesne / Satır Hizalama Düzeltmesi)
+- **Kök neden:** `.grid-cell` `align-items: stretch` kullanıyordu → girdi elemanları hücreye göre geriliyor, hücreler farklı yükseklikte olduğundan elemanlar farklı boyutta görünüyordu
+- `.grid-cell` artık `align-items: center` (dikey ortalama, taşma yok)
+- **Ortak eleman yüksekliği (32px):** text/time/select input → `height: 32px`
+- **Esnek elemanlar (`min-height:32px`):** textarea ve test-trigger (`height:auto`) içerik uzadıkça aşağı büyür — önceki istekle uyumlu
+- `.row-num` ve `row-actions button` 28px'e sabitlendi (satır hiz ilişkisi)
+- textarea `padding-top:6px` + `max-height:200px` + `overflow:hidden`
+- Tüm öğeler `box-sizing: border-box`, `.notes-area` `min-height: 32px`
+
+### v4.2 - 2026-09-04 (İşlem sütununda tek ⋮ menü)
+- İşlem sütununda 3 ayrı simge (renk/kopyala/sil) kaldırıldı; yerine **tek dikey ⋮ (kebab) butonu** kondu
+- Butona tıklanınca **aşağı açılan menü** görüntüleniyor:
+  - Renk değiştir, Kopyala, Sil
+- **Yapı:** `.row-menu` (relative) + `.row-menu-btn` (⋮) + `.row-menu-dropdown` (absolute, right:0, z-index:9999)
+- **Kapanma davranışları:**
+  - Dışa tıklayınca `closeMenus()`
+  - `Escape` tuşu ile kapanır
+  - Başka bir menü açılınca önceki kapanır (`aria-expanded` güncellenir)
+- Aynı anda yalnızca bir menü açık kalabilir
+- Print'te `.row-menu` gizleniyor (`no-print` + print kuralı)
+- Mevcut `changeRowColor`, `copyRow`, `deleteRow` fonksiyonları `.grid-row` buldukları için aynen çalışıyor
+
+### v4.5 - 2026-09-05 (İşler izinlerin mantığıyla: her gün tamamen bağımsız)
+- **Talep:** "İzinler sadece kaydedildiği gün çıkıyor ama işler tüm günlerde aynı görünüyor; işlerin mantığı izinler gibi olsun."
+- **Yeni yardımcılar (izin helper'larıyla birebir aynı pattern):**
+  - `getTasksForDate(date)` - sadece o güne ait görev listesini döner; eski global dizi kalıntısı gelirse onu ilk erişimde o tarihe bağlayıp tarih bazlı yapıya çevirir
+  - `setTasksForDate(date, list)` - sadece o güne ait listeyi yazar
+- Eski kod veri yapısına göre defalarca `if (Array.isArray(allTasks))` dallandırıyordu; tüm iş okuma/yazma noktaları bu helper'lara indirgendi:
+  - `saveTasksFromTable()`, `renderTasks()`, `addRow()`, `deleteRow()`, `copyRow()`, `confirmCopy()`
+- **Davranış değişikliği:** Boş günde varsayılan boş satır artık **veriye kaydedilmiyor**; yalnızca ekranda tek boş satır gösteriliyor. Kalıcı satır "Yeni Satır Ekle" ile eklenir. Böylece boş bir güne bakıldığında `eka_tasks` içine gereksiz kayıt yazılmaz.
+- Doğrulama: Node simülasyonu ile iki farklı günün listesinin bağımsız olduğu ve bir günü sildiğinde diğer günün etkilenmediği teyit edildi.
+
+### v4.4 - 2026-09-05 (Her gün ayrı sayfa garantisi / veri tamiri)
+- **Teşhis:** "Tüm günlerde aynı tablo görünüyor / bir satır silinince her yerde siliniyor" sorununun kök nedeni backend değil; tarayıcının uygulamanın **eski (global tek dizi)** sürümünü önbellekten çalıştırmasıydı. LocalStorage tarih bazlı mimariyi zaten destekliyor; Node simülasyonu ile de doğrulandı (D1'in D2'den silme işlemi etkilenmediği görüldü).
+- **Önbellek önleme:** `<head>`'e `Cache-Control: no-cache, no-store, must-revalidate`, `Pragma: no-cache`, `Expires: 0` meta etiketleri eklendi (tarayıcı artık eski dosyayı kullanmayacak).
+- **`normalizeInitialData()` yeni fonksiyon eklendi (açılışta çalışır):**
+  - Eski global `eka_tasks` dizisini tarih bazlı `{date: [task]}` yapıya taşır (mevcut tarihe bağlar).
+  - Tarih bazlı yapıdaki **her günün dizisini derin kopyalar** → iki günün aynı diziye referans vermesi (paylaşılan dizi) imkânsız hale gelir.
+  - Eski global `eka_izinli` dizisini tarih bazlı yapıya taşır.
+- **`eka_modelVersion = '3.1'`** anahtarı eklendi (yeni sürümün yüklendiğini doğrulamak için).
+- **Kullanıcıya not:** Sorun devam ediyorsa `Ctrl+Shift+R` (F5) ile sayfayı tam yenileyin; düzelmezse tarayıcının site verilerini temizleyin.
+
+### v4.3 - 2026-09-04 (Kompakt Sütunlar + Tutarlı Sayfa Hizalaması)
+- **Sütun genişlikleri daraltıldı** (tablo artık sayfaya sığıyor):
+  - `38px 1.3fr 60px 1fr 1fr 78px 1.5fr 1fr 120px 1.1fr 66px` → `32px 1fr 55px 1fr 1fr 72px 1.4fr 1fr 108px 1fr 60px`
+  - Sabit sütunlar ~362px → ~317px (İş No 32, Saat 55, Tel 72, Testler 108, İşlem 60)
+- **Yatay hizalama tutarlılığı giderildi (farklı noktada bitme sorunu):**
+  - Sorun: `.table-wrapper` yatay margin 0 (tam genişlik), `.date-bar`/`.izinli-box` 1.5rem → tablo diğerlerinden daha geniş, farklı kenarda bitiyordu
+  - Çözüm: `.table-wrapper { margin: var(--space-lg) var(--space-xl) }` → artık date-bar ve izinli-box ile **aynı 1.5rem yatay hizada** başlıyor/bitiyor
+  - Mobilde (768px) tablo da `0.75rem 1rem` ile diğer bölümlerle aynı hizada
+  - Print'te `margin: 0 !important` (yazdırma temiz)
+
 ### v3.0 - 2026-09-04
 - **ADIM 1:** Tarih bazlı veri mimarisi (localStorage obje yapısı)
 - Migration sistemi (eski veriler otomatik taşındı)
@@ -423,6 +545,6 @@ open Anasayfa.html
 
 ---
 
-**Dokümantasyon Son Güncelleme:** 2026-09-04
-**Uygulama Versiyon:** 3.0
-**Toplam Kod:** ~1228 satır (HTML + CSS + JS)
+**Dokümantasyon Son Güncelleme:** 2026-09-05
+**Uygulama Versiyon:** 4.5
+**Toplam Kod:** ~1245 satır (HTML + CSS + JS)

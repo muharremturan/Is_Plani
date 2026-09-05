@@ -3,6 +3,10 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<!-- Tarayıcının eski/bölgesel önbelleğiyle çalışmaması için -->
+<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+<meta http-equiv="Pragma" content="no-cache">
+<meta http-equiv="Expires" content="0">
 <title>EKA NDT - Günlük Görevlendirme Planı</title>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
 <style>
@@ -128,41 +132,40 @@
   .date-bar input[type="date"]:focus { outline: none; border-color: var(--primary); box-shadow: 0 0 0 3px rgba(59,130,246,0.15); }
   .date-bar #dayName { background: var(--primary); color: var(--surface); padding: var(--space-xs) var(--space-md); border-radius: var(--radius-full); font-size: 0.75rem; font-weight: 600; }
 
-  .task-table { width: 100%; border-collapse: separate; border-spacing: 0; table-layout: fixed; }
-  .task-table th { background: var(--text); color: var(--surface); padding: var(--space-md) var(--space-sm); font-size: 0.6875rem; font-weight: 600; text-align: center; text-transform: uppercase; letter-spacing: 0.03em; position: sticky; top: 0; z-index: 10; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-  .task-table th:first-child { border-radius: var(--radius-lg) 0 0 0; }
-  .task-table th:last-child { border-radius: 0 var(--radius-lg) 0 0; }
-  .task-table th.sub-header { background: var(--text-light); font-size: 0.625rem; }
-  .task-table th.col-no { width: 40px; }
-  .task-table th.col-firma { width: 12%; }
-  .task-table th.col-saat { width: 60px; }
-  .task-table th.col-yer { width: 10%; }
-  .task-table th.col-ad { width: 12%; }
-  .task-table th.col-tel { width: 90px; }
-  .task-table th.col-aciklama { width: 14%; }
-  .task-table th.col-cihaz { width: 10%; }
-  .task-table th.col-test { width: 70px; }
-  .task-table th.col-not { width: 12%; }
-  .task-table th.col-islem { width: 80px; }
-  .task-table td { border-bottom: 1px solid var(--border); border-top: none; padding: var(--space-sm); text-align: center; vertical-align: middle; overflow: hidden; }
-  .task-table td input, .task-table td select, .task-table td textarea { width: 100%; border: 1px solid transparent; background: transparent; padding: var(--space-xs) var(--space-sm); font-size: 0.8125rem; font-family: var(--font-sans); border-radius: var(--radius-md); color: var(--text); }
-  .task-table td input:focus, .task-table td select:focus, .task-table td textarea:focus { border-color: var(--primary); background: var(--surface); outline: none; box-shadow: 0 0 0 3px rgba(59,130,246,0.1); }
-  .task-table td .row-num { font-weight: 700; color: var(--text); }
+  /* CSS Grid Task Table - Compact, fits viewport */
+  .table-wrapper { overflow-x: auto; position: relative; border-radius: var(--radius-lg); border: 1px solid var(--border); background: var(--surface); margin: var(--space-lg) var(--space-xl); }
+  .task-grid { display: block; width: 100%; }
+  
+  /* Shared column template - compact, aligns with siblings (1.5rem margin) */
+  .grid-header, .grid-row { display: grid; grid-template-columns: 32px 1fr 55px 1fr 1fr 72px 1.4fr 1fr 108px 1fr 60px; }
+  
+  /* Header - Sticky */
+  .grid-header { position: sticky; top: 0; z-index: 20; background: var(--text); }
+  .grid-header .grid-cell { background: var(--text); color: var(--surface); padding: var(--space-sm) var(--space-xs); font-size: 0.6875rem; font-weight: 600; text-align: center; text-transform: uppercase; letter-spacing: 0.03em; white-space: nowrap; border-bottom: 2px solid var(--border-dark); display: flex; align-items: center; justify-content: center; }
+  .grid-header .grid-cell:first-child { border-radius: var(--radius-lg) 0 0 0; }
+  .grid-header .grid-cell:last-child { border-radius: 0 var(--radius-lg) 0 0; }
+  
+  /* Row - Grid Layout */
+  .grid-row { border-bottom: 1px solid var(--border-light); }
+  .grid-row:last-child { border-bottom: 1px solid var(--border); }
+  
+  /* Cell - compact, vertically centered & aligned */
+  .grid-cell { padding: 2px 5px; text-align: center; display: flex; align-items: center; justify-content: center; position: relative; background: var(--surface); border-right: 1px solid var(--border-light); }
+  .grid-cell:last-child { border-right: none; }
+  
+  /* Input Styles - uniform height so row items align */
+  .grid-cell input, .grid-cell select, .grid-cell textarea, .test-multiselect-trigger { width: 100%; border: 1px solid transparent; background: transparent; padding: 4px 7px; font-size: 0.8125rem; font-family: var(--font-sans); border-radius: var(--radius-md); color: var(--text); min-width: 0; line-height: 1.3; box-sizing: border-box; }
+  .grid-cell input[type="text"], .grid-cell input[type="time"], .grid-cell select { height: 32px; }
+  .grid-cell textarea { min-height: 32px; height: auto; max-height: 200px; resize: vertical; overflow: hidden; padding-top: 6px; }
+  .test-multiselect-trigger { min-height: 32px; height: auto; }
+  .grid-cell input:focus, .grid-cell select:focus, .grid-cell textarea:focus { border-color: var(--primary); background: var(--surface); outline: none; box-shadow: 0 0 0 3px rgba(59,130,246,0.1); }
+  .grid-cell .row-num { background: var(--border); color: var(--text); width: 28px; height: 28px; border-radius: 50%; display: inline-flex; align-items: center; justify-content: center; font-size: 0.75rem; font-weight: 600; flex-shrink: 0; }
 
-  .task-table tr.row-green td { background: var(--row-green); }
-  .task-table tr.row-blue td { background: var(--row-blue); }
-  .task-table tr.row-gray td { background: var(--row-gray); }
-  .task-table tr.row-yellow td { background: var(--row-yellow); }
-  .task-table tr:hover td { background: var(--row-hover) !important; }
-
-  .row-actions { display: flex; gap: 4px; justify-content: center; }
-  .row-actions button { width: 32px; height: 32px; border: none; cursor: pointer; font-size: 16px; border-radius: 6px; background: transparent; display: inline-flex; align-items: center; justify-content: center; transition: all 0.2s ease; }
-  .row-actions button:hover { background: var(--row-hover, #f1f5f9); }
-  .row-actions button.delete-btn:hover { background: var(--danger-light, #fee2e2); color: var(--danger); }
-  .row-actions button.color-btn:hover { background: var(--primary-light, #e0e7ff); }
-  .task-table td .row-num { background: var(--border); color: var(--text); width: 1.75rem; height: 1.75rem; border-radius: 50%; display: inline-flex; align-items: center; justify-content: center; font-size: 0.75rem; font-weight: 600; }
-  .btn-add-row { background: var(--surface); color: var(--text-muted); border: 2px dashed var(--border); padding: 0.75rem 1.5rem; cursor: pointer; border-radius: 8px; font-size: 0.875rem; font-weight: 500; margin: 1rem 1.5rem; display: inline-flex; align-items: center; gap: 0.5rem; transition: all 0.2s ease; }
-  .btn-add-row:hover { border-color: var(--primary); color: var(--primary); background: var(--primary-light); }
+  /* Row Colors */
+  .grid-row.row-green .grid-cell { background: var(--row-green); }
+  .grid-row.row-blue .grid-cell { background: var(--row-blue); }
+  .grid-row.row-gray .grid-cell { background: var(--row-gray); }
+  .grid-row.row-yellow .grid-cell { background: var(--row-yellow); }
 
   .settings-container { max-width: 960px; margin: 0 auto; }
   .settings-tabs { display: flex; gap: var(--space-xs); border-bottom: 2px solid var(--border); padding-bottom: 0; margin-bottom: var(--space-xl); flex-wrap: wrap; }
@@ -185,7 +188,7 @@
   .settings-panel .list-table .del-btn { background: transparent; color: var(--danger); border: 1px solid var(--danger-border); border-radius: var(--radius-md); padding: var(--space-xs) var(--space-sm); cursor: pointer; font-size: 0.75rem; transition: all 0.2s ease; }
   .settings-panel .list-table .del-btn:hover { background: var(--danger); color: var(--surface); }
 
-  .modal-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(15, 23, 42, 0.5); backdrop-filter: blur(4px); z-index: 1000; justify-content: center; align-items: center; }
+  .modal-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(15, 23, 42, 0.6); backdrop-filter: blur(4px); z-index: 10000; justify-content: center; align-items: center; }
   .modal-overlay.show { display: flex; }
   .modal { background: var(--surface); border-radius: var(--radius-2xl); padding: var(--space-2xl); width: 400px; max-width: 90vw; box-shadow: var(--shadow-xl); }
   .modal h3 { font-size: 1.25rem; font-weight: 700; text-align: center; margin-bottom: var(--space-xl); color: var(--text); display: flex; align-items: center; justify-content: center; gap: var(--space-sm); }
@@ -209,15 +212,17 @@
   .test-checks { display: flex; gap: var(--space-xs); flex-wrap: wrap; justify-content: center; }
   .test-checks label { font-size: 0.6875rem; cursor: pointer; display: flex; align-items: center; gap: 2px; font-weight: 500; }
 
-  /* Multi-select dropdown */
+  /* Multi-select dropdown - Fixed for Grid */
   .test-multiselect { position: relative; width: 100%; }
-  .test-multiselect-trigger { width: 100%; padding: var(--space-xs) var(--space-sm); border: 1px solid var(--border); border-radius: var(--radius-md); background: var(--surface); cursor: pointer; font-size: 0.75rem; font-family: var(--font-sans); color: var(--text); text-align: left; min-height: 2rem; display: flex; align-items: center; justify-content: space-between; gap: var(--space-xs); }
+  .test-multiselect-trigger { width: 100%; min-height: 32px; padding: 2px 5px; border: 1px solid var(--border); border-radius: var(--radius-md); background: var(--surface); cursor: pointer; font-size: 0.75rem; font-family: var(--font-sans); color: var(--text); text-align: left; display: flex; align-items: center; justify-content: space-between; gap: 2px; flex-wrap: wrap; }
   .test-multiselect-trigger:hover { border-color: var(--primary); }
   .test-multiselect-trigger:focus { outline: none; border-color: var(--primary); box-shadow: 0 0 0 3px rgba(59,130,246,0.1); }
-  .test-multiselect-trigger .arrow { font-size: 0.625rem; transition: transform 0.2s ease; }
+  .test-multiselect-trigger .arrow { font-size: 0.625rem; transition: transform 0.2s ease; flex-shrink: 0; }
   .test-multiselect.open .test-multiselect-trigger .arrow { transform: rotate(180deg); }
-  .test-multiselect-dropdown { position: absolute; top: 100%; left: 0; right: 0; background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-md); box-shadow: var(--shadow-lg); z-index: 200; max-height: 200px; overflow-y: auto; display: none; margin-top: 2px; }
+  .test-multiselect-dropdown { position: absolute; top: 100%; left: 0; right: 0; background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-md); box-shadow: var(--shadow-xl); z-index: 9999; max-height: 200px; overflow-y: auto; display: none; margin-top: 4px; }
   .test-multiselect.open .test-multiselect-dropdown { display: block; }
+  /* Dropdown overlay - ensures visibility above grid */
+  .test-multiselect.open { z-index: 9999; position: relative; }
   .test-multiselect-option { padding: var(--space-xs) var(--space-sm); cursor: pointer; font-size: 0.75rem; display: flex; align-items: center; gap: var(--space-xs); }
   .test-multiselect-option:hover { background: var(--primary-light); }
   .test-multiselect-option.selected { background: var(--primary-bg); color: var(--primary); font-weight: 500; }
@@ -235,25 +240,52 @@
   .copy-btn { background: transparent; border: none; cursor: pointer; padding: var(--space-xs); border-radius: var(--radius-md); font-size: 1rem; display: inline-flex; align-items: center; justify-content: center; transition: all 0.2s ease; }
   .copy-btn:hover { background: var(--success-light); transform: scale(1.1); }
 
-  .notes-area { width: 100%; border: 1px solid transparent; background: transparent; padding: var(--space-xs) var(--space-sm); font-size: 0.8125rem; font-family: var(--font-sans); resize: vertical; min-height: 2.25rem; border-radius: var(--radius-md); color: var(--text); }
+  .notes-area { width: 100%; border: 1px solid transparent; background: transparent; padding: 2px 6px; font-size: 0.8125rem; font-family: var(--font-sans); resize: vertical; min-height: 32px; height: auto; max-height: 200px; overflow: hidden; border-radius: var(--radius-md); color: var(--text); line-height: 1.3; box-sizing: border-box; }
   .notes-area:focus { border-color: var(--primary); background: var(--surface); outline: none; box-shadow: 0 0 0 3px rgba(59,130,246,0.1); }
 
   .footer-info { text-align: center; padding: var(--space-md); color: var(--text-subtle); font-size: 0.75rem; }
 
-  .autocomplete-list { position: absolute; background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-lg); max-height: 150px; overflow-y: auto; z-index: 100; box-shadow: var(--shadow-lg); }
+  .autocomplete-list { position: absolute; background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-lg); max-height: 200px; overflow-y: auto; z-index: 9999; box-shadow: var(--shadow-xl); min-width: 100%; white-space: nowrap; }
   .autocomplete-list div { padding: var(--space-sm) var(--space-md); cursor: pointer; font-size: 0.8125rem; }
   .autocomplete-list div:hover { background: var(--primary); color: var(--surface); }
 
-    .td-relative { position: relative; }
+    .grid-relative { position: relative; }
 
   .print-only { display: none; }
 
+  /* Row Hover & Focus - Visual Feedback */
+  .grid-row:hover .grid-cell { background: var(--row-hover) !important; }
+  .grid-cell input:hover, .grid-cell textarea:hover { border-color: var(--border-dark); }
+  .grid-cell input:focus, .grid-cell textarea:focus { border-color: var(--primary); box-shadow: 0 0 0 3px rgba(59,130,246,0.15); }
+
+  /* Row Actions - single "..." kebab menu that drops down */
+  .row-menu { position: relative; display: inline-flex; }
+  .row-menu-btn { width: 30px; height: 30px; border: none; cursor: pointer; font-size: 18px; border-radius: 8px; background: transparent; color: var(--text-muted); display: inline-flex; align-items: center; justify-content: center; transition: all 0.2s ease; line-height: 1; }
+  .row-menu-btn:hover { background: var(--row-hover); color: var(--text); transform: scale(1.05); }
+  .row-menu-btn:active { transform: scale(0.95); }
+  .row-menu-dropdown { position: absolute; top: 100%; right: 0; margin-top: 4px; min-width: 160px; background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-lg); box-shadow: var(--shadow-xl); z-index: 9999; display: none; overflow: hidden; padding: 4px; }
+  .row-menu.open .row-menu-dropdown { display: block; }
+  .row-menu-dropdown button { display: flex; align-items: center; gap: 8px; width: 100%; border: none; background: transparent; color: var(--text); font-size: 0.8125rem; font-family: var(--font-sans); font-weight: 500; padding: 8px 10px; cursor: pointer; text-align: left; border-radius: var(--radius-md); transition: background 0.15s ease; }
+  .row-menu-dropdown button:hover { background: var(--row-hover); }
+  .row-menu-dropdown button.menu-delete:hover { background: var(--danger-light); color: var(--danger); }
+  .row-menu-dropdown button svg { flex-shrink: 0; }
+
+  .btn-add-row { background: var(--surface); color: var(--text-muted); border: 2px dashed var(--border-dark); padding: 0.75rem 1.5rem; cursor: pointer; border-radius: 8px; font-size: 0.875rem; font-weight: 600; margin: 1rem 1.5rem; display: inline-flex; align-items: center; gap: 0.5rem; transition: all 0.2s ease; }
+  .btn-add-row:hover { border-color: var(--primary); color: var(--primary); background: var(--primary-light); }
+
   @media print {
-    .top-nav, .btn-add-row, .row-actions, .no-print { display: none !important; }
+    .top-nav, .btn-add-row, .row-menu, .no-print { display: none !important; }
     .print-only { display: flex !important; }
     .page { display: block !important; padding: 0; }
     body { background: var(--surface); }
-    .main-container { box-shadow: none; }
+    .main-container { box-shadow: none; margin: 0; }
+    .table-wrapper { overflow: visible !important; border: none; margin: 0 !important; }
+    .task-grid { min-width: 0 !important; width: 100% !important; }
+    .grid-header, .grid-row { grid-template-columns: 40px 1fr 60px 1fr 1fr 90px 1fr 1fr 130px 1fr 70px; }
+    .grid-header { position: static; }
+    .grid-cell, .grid-header .grid-cell { padding: 4px 6px; font-size: 0.625rem; }
+    .grid-header .grid-cell, .grid-row.row-green .grid-cell, .grid-row.row-blue .grid-cell, .grid-row.row-gray .grid-cell, .grid-row.row-yellow .grid-cell { background: var(--surface) !important; color: var(--text) !important; }
+    .grid-header .grid-cell { font-weight: 700; border-bottom: 2px solid var(--text); }
   }
 
   @media (prefers-reduced-motion: reduce) {
@@ -270,12 +302,15 @@
     .header-info { grid-template-columns: 1fr; gap: 1rem; }
     .date-bar { margin: 0.75rem 1rem; padding: 0.75rem 1rem; flex-wrap: wrap; }
     .izinli-box { margin: 0.75rem 1rem; padding: 1rem; }
-    .task-table th, .task-table td { padding: 0.5rem 0.375rem; }
+    .grid-header .grid-cell { padding: 0.4rem 0.25rem; }
+    .grid-cell { padding: 1px 3px; }
+    .table-wrapper { margin: 0.75rem 1rem; }
     .btn-add-row { margin: 0.75rem 1rem; width: calc(100% - 2rem); }
     .settings-tabs { flex-wrap: wrap; }
     .settings-tabs button { padding: 0.625rem 0.875rem; font-size: 0.8125rem; }
     .add-form { grid-template-columns: 1fr; }
     .modal { width: 90vw; max-width: 20rem; padding: 1.5rem; }
+    .table-wrapper { border-radius: var(--radius-md); }
   }
 
   @media (max-width: 480px) {
@@ -283,9 +318,10 @@
     .top-nav .user-badge { display: none; }
     .header-info .company h1 { font-size: 1.5rem; }
     .header-info .doc-card { padding: 0.75rem 1rem; }
-    .task-table th { font-size: 0.625rem; }
-    .task-table td { padding: 0.375rem 0.25rem; }
-    .row-actions button { width: 1.75rem; height: 1.75rem; font-size: 0.875rem; }
+    .grid-header .grid-cell { font-size: 0.625rem; padding: 0.3rem 0.2rem; }
+    .grid-cell { padding: 0 2px; }
+    .row-menu-btn { width: 1.75rem; height: 1.75rem; font-size: 0.875rem; }
+    .task-grid { font-size: 0.75rem; }
   }
 </style>
 </head>
@@ -340,28 +376,24 @@
       </div>
     </div>
 
-    <table class="task-table" id="taskTable">
-      <thead>
-        <tr>
-          <th rowspan="2" style="width:30px;">İŞ NO</th>
-          <th rowspan="2" style="width:120px;">FİRMA ADI</th>
-          <th colspan="2">Yapılacak İşin;</th>
-          <th colspan="2">Müşteri Görevlisi</th>
-          <th rowspan="2" style="width:180px;">AÇIKLAMA</th>
-          <th rowspan="2" style="width:120px;">CİHAZLAR</th>
-          <th rowspan="2" style="width:140px;">UYGULANACAK TESTLER</th>
-          <th rowspan="2" style="width:150px;">NOTLAR</th>
-          <th rowspan="2" class="no-print" style="width:90px;">İŞLEM</th>
-        </tr>
-        <tr>
-          <th class="sub-header">Saati</th>
-          <th class="sub-header">Yeri</th>
-          <th class="sub-header">Adı Soyadı</th>
-          <th class="sub-header">Telefon</th>
-        </tr>
-      </thead>
-      <tbody id="taskBody"></tbody>
-    </table>
+    <div class="table-wrapper">
+      <div class="task-grid" id="taskGrid">
+        <div class="grid-header">
+          <div class="grid-cell">İŞ NO</div>
+          <div class="grid-cell">FİRMA ADI</div>
+          <div class="grid-cell">SAAT</div>
+          <div class="grid-cell">YER/ADRES</div>
+          <div class="grid-cell">MÜŞTERI ADI</div>
+          <div class="grid-cell">MÜŞTERİ TEL</div>
+          <div class="grid-cell">AÇIKLAMA</div>
+          <div class="grid-cell">CİHAZLAR</div>
+          <div class="grid-cell">UYGULANACAK TESTLER</div>
+          <div class="grid-cell">NOTLAR</div>
+          <div class="grid-cell no-print">İŞLEM</div>
+        </div>
+        <div class="grid-body" id="taskBody"></div>
+      </div>
+    </div>
 
     <button class="btn-add-row no-print" onclick="addRow()"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg> Yeni Satır Ekle</button>
   </div>
@@ -527,21 +559,59 @@ if (!DB.get('personel')) DB.set('personel', [
 ]);
 if (!DB.get('cihazlar')) DB.set('cihazlar', []);
 if (!DB.get('araclar')) DB.set('araclar', []);
-if (!DB.get('izinli')) DB.set('izinli', []);
+if (!DB.get('izinli')) DB.set('izinli', {});
 if (!DB.get('testler')) DB.set('testler', ['RT', 'UT', 'MT', 'PT', 'VT', 'ET', 'LT', 'HT']);
-
-// Görevleri tarih bazlı yapıya migrate et
-const taskData = DB.get('tasks', null);
-if (taskData === null) {
-  // İlk kez açılıyor - boş tarihli yapı oluştur
-  const today = new Date().toISOString().split('T')[0];
-  DB.set('tasks', { [today]: [] });
-} else if (Array.isArray(taskData)) {
-  // Eski format - migrate et
-  migrateTasksToDated();
+// Eski genel (tarihsiz) izinli listesini tarih bazlı yapıya taşı
+{
+  const _izinli = DB.get('izinli', {});
+  if (Array.isArray(_izinli)) {
+    const _d = DB.get('taskDate', new Date().toISOString().split('T')[0]);
+    DB.set('izinli', { [_d]: _izinli });
+  }
 }
 
-if (!DB.get('taskDate')) DB.set('taskDate', new Date().toISOString().split('T')[0]);
+// ==================== VERİ NORMALİZASYONU (ESKİ/BOZUK VERİYE KARŞI KORUMA) ====================
+// Amaç: "Her gün ayrı sayfa" garantisini sağlamak. Eski global dizi formatını tarih bazlı
+// yapıya geçirir ve iki günün aynı diziye referans verdiği (paylaşılan) durumları onarır.
+function normalizeInitialData() {
+  const today = new Date().toISOString().split('T')[0];
+  if (!DB.get('taskDate')) DB.set('taskDate', today);
+
+  // 1) Görevler
+  let tasks = DB.get('tasks', null);
+  if (tasks === null) {
+    // İlk kez açılıyor - boş tarihli yapı oluştur
+    DB.set('tasks', { [today]: [] });
+    tasks = DB.get('tasks');
+  } else if (Array.isArray(tasks)) {
+    // Eski global array formatı - tek bir tarihe bağla
+    const dateKey = DB.get('taskDate', today);
+    const datedTasks = {};
+    datedTasks[dateKey] = tasks.map(t => ({ ...t }));
+    DB.set('tasks', datedTasks);
+    tasks = datedTasks;
+  }
+  if (tasks && typeof tasks === 'object' && !Array.isArray(tasks)) {
+    // Her günün dizisini derin kopyala -> iki gün asla aynı diziye işaret edemez
+    const clean = {};
+    Object.keys(tasks).forEach(k => {
+      clean[k] = Array.isArray(tasks[k]) ? tasks[k].map(t => ({ ...t })) : [];
+    });
+    DB.set('tasks', clean);
+  }
+
+  // 2) İzinli personel: eski global array => tarih bazlı
+  const izinli = DB.get('izinli', {});
+  if (Array.isArray(izinli)) {
+    const dk = DB.get('taskDate', today);
+    const cleanIzin = {};
+    cleanIzin[dk] = izinli.slice();
+    DB.set('izinli', cleanIzin);
+  }
+}
+normalizeInitialData();
+// Veri modeli versiyonu - yeni sürümün çalıştığını doğrulama/tamir amacıyla
+DB.set('modelVersion', '3.1');
 
 let currentUser = DB.get('currentUser', null);
 
@@ -562,6 +632,7 @@ function showPage(page, btn) {
   document.querySelectorAll('.nav-links button').forEach(b => b.classList.remove('active'));
   if (btn) btn.classList.add('active');
   if (page === 'settings') renderAllSettings();
+  if (page === 'main') renderIzinliMain();
 }
 
 function showSettingsTab(tab, btn) {
@@ -630,12 +701,13 @@ function saveMainData() {
   const date = document.getElementById('taskDate').value;
   const prevDate = DB.get('taskDate', date);
   
-  // Tarih değiştiyse, önceki tarihin verilerini kaydet
+  // Tarih değiştiyse, önceki tarihin verilerini kaydet ve yeni tarihi yükle
   if (prevDate !== date) {
     saveTasksFromTable(); // Mevcut tabloyu önceki tarihe kaydet
     DB.set('taskDate', date);
     document.getElementById('dayName').textContent = getDayName(date);
     renderTasks(); // Yeni tarihin verilerini yükle
+    renderIzinliMain(); // Yeni tarihin izinli listesini yükle
     return;
   }
   
@@ -681,7 +753,7 @@ document.addEventListener('click', (e) => {
 });
 
 function saveTasksFromTable() {
-  const rows = document.querySelectorAll('#taskBody tr');
+  const rows = document.querySelectorAll('#taskBody .grid-row');
   const tasks = [];
   rows.forEach((row) => {
     const inputs = row.querySelectorAll('input[type="text"], input[type="time"], textarea');
@@ -701,19 +773,9 @@ function saveTasksFromTable() {
     });
   });
   
-  // Tarih bazlı kaydet
-  const allTasks = DB.get('tasks', {});
-  if (Array.isArray(allTasks)) {
-    // Eski format - migrate et
-    const migrated = migrateTasksToDated();
-    const date = document.getElementById('taskDate').value;
-    migrated[date] = tasks;
-    DB.set('tasks', migrated);
-  } else {
-    const date = document.getElementById('taskDate').value;
-    allTasks[date] = tasks;
-    DB.set('tasks', allTasks);
-  }
+  // Tarih bazlı kaydet (sadece seçili günün listesi güncellenir)
+  const date = document.getElementById('taskDate').value;
+  setTasksForDate(date, tasks);
 }
 
 // ==================== COMBOBOX (DATALIST) ====================
@@ -727,7 +789,6 @@ function getDatalistHtml(listType, field, datalistId) {
 }
 
 function renderTasks() {
-  const allTasks = DB.get('tasks', {});
   const tbody = document.getElementById('taskBody');
   tbody.innerHTML = '';
 
@@ -737,59 +798,43 @@ function renderTasks() {
   const yetkiliList = getDatalistHtml('musteri', 'yetkili', 'yetkiliList');
   const cihazList = getDatalistHtml('cihaz', 'ad', 'cihazList');
 
-  // Tarih bazlı veri yapısını kontrol et
-  let tasksForDate = [];
-  if (Array.isArray(allTasks)) {
-    // Eski format - migrate et
-    const migrated = migrateTasksToDated();
-    const date = document.getElementById('taskDate').value;
-    tasksForDate = migrated[date] || [];
-  } else {
-    const date = document.getElementById('taskDate').value;
-    tasksForDate = allTasks[date] || [];
-  }
+  // Seçili günün kendi görev listesi (her gün bağımsızdır)
+  const date = document.getElementById('taskDate').value;
+  let tasksForDate = getTasksForDate(date);
 
   if (tasksForDate.length === 0) {
-    // Boş tablo - varsayılan boş satır ekle
+    // Boş gün - tek boş satır göster (kaydedilmez; "Yeni Satır Ekle" ile kalıcı eklenir)
     const emptyRow = { color: 'gray', firma: '', saat: '', yer: '', musteriAd: '', musteriTel: '', aciklama: '', cihazlar: '', rt: false, ut: false, mt: false, pt: false, notlar: '' };
     tasksForDate = [emptyRow];
-    
-    // Boş satırı kaydet
-    if (Array.isArray(allTasks)) {
-      const migrated = migrateTasksToDated();
-      const date = document.getElementById('taskDate').value;
-      migrated[date] = tasksForDate;
-      DB.set('tasks', migrated);
-    } else {
-      const date = document.getElementById('taskDate').value;
-      allTasks[date] = tasksForDate;
-      DB.set('tasks', allTasks);
-    }
   }
 
   tasksForDate.forEach((t, i) => {
-    const tr = document.createElement('tr');
-    tr.className = 'row-' + (t.color || 'gray');
-    tr.dataset.color = t.color || 'gray';
-    tr.innerHTML = `
-      <td><span class="row-num">${i+1}</span></td>
-      <td class="td-relative"><input type="text" value="${esc(t.firma)}" oninput="saveMainData()" list="firmaList" placeholder="Firma..."></td>
-      <td><input type="time" value="${esc(t.saat)}" oninput="saveMainData()"></td>
-      <td class="td-relative"><input type="text" value="${esc(t.yer)}" oninput="saveMainData()" list="yerList" placeholder="Yer..."></td>
-      <td class="td-relative"><input type="text" value="${esc(t.musteriAd)}" oninput="saveMainData()" list="yetkiliList" placeholder="Ad Soyad..."></td>
-      <td><input type="text" value="${esc(t.musteriTel)}" oninput="saveMainData()" placeholder="Telefon..."></td>
-      <td><input type="text" value="${esc(t.aciklama)}" oninput="saveMainData()" placeholder="Açıklama..."></td>
-      <td class="td-relative"><input type="text" value="${esc(t.cihazlar)}" oninput="saveMainData()" list="cihazList" placeholder="Cihaz..."></td>
-      <td><div class="test-multiselect" data-tests="${esc(t.tests ? t.tests.join(',') : '')}"><button type="button" class="test-multiselect-trigger" onclick="toggleTestDropdown(this)"><span class="test-tags">${(t.tests && t.tests.length > 0) ? t.tests.map(t => `<span class="test-tag">${esc(t)}</span>`).join('') : '<span style="color:var(--text-muted);font-size:0.6875rem;">Seç...'}</span></span><span class="arrow">▼</span></button><div class="test-multiselect-dropdown">${getTestOptionsHtml(t.tests || [])}</div></div></td>
-      <td><textarea class="notes-area" oninput="saveMainData()" placeholder="Notlar...">${esc(t.notlar)}</textarea></td>
-      <td class="no-print">
-        <div class="row-actions">
-          <button class="color-btn" onclick="changeRowColor(this)" title="Renk değiştir" aria-label="Renk değiştir"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="13.5" cy="6.5" r=".5"></circle><circle cx="17.5" cy="10.5" r=".5"></circle><circle cx="8.5" cy="7.5" r=".5"></circle><circle cx="6.5" cy="12.5" r=".5"></circle><path d="M12 2C6.5 2 2 6.5 2 12s4.5 10 10 10c.926 0 1.648-.746 1.648-1.688 0-.437-.18-.835-.437-1.125-.29-.289-.438-.652-.438-1.125a1.64 1.64 0 0 1 1.668-1.668h1.996c3.051 0 5.555-2.503 5.555-5.554C21.965 6.012 17.461 2 12 2z"></path></svg></button>
-          <button class="delete-btn" onclick="deleteRow(this)" title="Sil" aria-label="Sil"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path><line x1="10" y1="11" x2="10" y2="17"></line><line x1="14" y1="11" x2="14" y2="17"></line></svg></button>
+    const row = document.createElement('div');
+    row.className = 'grid-row row-' + (t.color || 'gray');
+    row.dataset.color = t.color || 'gray';
+    row.innerHTML = `
+      <div class="grid-cell"><span class="row-num">${i+1}</span></div>
+      <div class="grid-cell grid-relative"><input type="text" value="${esc(t.firma)}" oninput="saveMainData()" list="firmaList" placeholder="Firma..."></div>
+      <div class="grid-cell"><input type="time" value="${esc(t.saat)}" oninput="saveMainData()"></div>
+      <div class="grid-cell grid-relative"><input type="text" value="${esc(t.yer)}" oninput="saveMainData()" list="yerList" placeholder="Yer..."></div>
+      <div class="grid-cell grid-relative"><input type="text" value="${esc(t.musteriAd)}" oninput="saveMainData()" list="yetkiliList" placeholder="Ad Soyad..."></div>
+      <div class="grid-cell"><input type="text" value="${esc(t.musteriTel)}" oninput="saveMainData()" placeholder="Telefon..."></div>
+      <div class="grid-cell"><textarea class="notes-area" oninput="saveMainData()" placeholder="Açıklama..." rows="1">${esc(t.aciklama)}</textarea></div>
+      <div class="grid-cell grid-relative"><input type="text" value="${esc(t.cihazlar)}" oninput="saveMainData()" list="cihazList" placeholder="Cihaz..."></div>
+      <div class="grid-cell"><div class="test-multiselect" data-tests="${esc(t.tests ? t.tests.join(',') : '')}"><button type="button" class="test-multiselect-trigger" onclick="toggleTestDropdown(this)"><span class="test-tags">${(t.tests && t.tests.length > 0) ? t.tests.map(t => `<span class="test-tag">${esc(t)}</span>`).join('') : '<span style="color:var(--text-muted);font-size:0.6875rem;">Seç...'}</span></span><span class="arrow">▼</span></button><div class="test-multiselect-dropdown">${getTestOptionsHtml(t.tests || [])}</div></div></div>
+      <div class="grid-cell"><textarea class="notes-area" oninput="saveMainData()" placeholder="Notlar...">${esc(t.notlar)}</textarea></div>
+      <div class="grid-cell no-print">
+        <div class="row-menu">
+          <button type="button" class="row-menu-btn" onclick="toggleRowMenu(this)" title="İşlemler" aria-label="İşlemler" aria-haspopup="true" aria-expanded="false">⋮</button>
+          <div class="row-menu-dropdown" role="menu">
+            <button type="button" onclick="changeRowColor(this); closeMenus()" title="Renk değiştir"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="13.5" cy="6.5" r=".5"></circle><circle cx="17.5" cy="10.5" r=".5"></circle><circle cx="8.5" cy="7.5" r=".5"></circle><circle cx="6.5" cy="12.5" r=".5"></circle><path d="M12 2C6.5 2 2 6.5 2 12s4.5 10 10 10c.926 0 1.648-.746 1.648-1.688 0-.437-.18-.835-.437-1.125-.29-.289-.438-.652-.438-1.125a1.64 1.64 0 0 1 1.668-1.668h1.996c3.051 0 5.555-2.503 5.555-5.554C21.965 6.012 17.461 2 12 2z"></path></svg> Renk değiştir</button>
+            <button type="button" onclick="copyRow(this); closeMenus()" title="Kopyala"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg> Kopyala</button>
+            <button type="button" class="menu-delete" onclick="deleteRow(this); closeMenus()" title="Sil"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path><line x1="10" y1="11" x2="10" y2="17"></line><line x1="14" y1="11" x2="14" y2="17"></line></svg> Sil</button>
+          </div>
         </div>
-      </td>
+      </div>
     `;
-    tbody.appendChild(tr);
+    tbody.appendChild(row);
   });
   
   // Datalist'leri body'ye ekle
@@ -803,21 +848,38 @@ function renderTasks() {
   datalistContainer.innerHTML = datalistsHtml;
 }
 
+// ==================== ROW KEBAB MENÜ ====================
+function toggleRowMenu(btn) {
+  const menu = btn.closest('.row-menu');
+  const wasOpen = menu.classList.contains('open');
+  // Diğer tüm açık menüleri kapat
+  document.querySelectorAll('.row-menu.open').forEach(m => { m.classList.remove('open'); const b = m.querySelector('.row-menu-btn'); if (b) b.setAttribute('aria-expanded', 'false'); });
+  if (!wasOpen) {
+    menu.classList.add('open');
+    const b = menu.querySelector('.row-menu-btn');
+    if (b) b.setAttribute('aria-expanded', 'true');
+  }
+}
+
+function closeMenus() {
+  document.querySelectorAll('.row-menu.open').forEach(m => { m.classList.remove('open'); const b = m.querySelector('.row-menu-btn'); if (b) b.setAttribute('aria-expanded', 'false'); });
+}
+
+document.addEventListener('click', (e) => {
+  if (!e.target.closest('.row-menu')) closeMenus();
+});
+
+document.addEventListener('keydown', (e) => {
+  if (e.key === 'Escape') closeMenus();
+});
+
 // ==================== GÖREV KOPYALAMA ====================
 function copyRow(btn) {
-  const tr = btn.closest('tr');
+  const tr = btn.closest('.grid-row');
   const idx = Array.from(tr.parentNode.children).indexOf(tr);
-  const allTasks = DB.get('tasks', {});
   const currentDate = document.getElementById('taskDate').value;
-  
-  let tasksForDate = [];
-  if (Array.isArray(allTasks)) {
-    const migrated = migrateTasksToDated();
-    tasksForDate = migrated[currentDate] || [];
-  } else {
-    tasksForDate = allTasks[currentDate] || [];
-  }
-  
+  const tasksForDate = getTasksForDate(currentDate);
+
   if (idx >= tasksForDate.length) return;
   const taskToCopy = { ...tasksForDate[idx] };
   
@@ -852,32 +914,18 @@ function closeCopyModal() {
 function confirmCopy(sourceIdx) {
   const targetDate = document.getElementById('copyTargetDate').value;
   if (!targetDate) { closeCopyModal(); return; }
-  
-  const allTasks = DB.get('tasks', {});
+
   const currentDate = document.getElementById('taskDate').value;
-  
-  let tasksForDate = [];
-  if (Array.isArray(allTasks)) {
-    const migrated = migrateTasksToDated();
-    tasksForDate = migrated[currentDate] || [];
-  } else {
-    tasksForDate = allTasks[currentDate] || [];
-  }
-  
+  const tasksForDate = getTasksForDate(currentDate);
+
   if (sourceIdx >= tasksForDate.length) return;
   const taskToCopy = JSON.parse(JSON.stringify(tasksForDate[sourceIdx]));
-  
-  if (Array.isArray(allTasks)) {
-    const migrated = migrateTasksToDated();
-    if (!migrated[targetDate]) migrated[targetDate] = [];
-    migrated[targetDate].push(taskToCopy);
-    DB.set('tasks', migrated);
-  } else {
-    if (!allTasks[targetDate]) allTasks[targetDate] = [];
-    allTasks[targetDate].push(taskToCopy);
-    DB.set('tasks', allTasks);
-  }
-  
+
+  // Hedef tarihin kendi listesine kopyala (diğer günler etkilenmez)
+  const targetList = getTasksForDate(targetDate);
+  targetList.push(taskToCopy);
+  setTasksForDate(targetDate, targetList);
+
   closeCopyModal();
   
   const toast = document.createElement('div');
@@ -888,51 +936,31 @@ function confirmCopy(sourceIdx) {
 }
 
 function addRow() {
-  const allTasks = DB.get('tasks', {});
   const date = document.getElementById('taskDate').value;
-  
-  if (Array.isArray(allTasks)) {
-    const migrated = migrateTasksToDated();
-    const newRow = { color: 'gray', firma: '', saat: '', yer: '', musteriAd: '', musteriTel: '', aciklama: '', cihazlar: '', rt: false, ut: false, mt: false, pt: false, notlar: '' };
-    if (!migrated[date]) migrated[date] = [];
-    migrated[date].push(newRow);
-    DB.set('tasks', migrated);
-  } else {
-    if (!allTasks[date]) allTasks[date] = [];
-    allTasks[date].push({ color: 'gray', firma: '', saat: '', yer: '', musteriAd: '', musteriTel: '', aciklama: '', cihazlar: '', rt: false, ut: false, mt: false, pt: false, notlar: '' });
-    DB.set('tasks', allTasks);
-  }
+  const tasksForDate = getTasksForDate(date);
+  tasksForDate.push({ color: 'gray', firma: '', saat: '', yer: '', musteriAd: '', musteriTel: '', aciklama: '', cihazlar: '', rt: false, ut: false, mt: false, pt: false, notlar: '' });
+  setTasksForDate(date, tasksForDate);
   renderTasks();
 }
 
 function deleteRow(btn) {
-  const tr = btn.closest('tr');
+  const tr = btn.closest('.grid-row');
   const idx = Array.from(tr.parentNode.children).indexOf(tr);
-  const allTasks = DB.get('tasks', {});
   const date = document.getElementById('taskDate').value;
-  
-  if (Array.isArray(allTasks)) {
-    const migrated = migrateTasksToDated();
-    if (migrated[date]) {
-      migrated[date].splice(idx, 1);
-      DB.set('tasks', migrated);
-    }
-  } else {
-    if (allTasks[date]) {
-      allTasks[date].splice(idx, 1);
-      DB.set('tasks', allTasks);
-    }
-  }
+  const tasksForDate = getTasksForDate(date);
+  if (idx < 0 || idx >= tasksForDate.length) return;
+  tasksForDate.splice(idx, 1);
+  setTasksForDate(date, tasksForDate);
   renderTasks();
 }
 
 function changeRowColor(btn) {
-  const tr = btn.closest('tr');
+  const tr = btn.closest('.grid-row');
   const colors = ['gray', 'green', 'blue', 'yellow'];
   const current = tr.dataset.color || 'gray';
   const nextIdx = (colors.indexOf(current) + 1) % colors.length;
   tr.dataset.color = colors[nextIdx];
-  tr.className = 'row-' + colors[nextIdx];
+  tr.className = 'grid-row row-' + colors[nextIdx];
   saveMainData();
 }
 
@@ -959,7 +987,7 @@ function showAutocomplete(input, listType, field) {
     item.onclick = () => {
       input.value = m[field] || '';
       if (listType === 'musteri' && field === 'ad') {
-        const row = input.closest('tr');
+        const row = input.closest('.grid-row');
         const inputs = row.querySelectorAll('input[type="text"]');
         if (m.yetkili && inputs[3]) inputs[3].value = m.yetkili;
         if (m.adres && inputs[2]) inputs[2].value = m.adres;
@@ -980,42 +1008,79 @@ function removeAutocomplete() {
 }
 
 document.addEventListener('click', (e) => {
-  if (!e.target.closest('.td-relative')) removeAutocomplete();
+  if (!e.target.closest('.grid-cell')) removeAutocomplete();
 });
 
-// ==================== İZİNLİ PERSONEL ====================
+// ==================== GÖREVLER (TARİH BAZLI) - İzinlerle Aynı Mantık ====================
+// Görevler de tıpkı izinli personel gibi `eka_tasks = { "tarih": [görevler], ... }` yapısında
+// saklanır. Her gün kendi bağımsız listesine sahiptir; gün değişince o günün listesi gösterilir.
+function getTasksForDate(date) {
+  const all = DB.get('tasks', {});
+  if (Array.isArray(all)) {
+    // Eski global dizi formatı kalıntısı - ilk erişimde o güne bağla ve tarih bazlı yapıya çevir
+    const dated = {};
+    dated[date] = all.map(t => ({ ...t }));
+    DB.set('tasks', dated);
+    return dated[date];
+  }
+  return all[date] || [];
+}
+
+function setTasksForDate(date, list) {
+  const all = DB.get('tasks', {});
+  if (Array.isArray(all)) { DB.set('tasks', { [date]: list }); return; }
+  all[date] = list;
+  DB.set('tasks', all);
+}
+
+// ==================== İZİNLİ PERSONEL (TARİH BAZLI) ====================
+function getSelectedDate() {
+  const el = document.getElementById('taskDate');
+  return (el && el.value) || DB.get('taskDate', new Date().toISOString().split('T')[0]);
+}
+
+function getIzinliForDate(date) {
+  const all = DB.get('izinli', {});
+  return Array.isArray(all) ? all : (all[date] || []);
+}
+
+function setIzinliForDate(date, list) {
+  const all = DB.get('izinli', {});
+  if (Array.isArray(all)) { DB.set('izinli', { [date]: list }); return; }
+  all[date] = list;
+  DB.set('izinli', all);
+}
+
 function renderIzinliMain() {
-  const izinli = DB.get('izinli', []);
+  const date = getSelectedDate();
+  const izinli = getIzinliForDate(date);
   const box = document.getElementById('izinliBox');
   const list = document.getElementById('izinliList');
-
-  if (currentUser) {
-    box.style.display = 'block';
-    list.innerHTML = izinli.length > 0
-      ? izinli.map((p, i) => `<span class="izinli-tag">${esc(p)} <span class="remove-izin" onclick="removeIzinli(${i})">✕</span></span>`).join('')
-      : '<span style="color:var(--text-muted); font-size:0.75rem;">İzinli personel yok</span>';
-  } else {
-    box.style.display = izinli.length > 0 ? 'block' : 'none';
-    list.innerHTML = izinli.map(p => `<span class="izinli-tag">${esc(p)}</span>`).join('');
-  }
+  box.style.display = 'block';
+  list.innerHTML = izinli.length > 0
+    ? izinli.map((p, i) => `<span class="izinli-tag">${esc(p)} <span class="remove-izin" onclick="removeIzinli(${i})" title="İzni kaldır" role="button" aria-label="İzni kaldır">✕</span></span>`).join('')
+    : '<span style="color:var(--text-muted); font-size:0.75rem;">Bu tarih için izinli personel yok</span>';
 }
 
 function addIzinli() {
   const sel = document.getElementById('izinliSelect');
   if (!sel.value) return;
-  const izinli = DB.get('izinli', []);
+  const date = getSelectedDate();
+  const izinli = getIzinliForDate(date);
   if (!izinli.includes(sel.value)) {
     izinli.push(sel.value);
-    DB.set('izinli', izinli);
+    setIzinliForDate(date, izinli);
   }
   renderIzinliMain();
   renderIzinliSettings();
 }
 
 function removeIzinli(i) {
-  const izinli = DB.get('izinli', []);
+  const date = getSelectedDate();
+  const izinli = getIzinliForDate(date);
+  if (i < 0 || i >= izinli.length) return;
   izinli.splice(i, 1);
-  DB.set('izinli', izinli);
+  setIzinliForDate(date, izinli);
   renderIzinliMain();
   renderIzinliSettings();
 }
@@ -1131,7 +1196,8 @@ function populateIzinliSelects() {
 }
 
 function renderIzinliSettings() {
-  const izinli = DB.get('izinli', []);
+  const date = getSelectedDate();
+  const izinli = getIzinliForDate(date);
   document.getElementById('izinliSettingsBody').innerHTML = izinli.map((p, i) =>
     `<tr><td>${i+1}</td><td>${esc(p)}</td><td class="no-print"><button class="del-btn" onclick="removeIzinli(${i}); renderIzinliSettings();">Kaldır</button></td></tr>`
   ).join('');
@@ -1140,8 +1206,12 @@ function renderIzinliSettings() {
 function addIzinliFromSettings() {
   const sel = document.getElementById('izinliPersonelSelect');
   if (!sel.value) return;
-  const izinli = DB.get('izinli', []);
-  if (!izinli.includes(sel.value)) { izinli.push(sel.value); DB.set('izinli', izinli); }
+  const date = getSelectedDate();
+  const izinli = getIzinliForDate(date);
+  if (!izinli.includes(sel.value)) {
+    izinli.push(sel.value);
+    setIzinliForDate(date, izinli);
+  }
   renderIzinliSettings();
   renderIzinliMain();
 }
