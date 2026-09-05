@@ -16,6 +16,10 @@
     --primary-hover: #c40a1c;
     --primary-light: #fce8ea;
     --primary-bg: #fdf1f2;
+    --accent-primary: #e40a20;
+    --accent-primary-hover: #c40a1c;
+    --accent-primary-light: #fce8ea;
+    --accent-primary-bg: #fdf1f2;
 
     /* Semantic Colors - soft tint sistemi (2026 muted accents) */
     --danger: #c2182b;
@@ -88,10 +92,18 @@
     --shadow-xl: 0 20px 25px -5px rgba(0,0,0,0.1), 0 10px 10px -5px rgba(0,0,0,0.04);
     
     /* Premium Reveal Animations - Cinematic Fade-Up */
-  .main-container, .izinli-box, .date-bar, .settings-panel {
+  .izinli-box, .date-bar, .settings-panel {
     opacity: 0;
     transform: translateY(20px);
     transition: opacity 0.6s cubic-bezier(0.16, 1, 0.3, 1), transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  .main-container {
+    opacity: 0;
+    animation: fadeInMain 0.4s ease-out forwards;
+  }
+  @keyframes fadeInMain {
+    from { opacity: 0; }
+    to { opacity: 1; }
   }
   .reveal-visible {
     opacity: 1;
@@ -172,7 +184,7 @@
   .date-nav-btn:focus-visible { outline: 2px solid var(--primary); outline-offset: 2px; }
 
   /* CSS Grid Task Table - Compact, fits viewport */
-  .table-wrapper { position: relative; border-radius: var(--radius-lg); border: 1px solid var(--border); background: var(--surface); margin: var(--space-lg) var(--space-xl); }
+  .table-wrapper { position: relative; border-radius: var(--radius-lg); border: 1px solid var(--border); background: var(--surface); margin: var(--space-lg) var(--space-xl); overflow: hidden; }
   .task-grid { display: block; width: 100%; }
   
   /* Shared column template - compact, aligns with siblings (1.5rem margin) */
