@@ -194,7 +194,7 @@
   .task-grid { display: block; width: 100%; }
   
   /* Shared column template - compact, aligns with siblings (1.5rem margin) */
-  .grid-header, .grid-row { display: grid; grid-template-columns: 32px 1fr 72px 1fr 1fr 72px 1fr 108px 1fr 2fr 60px; }
+  .grid-header, .grid-row { display: grid; grid-template-columns: 32px 0.9fr 72px 1fr 0.9fr 72px 1fr 100px 0.9fr 0.9fr 1.7fr 60px; }
   
   /* Header - Sticky */
   .grid-header { position: sticky; top: 0; z-index: 20; background: var(--accent-primary); }
@@ -356,7 +356,7 @@
     .main-container { box-shadow: none; margin: 0; }
     .table-wrapper { overflow: visible !important; border: none; margin: 0 !important; }
     .task-grid { min-width: 0 !important; width: 100% !important; }
-    .grid-header, .grid-row { grid-template-columns: 40px 1fr 75px 1fr 1fr 90px 1fr 130px 1fr 2fr 70px; }
+    .grid-header, .grid-row { grid-template-columns: 40px 0.9fr 75px 1fr 0.9fr 90px 1fr 120px 0.9fr 0.9fr 1.7fr 70px; }
     .grid-header { position: static; background: var(--bg) !important; }
     .grid-cell, .grid-header .grid-cell { padding: 4px 6px; font-size: 10px; }
     .grid-cell input, .grid-cell select, .grid-cell textarea, .test-multiselect-trigger { font-size: 10px; }
@@ -470,6 +470,7 @@
           <div class="grid-cell">CİHAZLAR</div>
           <div class="grid-cell">TESTLER</div>
           <div class="grid-cell">PERSONEL</div>
+          <div class="grid-cell">ARAÇ</div>
           <div class="grid-cell">NOTLAR</div>
           <div class="grid-cell no-print">İŞLEM</div>
         </div>
@@ -973,6 +974,7 @@ function saveTasksFromTable(dateOverride) {
       cihazlar: (() => { const cm = row.querySelector('.cihaz-multiselect'); return cm && cm.dataset.cihazlar ? cm.dataset.cihazlar : ''; })(),
       tests: tests,
       personel: (() => { const pm = row.querySelector('.personel-multiselect'); return pm && pm.dataset.personel ? pm.dataset.personel : ''; })(),
+      arac: (() => { const am = row.querySelector('.arac-multiselect'); return am && am.dataset.arac ? am.dataset.arac : ''; })(),
       notlar: inputs[5] ? inputs[5].value : ''
     });
   });
@@ -982,7 +984,7 @@ function saveTasksFromTable(dateOverride) {
   const date = dateOverride || document.getElementById('taskDate').value;
   // Tamamen boş satırları kaydetme (yalnızca dolu işler kalıcıdır)
   const meaningful = tasks.filter(t =>
-    (t.firma || t.saat || t.yer || t.musteriAd || t.musteriTel || t.cihazlar || t.personel || t.notlar || (t.tests && t.tests.length))
+    (t.firma || t.saat || t.yer || t.musteriAd || t.musteriTel || t.cihazlar || t.personel || t.arac || t.notlar || (t.tests && t.tests.length))
   );
   setTasksForDate(date, meaningful);
 }
@@ -1036,6 +1038,7 @@ function renderTasks() {
       <div class="grid-cell"><div class="cihaz-multiselect" data-cihazlar="${esc(t.cihazlar)}"><button type="button" class="test-multiselect-trigger" onclick="toggleTestDropdown(this)"><span class="test-tags">${t.cihazlar ? t.cihazlar.split(',').filter(c => c).map(c => `<span class="test-tag">${esc(c)}</span>`).join('') : '<span style="color:var(--text-muted);font-size:0.6875rem;">Seç...</span>'}</span><span class="arrow">▼</span></button><div class="test-multiselect-dropdown">${getCihazOptionsHtml(t.cihazlar ? t.cihazlar.split(',').filter(c => c) : [])}</div></div></div>
       <div class="grid-cell"><div class="test-multiselect" data-tests="${esc(t.tests ? t.tests.join(',') : '')}"><button type="button" class="test-multiselect-trigger" onclick="toggleTestDropdown(this)"><span class="test-tags">${(t.tests && t.tests.length > 0) ? t.tests.map(t => `<span class="test-tag">${esc(t)}</span>`).join('') : '<span style="color:var(--text-muted);font-size:0.6875rem;">Seç...'}</span></span><span class="arrow">▼</span></button><div class="test-multiselect-dropdown">${getTestOptionsHtml(t.tests || [])}</div></div></div>
       <div class="grid-cell"><div class="personel-multiselect" data-personel="${esc(t.personel || '')}"><button type="button" class="test-multiselect-trigger" onclick="toggleTestDropdown(this)"><span class="test-tags">${t.personel ? t.personel.split(',').filter(p => p).map(p => `<span class="test-tag">${esc(p)}</span>`).join('') : '<span style="color:var(--text-muted);font-size:0.6875rem;">Seç...</span>'}</span><span class="arrow">▼</span></button><div class="test-multiselect-dropdown">${getPersonelOptionsHtml(t.personel ? t.personel.split(',').filter(p => p) : [])}</div></div></div>
+      <div class="grid-cell"><div class="arac-multiselect" data-arac="${esc(t.arac || '')}"><button type="button" class="test-multiselect-trigger" onclick="toggleTestDropdown(this)"><span class="test-tags">${t.arac ? t.arac.split(',').filter(a => a).map(a => `<span class="test-tag">${esc(a)}</span>`).join('') : '<span style="color:var(--text-muted);font-size:0.6875rem;">Seç...</span>'}</span><span class="arrow">▼</span></button><div class="test-multiselect-dropdown">${getAracOptionsHtml(t.arac ? t.arac.split(',').filter(a => a) : [])}</div></div></div>
       <div class="grid-cell"><textarea class="notes-area" oninput="saveMainData(); autoGrow(this)" placeholder="Notlar...">${esc(t.notlar)}</textarea></div>
       <div class="grid-cell no-print">
         <div class="row-menu">

@@ -388,6 +388,13 @@ open Anasayfa.html
 - **Premium hover fizik:** `.top-nav` ve `.add-form` butonları için `::after` parlama overlay'i + `:active` scale (magnetic touch)
 - **Doğrulama:** CSS 220/220 blok dengeli, tanımsız değişken kalmadı (otomatik script ile doğrulandı)
 ### v2.0 - 2026-09-04
+### v5.0 - 2026-09-05 (Araç Sütunu Eklendi)
+- **Personel sütununun sağına ARAÇ sütunu eklendi** (çoklu seçim dropdown)
+- Veri ayarlardaki araç listesinden (`eka_araclar`) çekiliyor, "plaka - model" biçiminde gösteriliyor
+- Grid 11 → **12 sütun** oldu (desktop + print şablonları güncellendi)
+- `eka_tasks` veri yapısına `arac` alanı eklendi (string, virgülle ayrılmış)
+- `renderTasks`, `saveTasksFromTable`, "anlamlı satır" filtresi `arac` ile güncellendi
+- Sıralama: NO | Firma | Saat | Adres | Yetkili | Tel | Cihazlar | Testler | Personel | **ARAÇ** | Notlar | İşlem
 - Modern dashboard UI (Inter Font, CSS değişkenleri)
 - 27 CSS değişkeni ile tema sistemi
 - Emoji ikonlar → SVG ikonlar (20+ ikon)
@@ -581,5 +588,5 @@ open Anasayfa.html
 ---
 
 **Dokümantasyon Son Güncelleme:** 2026-09-05
-**Uygulama Versiyon:** 4.9
+**Uygulama Versiyon:** 5.0
 **Toplam Kod:** ~1245 satır (HTML + CSS + JS)
