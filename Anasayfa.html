@@ -87,7 +87,39 @@
     --shadow-lg: 0 10px 15px -3px rgba(0,0,0,0.1), 0 4px 6px -2px rgba(0,0,0,0.05);
     --shadow-xl: 0 20px 25px -5px rgba(0,0,0,0.1), 0 10px 10px -5px rgba(0,0,0,0.04);
     
-    /* Typography */
+    /* Premium Reveal Animations - Cinematic Fade-Up */
+  .main-container, .izinli-box, .date-bar, .settings-panel {
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.6s cubic-bezier(0.16, 1, 0.3, 1), transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  .reveal-visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  /* Premium Magnetic Button Hover Physics */
+  .top-nav .right-actions button, .settings-panel .add-form button {
+    position: relative;
+    overflow: hidden;
+  }
+  .top-nav .right-actions button:active, .settings-panel .add-form button:active {
+    transform: scale(0.97);
+  }
+  .top-nav .right-actions button::after, .settings-panel .add-form button::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(135deg, rgba(255,255,255,0.15) 0%, transparent 50%);
+    opacity: 0;
+    transition: opacity 0.3s;
+    pointer-events: none;
+  }
+  .top-nav .right-actions button:hover::after, .settings-panel .add-form button:hover::after {
+    opacity: 1;
+  }
+
+  /* Typography */
     --font-sans: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
     --font-display: 'Clash Display', 'Plus Jakarta Sans', sans-serif;
     --font-mono: 'JetBrains Mono', monospace;
@@ -1470,8 +1502,26 @@ function doExportPDF() {
   });
 }
 
+// Premium scroll reveal (IntersectionObserver) - cinematic fade-up
+function revealOnScroll() {
+  const targets = document.querySelectorAll('.main-container, .izinli-box, .date-bar, .settings-panel');
+  if (!('IntersectionObserver' in window)) {
+    targets.forEach(t => t.classList.add('reveal-visible'));
+    return;
+  }
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach((entry, i) => {
+      if (entry.isIntersecting) {
+        setTimeout(() => entry.target.classList.add('reveal-visible'), i * 80);
+        io.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.1, rootMargin: '0px 0px -50px 0px' });
+  targets.forEach(t => io.observe(t));
+}
+
 // ==================== BAŞLAT ====================
-initDate();
+initDate(); revealOnScroll();
 updateAuthUI();
 renderTasks();
 renderIzinliMain();
